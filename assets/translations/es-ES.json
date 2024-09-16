@@ -1,0 +1,21 @@
+{
+  "language": "Español",
+  "today_sentence": "La oración de hoy",
+  "quiz": "CUESTIONARIO",
+  "correct": "CORRECTO",
+  "wrong": "INCORRECTO",
+  "result": "Resultado",
+  "search": "BUSCAR",
+  "not_found": "No se puede encontrar la palabra",
+  "favorites": "Favoritos",
+  "my_sentences": "Mis oraciones",
+  "my_quiz": "Mi cuestionario",
+  "my_searches": "Mis palabras",
+  "setting": "Configuración",
+  "level": "Nivel",
+  "beginner": "Principiante",
+  "intermediate": "Intermedio",
+  "advanced": "Avanzado",
+  "your_lang": "Tu idioma",
+  "target": "Idioma objetivo"
+}

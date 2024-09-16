@@ -1,0 +1,21 @@
+{
+  "language": "Français",
+  "today_sentence": "Phrase du jour",
+  "quiz": "QUIZ",
+  "correct": "CORRECT",
+  "wrong": "FAUX",
+  "result": "Résultat",
+  "search": "RECHERCHER",
+  "not_found": "Impossible de trouver le mot",
+  "favorites": "Favoris",
+  "my_sentences": "Mes phrases",
+  "my_quiz": "Mon quiz",
+  "my_searches": "Mes mots",
+  "setting": "Paramètre",
+  "level": "Niveau",
+  "beginner": "Débutant",
+  "intermediate": "Intermédiaire",
+  "advanced": "Avancé",
+  "your_lang": "Votre langue",
+  "target": "Langue cible"
+}

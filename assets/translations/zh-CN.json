@@ -1,0 +1,21 @@
+{
+  "language": "中文",
+  "today_sentence": "今天的句子",
+  "quiz": "测验",
+  "correct": "正确",
+  "wrong": "错误",
+  "result": "结果",
+  "search": "搜索",
+  "not_found": "找不到单词",
+  "favorites": "收藏",
+  "my_sentences": "我的句子",
+  "my_quiz": "我的测验",
+  "my_searches": "我的单词",
+  "setting": "设置",
+  "level": "等级",
+  "beginner": "初级",
+  "intermediate": "中级",
+  "advanced": "高级",
+  "your_lang": "你的语言",
+  "target": "目标语言"
+}

@@ -1,0 +1,21 @@
+{
+  "language": "Italiano",
+  "today_sentence": "Frase del giorno",
+  "quiz": "QUIZ",
+  "correct": "CORRETTO",
+  "wrong": "SBAGLIATO",
+  "result": "Risultato",
+  "search": "CERCA",
+  "not_found": "Impossibile trovare la parola",
+  "favorites": "Preferiti",
+  "my_sentences": "Le mie frasi",
+  "my_quiz": "Il mio quiz",
+  "my_searches": "Le mie parole",
+  "setting": "Impostazioni",
+  "level": "Livello",
+  "beginner": "Principiante",
+  "intermediate": "Intermedio",
+  "advanced": "Avanzato",
+  "your_lang": "La tua lingua",
+  "target": "Lingua di destinazione"
+}

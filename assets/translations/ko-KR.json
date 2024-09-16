@@ -1,0 +1,21 @@
+{
+  "language": "한국어",
+  "today_sentence": "오늘의 문장",
+  "quiz": "퀴즈",
+  "correct": "정답",
+  "wrong": "오답",
+  "result": "결과",
+  "search": "검색",
+  "not_found": "단어를 찾을 수 없습니다",
+  "favorites": "즐겨찾기",
+  "my_sentences": "내 문장",
+  "my_quiz": "내 퀴즈",
+  "my_searches": "내 단어",
+  "setting": "설정",
+  "level": "레벨",
+  "beginner": "초급",
+  "intermediate": "중급",
+  "advanced": "고급",
+  "your_lang": "당신의 언어",
+  "target": "목표 언어"
+}

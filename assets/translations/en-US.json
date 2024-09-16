@@ -1,0 +1,21 @@
+{
+  "language": "English",
+  "today_sentence": "Today's Sentence",
+  "quiz": "QUIZ",
+  "correct": "CORRECT",
+  "wrong": "WRONG",
+  "result": "Result",
+  "search": "SEARCH",
+  "not_found": "Cannot find the word",
+  "favorites": "Favorites",
+  "my_sentences": "My Sentences",
+  "my_quiz": "My Quiz",
+  "my_searches": "My Words",
+  "setting": "Setting",
+  "level": "Level",
+  "beginner": "Beginner",
+  "intermediate": "Intermediate",
+  "advanced": "Advanced",
+  "your_lang": "Your Language",
+  "target": "Target Language"
+}

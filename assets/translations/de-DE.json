@@ -1,0 +1,21 @@
+{
+  "language": "Deutsch",
+  "today_sentence": "Der Satz des Tages",
+  "quiz": "QUIZ",
+  "correct": "RICHTIG",
+  "wrong": "FALSCH",
+  "result": "Ergebnis",
+  "search": "SUCHE",
+  "not_found": "Das Wort konnte nicht gefunden werden",
+  "favorites": "Favoriten",
+  "my_sentences": "Meine Sätze",
+  "my_quiz": "Mein Quiz",
+  "my_searches": "Meine Wörter",
+  "setting": "Einstellung",
+  "level": "Niveau",
+  "beginner": "Anfänger",
+  "intermediate": "Mittelstufe",
+  "advanced": "Fortgeschritten",
+  "your_lang": "Ihre Sprache",
+  "target": "Zielsprache"
+}

@@ -2,6 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 
+
 part 'day_sentences_model.freezed.dart';
 
 part 'day_sentences_model.g.dart';
@@ -10,7 +11,7 @@ part 'day_sentences_model.g.dart';
 class DaySentencesModel with _$DaySentencesModel {
   const factory DaySentencesModel({
 
-    @JsonKey(name: 'mySentences') required List<Map<String, dynamic>> mySentences,
+    @JsonKey(name: 'my_sentences') required List<Map<String, dynamic>> mySentences,
 
 
   }) = _DaySentencesModel;

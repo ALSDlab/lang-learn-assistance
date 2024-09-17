@@ -33,18 +33,25 @@ class _SettingPageState extends State<SettingPage> {
             const SizedBox(height: 16),
             CustomDropdown(
               controller: viewModel.languageController,
-              items: viewModel.languages
-                  .where((lang) =>
-                      lang['name'] != viewModel.targetLanguageController.value)
-                  .map((lang) => lang['name']!)
-                  .toList(),
-              onChanged: (value) {
+              items: viewModel.languageNames,
+              onChanged: (value) async {
                 final selectedLang = viewModel.languages
-                    .firstWhere((lang) => lang['name'] == value);
-                viewModel.updateLanguageMenu(value);
-                context.setLocale(
-                  Locale(selectedLang['code']!, selectedLang['country']),
-                );
+                    .firstWhere((lang) => lang['name']?.tr() == value, orElse: () => {});
+                final targetLang = viewModel.languages.firstWhere(
+                    (lang) =>
+                        lang['name']?.tr() ==
+                        viewModel.targetLanguageController.value,
+                    orElse: () => {});
+
+                if (await viewModel.applyLocalization(context, selectedLang) ==
+                    true) {
+                  Future.delayed(
+                      const Duration(milliseconds: 100),
+                      () => {
+                            viewModel.updateLanguageMenu(
+                                selectedLang, targetLang, value)
+                          });
+                }
               },
             ),
             const SizedBox(height: 20),
@@ -55,11 +62,7 @@ class _SettingPageState extends State<SettingPage> {
             const SizedBox(height: 16),
             CustomDropdown(
               controller: viewModel.targetLanguageController,
-              items: viewModel.languages
-                  .where((lang) =>
-                      lang['name'] != viewModel.languageController.value)
-                  .map((lang) => lang['name']!)
-                  .toList(),
+              items: viewModel.targetLanguageNames,
               onChanged: (value) {
                 viewModel.updateTargetLanguageMenu(value);
               },

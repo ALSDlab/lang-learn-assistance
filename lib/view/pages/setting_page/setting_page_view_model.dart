@@ -1,31 +1,35 @@
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:lang_learn/view/pages/setting_page/setting_page_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingPageViewModel with ChangeNotifier {
   SettingPageViewModel() {
+    languageNames = languages.map((lang) => lang['name']!).toList();
+    targetLanguageNames = languages.map((lang) => lang['name']!).toList();
     loadSettings();
   }
 
   final List<Map<String, String>> languages = [
     {'code': 'en', 'country': 'US', 'name': 'English'},
-    {'code': 'es', 'country': 'ES', 'name': 'Español'},
-    {'code': 'fr', 'country': 'FR', 'name': 'Français'},
-    {'code': 'de', 'country': 'DE', 'name': 'Deutsch'},
-    {'code': 'it', 'country': 'IT', 'name': 'Italiano'},
-    {'code': 'zh', 'country': 'CN', 'name': '中文'},
-    {'code': 'ja', 'country': 'JP', 'name': '日本語'},
-    {'code': 'ko', 'country': 'KR', 'name': '한국어'},
-    {'code': 'ar', 'country': 'AR', 'name': 'العربية'},
+    {'code': 'es', 'country': 'ES', 'name': 'Spanish'},
+    {'code': 'fr', 'country': 'FR', 'name': 'French'},
+    {'code': 'de', 'country': 'DE', 'name': 'German'},
+    {'code': 'it', 'country': 'IT', 'name': 'Italian'},
+    {'code': 'zh', 'country': 'CN', 'name': 'Chinese'},
+    {'code': 'ja', 'country': 'JP', 'name': 'Japanese'},
+    {'code': 'ko', 'country': 'KR', 'name': 'Korean'},
+    {'code': 'ar', 'country': 'AR', 'name': 'Arabic'},
   ];
 
-
+  late List<String> languageNames;
+  late List<String> targetLanguageNames;
 
   SingleSelectController<String?> languageController =
       SingleSelectController(null);
   SingleSelectController<String?> targetLanguageController =
-  SingleSelectController(null);
+      SingleSelectController(null);
 
   SettingPageState _state = const SettingPageState();
 
@@ -58,16 +62,66 @@ class SettingPageViewModel with ChangeNotifier {
       languageController.value = _state.selectedLanguage;
       targetLanguageController.value = _state.targetLanguage;
     }
+    dropDownLocalization(languages.firstWhere(
+        (lang) => lang['name']?.tr() == targetLanguageController.value,
+        orElse: () => {}));
+    targetDropDownLocalization(languages.firstWhere(
+        (lang) => lang['name']?.tr() == languageController.value,
+        orElse: () => {}));
     notifyListeners();
   }
 
-  void updateLanguageMenu(String? value) {
+  List<String> dropDownLocalization(Map<String, String>? controllerValue) {
+    languageNames = (controllerValue != null)
+        ? languages
+            .where((lang) => lang['code'] != controllerValue['code'])
+            .map((lang) => lang['name']!.tr())
+            .toList()
+        : languages.map((lang) => lang['name']!.tr()).toList();
+    notifyListeners();
+    return languageNames;
+  }
+
+  List<String> targetDropDownLocalization(
+      Map<String, String>? controllerValue) {
+    targetLanguageNames = (controllerValue != null)
+        ? languages
+            .where((lang) => lang['code'] != controllerValue['code'])
+            .map((lang) => lang['name']!.tr())
+            .toList()
+        : languages.map((lang) => lang['name']!.tr()).toList();
+    return targetLanguageNames;
+  }
+
+  Future<bool> applyLocalization(
+      BuildContext context, Map<String, String> selectLang) async {
+    await context.setLocale(
+      Locale(selectLang['code']!, selectLang['country']),
+    );
+    if (context.mounted &&
+        context.locale == Locale(selectLang['code']!, selectLang['country'])) {
+      notifyListeners();
+      return true;
+    } else {
+      notifyListeners();
+      return false;
+    }
+  }
+
+  void updateLanguageMenu(Map<String, String> selectedLang,
+      Map<String, String> targetLang, String? value) {
     if (value != null) {
-      final selectedLang = languages.firstWhere((lang) => lang['name'] == value);
-      languageController.value = selectedLang['name'];
-      if (targetLanguageController.value == languageController.value) {
+      languageController.value = selectedLang['name']?.tr();
+
+      if (targetLang != {}) {
+        targetLanguageController.value = targetLang['name']?.tr();
+      }
+      languageNames = dropDownLocalization(targetLang);
+      print(languageNames);
+      if (selectedLang == targetLang) {
         targetLanguageController.clear();
       }
+      targetDropDownLocalization(selectedLang);
 
       notifyListeners();
     }
@@ -75,8 +129,15 @@ class SettingPageViewModel with ChangeNotifier {
 
   void updateTargetLanguageMenu(String? value) {
     if (value != null) {
-      final selectedLang = languages.firstWhere((lang) => lang['name'] == value);
-      targetLanguageController.value = selectedLang['name'];
+      final selectedLang = languages.firstWhere(
+          (lang) => lang['name']?.tr() == languageController.value,
+          orElse: () => {});
+      if (selectedLang != {}) {
+        targetLanguageNames = targetDropDownLocalization(selectedLang);
+      }
+      final targetLang = languages
+          .firstWhere((lang) => lang['name']?.tr() == value, orElse: () => {});
+      targetLanguageController.value = targetLang['name']?.tr();
 
       if (languageController.value == targetLanguageController.value) {
         languageController.clear();
@@ -86,10 +147,8 @@ class SettingPageViewModel with ChangeNotifier {
     }
   }
 
-  void selectLevel(String selectedLevel){
-    _state = state.copyWith(
-      selectedLevel: selectedLevel
-    );
+  void selectLevel(String selectedLevel) {
+    _state = state.copyWith(selectedLevel: selectedLevel);
     notifyListeners();
   }
 

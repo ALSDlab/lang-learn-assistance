@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lang_learn/view/navigation/scaffold_with_nav_bar.dart';
 import 'package:lang_learn/view/pages/day_sentence_page/day_sentence_page.dart';
-import 'package:lang_learn/view/pages/day_sentence_page/day_sentence_page_view_model.dart';
+import 'package:lang_learn/view/pages/day_sentence_page/day_sentences_page_view_model.dart';
 import 'package:lang_learn/view/pages/my_favorite_page/my_favorite_page.dart';
 import 'package:lang_learn/view/pages/my_favorite_page/my_favorite_page_view_model.dart';
 import 'package:lang_learn/view/pages/quiz_page/quiz_page.dart';

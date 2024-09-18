@@ -20,9 +20,14 @@ DaySentencesModel _$DaySentencesModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$DaySentencesModel {
-  @JsonKey(name: 'my_sentences')
-  List<Map<String, dynamic>> get mySentences =>
-      throw _privateConstructorUsedError;
+  @JsonKey(name: 'date')
+  String get date => throw _privateConstructorUsedError;
+  @JsonKey(name: 'sentence')
+  String get sentence => throw _privateConstructorUsedError;
+  @JsonKey(name: 'like')
+  bool get like => throw _privateConstructorUsedError;
+  @JsonKey(name: 'explanation')
+  String get explanation => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -37,7 +42,10 @@ abstract class $DaySentencesModelCopyWith<$Res> {
       _$DaySentencesModelCopyWithImpl<$Res, DaySentencesModel>;
   @useResult
   $Res call(
-      {@JsonKey(name: 'my_sentences') List<Map<String, dynamic>> mySentences});
+      {@JsonKey(name: 'date') String date,
+      @JsonKey(name: 'sentence') String sentence,
+      @JsonKey(name: 'like') bool like,
+      @JsonKey(name: 'explanation') String explanation});
 }
 
 /// @nodoc
@@ -53,13 +61,28 @@ class _$DaySentencesModelCopyWithImpl<$Res, $Val extends DaySentencesModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? mySentences = null,
+    Object? date = null,
+    Object? sentence = null,
+    Object? like = null,
+    Object? explanation = null,
   }) {
     return _then(_value.copyWith(
-      mySentences: null == mySentences
-          ? _value.mySentences
-          : mySentences // ignore: cast_nullable_to_non_nullable
-              as List<Map<String, dynamic>>,
+      date: null == date
+          ? _value.date
+          : date // ignore: cast_nullable_to_non_nullable
+              as String,
+      sentence: null == sentence
+          ? _value.sentence
+          : sentence // ignore: cast_nullable_to_non_nullable
+              as String,
+      like: null == like
+          ? _value.like
+          : like // ignore: cast_nullable_to_non_nullable
+              as bool,
+      explanation: null == explanation
+          ? _value.explanation
+          : explanation // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -73,7 +96,10 @@ abstract class _$$DaySentencesModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: 'my_sentences') List<Map<String, dynamic>> mySentences});
+      {@JsonKey(name: 'date') String date,
+      @JsonKey(name: 'sentence') String sentence,
+      @JsonKey(name: 'like') bool like,
+      @JsonKey(name: 'explanation') String explanation});
 }
 
 /// @nodoc
@@ -87,13 +113,28 @@ class __$$DaySentencesModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? mySentences = null,
+    Object? date = null,
+    Object? sentence = null,
+    Object? like = null,
+    Object? explanation = null,
   }) {
     return _then(_$DaySentencesModelImpl(
-      mySentences: null == mySentences
-          ? _value._mySentences
-          : mySentences // ignore: cast_nullable_to_non_nullable
-              as List<Map<String, dynamic>>,
+      date: null == date
+          ? _value.date
+          : date // ignore: cast_nullable_to_non_nullable
+              as String,
+      sentence: null == sentence
+          ? _value.sentence
+          : sentence // ignore: cast_nullable_to_non_nullable
+              as String,
+      like: null == like
+          ? _value.like
+          : like // ignore: cast_nullable_to_non_nullable
+              as bool,
+      explanation: null == explanation
+          ? _value.explanation
+          : explanation // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -102,25 +143,30 @@ class __$$DaySentencesModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$DaySentencesModelImpl implements _DaySentencesModel {
   const _$DaySentencesModelImpl(
-      {@JsonKey(name: 'my_sentences')
-      required final List<Map<String, dynamic>> mySentences})
-      : _mySentences = mySentences;
+      {@JsonKey(name: 'date') required this.date,
+      @JsonKey(name: 'sentence') required this.sentence,
+      @JsonKey(name: 'like') required this.like,
+      @JsonKey(name: 'explanation') required this.explanation});
 
   factory _$DaySentencesModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$DaySentencesModelImplFromJson(json);
 
-  final List<Map<String, dynamic>> _mySentences;
   @override
-  @JsonKey(name: 'my_sentences')
-  List<Map<String, dynamic>> get mySentences {
-    if (_mySentences is EqualUnmodifiableListView) return _mySentences;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_mySentences);
-  }
+  @JsonKey(name: 'date')
+  final String date;
+  @override
+  @JsonKey(name: 'sentence')
+  final String sentence;
+  @override
+  @JsonKey(name: 'like')
+  final bool like;
+  @override
+  @JsonKey(name: 'explanation')
+  final String explanation;
 
   @override
   String toString() {
-    return 'DaySentencesModel(mySentences: $mySentences)';
+    return 'DaySentencesModel(date: $date, sentence: $sentence, like: $like, explanation: $explanation)';
   }
 
   @override
@@ -128,14 +174,18 @@ class _$DaySentencesModelImpl implements _DaySentencesModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$DaySentencesModelImpl &&
-            const DeepCollectionEquality()
-                .equals(other._mySentences, _mySentences));
+            (identical(other.date, date) || other.date == date) &&
+            (identical(other.sentence, sentence) ||
+                other.sentence == sentence) &&
+            (identical(other.like, like) || other.like == like) &&
+            (identical(other.explanation, explanation) ||
+                other.explanation == explanation));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(_mySentences));
+  int get hashCode =>
+      Object.hash(runtimeType, date, sentence, like, explanation);
 
   @JsonKey(ignore: true)
   @override
@@ -154,16 +204,27 @@ class _$DaySentencesModelImpl implements _DaySentencesModel {
 
 abstract class _DaySentencesModel implements DaySentencesModel {
   const factory _DaySentencesModel(
-          {@JsonKey(name: 'my_sentences')
-          required final List<Map<String, dynamic>> mySentences}) =
+          {@JsonKey(name: 'date') required final String date,
+          @JsonKey(name: 'sentence') required final String sentence,
+          @JsonKey(name: 'like') required final bool like,
+          @JsonKey(name: 'explanation') required final String explanation}) =
       _$DaySentencesModelImpl;
 
   factory _DaySentencesModel.fromJson(Map<String, dynamic> json) =
       _$DaySentencesModelImpl.fromJson;
 
   @override
-  @JsonKey(name: 'my_sentences')
-  List<Map<String, dynamic>> get mySentences;
+  @JsonKey(name: 'date')
+  String get date;
+  @override
+  @JsonKey(name: 'sentence')
+  String get sentence;
+  @override
+  @JsonKey(name: 'like')
+  bool get like;
+  @override
+  @JsonKey(name: 'explanation')
+  String get explanation;
   @override
   @JsonKey(ignore: true)
   _$$DaySentencesModelImplCopyWith<_$DaySentencesModelImpl> get copyWith =>

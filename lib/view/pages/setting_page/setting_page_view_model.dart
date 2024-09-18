@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:lang_learn/view/pages/setting_page/setting_page_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../navigation/globals.dart';
+
 class SettingPageViewModel with ChangeNotifier {
   SettingPageViewModel() {
     languageNames = languages.map((lang) => lang['name']!).toList();
@@ -58,9 +60,10 @@ class SettingPageViewModel with ChangeNotifier {
         selectedLanguage: prefs.getString('selected_language') ?? '',
         targetLanguage: prefs.getString('target_language') ?? '',
         selectedLevel: prefs.getString('selected_level') ?? 'beginner');
+
     if (_state.selectedLanguage != '' && _state.targetLanguage != '') {
-      languageController.value = _state.selectedLanguage;
-      targetLanguageController.value = _state.targetLanguage;
+      languageController.value = _state.selectedLanguage.tr();
+      targetLanguageController.value = _state.targetLanguage.tr();
     }
     dropDownLocalization(languages.firstWhere(
         (lang) => lang['name']?.tr() == targetLanguageController.value,
@@ -113,11 +116,10 @@ class SettingPageViewModel with ChangeNotifier {
     if (value != null) {
       languageController.value = selectedLang['name']?.tr();
 
-      if (targetLang != {}) {
+      if(targetLang != {}) {
         targetLanguageController.value = targetLang['name']?.tr();
       }
-      languageNames = dropDownLocalization(targetLang);
-      print(languageNames);
+          languageNames = dropDownLocalization(targetLang);
       if (selectedLang == targetLang) {
         targetLanguageController.clear();
       }
@@ -152,10 +154,18 @@ class SettingPageViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> saveSettings() async {
+  Future<void> applyAndSaveSettings() async {
+    Globals.level = _state.selectedLevel;
+    Globals.yourLang = languages.firstWhere(
+            (lang) => lang['name']?.tr() == languageController.value,
+        orElse: () => {})['name']!;
+    Globals.target = languages.firstWhere(
+            (lang) => lang['name']?.tr() == targetLanguageController.value,
+        orElse: () => {})['name']!;
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('selected_language', languageController.value!);
-    await prefs.setString('target_language', targetLanguageController.value!);
-    await prefs.setString('selected_level', state.selectedLevel);
+    await prefs.setString('selected_language', Globals.yourLang);
+    await prefs.setString('target_language', Globals.target);
+    await prefs.setString('selected_level', _state.selectedLevel);
+
   }
 }

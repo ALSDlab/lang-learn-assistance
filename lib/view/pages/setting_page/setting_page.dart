@@ -35,16 +35,17 @@ class _SettingPageState extends State<SettingPage> {
               controller: viewModel.languageController,
               items: viewModel.languageNames,
               onChanged: (value) async {
-                final selectedLang = viewModel.languages
-                    .firstWhere((lang) => lang['name']?.tr() == value, orElse: () => {});
-                final targetLang = viewModel.languages.firstWhere(
-                    (lang) =>
-                        lang['name']?.tr() ==
-                        viewModel.targetLanguageController.value,
+                final selectedLang = viewModel.languages.firstWhere(
+                    (lang) => lang['name']?.tr() == value,
                     orElse: () => {});
 
                 if (await viewModel.applyLocalization(context, selectedLang) ==
                     true) {
+                  final targetLang = viewModel.languages.firstWhere(
+                      (lang) =>
+                          lang['name']?.tr() ==
+                          viewModel.targetLanguageController.value,
+                      orElse: () => {});
                   Future.delayed(
                       const Duration(milliseconds: 100),
                       () => {
@@ -116,7 +117,7 @@ class _SettingPageState extends State<SettingPage> {
               onPressed: () async {
                 if (viewModel.languageController.value != null &&
                     viewModel.targetLanguageController.value != null) {
-                  await viewModel.saveSettings();
+                  await viewModel.applyAndSaveSettings();
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text('Please select a language')),

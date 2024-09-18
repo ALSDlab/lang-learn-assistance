@@ -20,8 +20,10 @@ WordSearchesModel _$WordSearchesModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$WordSearchesModel {
-  @JsonKey(name: 'my_search')
-  List<Map<String, String>> get mySearch => throw _privateConstructorUsedError;
+  @JsonKey(name: 'word')
+  String get word => throw _privateConstructorUsedError;
+  @JsonKey(name: 'explanation')
+  String get explanation => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,7 +37,9 @@ abstract class $WordSearchesModelCopyWith<$Res> {
           WordSearchesModel value, $Res Function(WordSearchesModel) then) =
       _$WordSearchesModelCopyWithImpl<$Res, WordSearchesModel>;
   @useResult
-  $Res call({@JsonKey(name: 'my_search') List<Map<String, String>> mySearch});
+  $Res call(
+      {@JsonKey(name: 'word') String word,
+      @JsonKey(name: 'explanation') String explanation});
 }
 
 /// @nodoc
@@ -51,13 +55,18 @@ class _$WordSearchesModelCopyWithImpl<$Res, $Val extends WordSearchesModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? mySearch = null,
+    Object? word = null,
+    Object? explanation = null,
   }) {
     return _then(_value.copyWith(
-      mySearch: null == mySearch
-          ? _value.mySearch
-          : mySearch // ignore: cast_nullable_to_non_nullable
-              as List<Map<String, String>>,
+      word: null == word
+          ? _value.word
+          : word // ignore: cast_nullable_to_non_nullable
+              as String,
+      explanation: null == explanation
+          ? _value.explanation
+          : explanation // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -70,7 +79,9 @@ abstract class _$$WordSearchesModelImplCopyWith<$Res>
       __$$WordSearchesModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({@JsonKey(name: 'my_search') List<Map<String, String>> mySearch});
+  $Res call(
+      {@JsonKey(name: 'word') String word,
+      @JsonKey(name: 'explanation') String explanation});
 }
 
 /// @nodoc
@@ -84,13 +95,18 @@ class __$$WordSearchesModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? mySearch = null,
+    Object? word = null,
+    Object? explanation = null,
   }) {
     return _then(_$WordSearchesModelImpl(
-      mySearch: null == mySearch
-          ? _value._mySearch
-          : mySearch // ignore: cast_nullable_to_non_nullable
-              as List<Map<String, String>>,
+      word: null == word
+          ? _value.word
+          : word // ignore: cast_nullable_to_non_nullable
+              as String,
+      explanation: null == explanation
+          ? _value.explanation
+          : explanation // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -99,25 +115,22 @@ class __$$WordSearchesModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$WordSearchesModelImpl implements _WordSearchesModel {
   const _$WordSearchesModelImpl(
-      {@JsonKey(name: 'my_search')
-      required final List<Map<String, String>> mySearch})
-      : _mySearch = mySearch;
+      {@JsonKey(name: 'word') required this.word,
+      @JsonKey(name: 'explanation') required this.explanation});
 
   factory _$WordSearchesModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$WordSearchesModelImplFromJson(json);
 
-  final List<Map<String, String>> _mySearch;
   @override
-  @JsonKey(name: 'my_search')
-  List<Map<String, String>> get mySearch {
-    if (_mySearch is EqualUnmodifiableListView) return _mySearch;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_mySearch);
-  }
+  @JsonKey(name: 'word')
+  final String word;
+  @override
+  @JsonKey(name: 'explanation')
+  final String explanation;
 
   @override
   String toString() {
-    return 'WordSearchesModel(mySearch: $mySearch)';
+    return 'WordSearchesModel(word: $word, explanation: $explanation)';
   }
 
   @override
@@ -125,13 +138,14 @@ class _$WordSearchesModelImpl implements _WordSearchesModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$WordSearchesModelImpl &&
-            const DeepCollectionEquality().equals(other._mySearch, _mySearch));
+            (identical(other.word, word) || other.word == word) &&
+            (identical(other.explanation, explanation) ||
+                other.explanation == explanation));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_mySearch));
+  int get hashCode => Object.hash(runtimeType, word, explanation);
 
   @JsonKey(ignore: true)
   @override
@@ -150,16 +164,19 @@ class _$WordSearchesModelImpl implements _WordSearchesModel {
 
 abstract class _WordSearchesModel implements WordSearchesModel {
   const factory _WordSearchesModel(
-          {@JsonKey(name: 'my_search')
-          required final List<Map<String, String>> mySearch}) =
+          {@JsonKey(name: 'word') required final String word,
+          @JsonKey(name: 'explanation') required final String explanation}) =
       _$WordSearchesModelImpl;
 
   factory _WordSearchesModel.fromJson(Map<String, dynamic> json) =
       _$WordSearchesModelImpl.fromJson;
 
   @override
-  @JsonKey(name: 'my_search')
-  List<Map<String, String>> get mySearch;
+  @JsonKey(name: 'word')
+  String get word;
+  @override
+  @JsonKey(name: 'explanation')
+  String get explanation;
   @override
   @JsonKey(ignore: true)
   _$$WordSearchesModelImplCopyWith<_$WordSearchesModelImpl> get copyWith =>

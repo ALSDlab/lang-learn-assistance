@@ -11,7 +11,10 @@ part 'day_sentences_model.g.dart';
 class DaySentencesModel with _$DaySentencesModel {
   const factory DaySentencesModel({
 
-    @JsonKey(name: 'my_sentences') required List<Map<String, dynamic>> mySentences,
+    @JsonKey(name: 'date') required String date,
+    @JsonKey(name: 'sentence') required String sentence,
+    @JsonKey(name: 'like') required bool like,
+    @JsonKey(name: 'explanation') required String explanation,
 
 
   }) = _DaySentencesModel;

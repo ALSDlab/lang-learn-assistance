@@ -7,6 +7,6 @@ abstract class Env {
 
   // CHATGPT_API_KEY
   @EnviedField()
-  static const String chatgptApiKey = _Env.chatgptApiKey;
+  static const String geminiApiKey = _Env.geminiApiKey;
 
 }

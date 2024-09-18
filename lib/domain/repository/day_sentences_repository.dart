@@ -3,6 +3,8 @@ import 'package:lang_learn/domain/model/day_sentences_model.dart';
 import '../../data/core/result.dart';
 
 abstract interface class DaySentencesRepository {
+  Future<Result<DaySentencesModel>> getGeminiDaySentenceAnswer(String question);
+
   Future<Result<void>> postFirebaseDaySentence(
       String docId, Map<String, String> item);
 

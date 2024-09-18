@@ -20,8 +20,14 @@ QuizModel _$QuizModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$QuizModel {
-  @JsonKey(name: 'my_quiz')
-  List<Map<String, String>> get myQuiz => throw _privateConstructorUsedError;
+  @JsonKey(name: 'question')
+  String get question => throw _privateConstructorUsedError;
+  @JsonKey(name: 'options')
+  List<String> get options => throw _privateConstructorUsedError;
+  @JsonKey(name: 'correctAnswer')
+  int get correctAnswer => throw _privateConstructorUsedError;
+  @JsonKey(name: 'explanation')
+  String get explanation => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -34,7 +40,11 @@ abstract class $QuizModelCopyWith<$Res> {
   factory $QuizModelCopyWith(QuizModel value, $Res Function(QuizModel) then) =
       _$QuizModelCopyWithImpl<$Res, QuizModel>;
   @useResult
-  $Res call({@JsonKey(name: 'my_quiz') List<Map<String, String>> myQuiz});
+  $Res call(
+      {@JsonKey(name: 'question') String question,
+      @JsonKey(name: 'options') List<String> options,
+      @JsonKey(name: 'correctAnswer') int correctAnswer,
+      @JsonKey(name: 'explanation') String explanation});
 }
 
 /// @nodoc
@@ -50,13 +60,28 @@ class _$QuizModelCopyWithImpl<$Res, $Val extends QuizModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? myQuiz = null,
+    Object? question = null,
+    Object? options = null,
+    Object? correctAnswer = null,
+    Object? explanation = null,
   }) {
     return _then(_value.copyWith(
-      myQuiz: null == myQuiz
-          ? _value.myQuiz
-          : myQuiz // ignore: cast_nullable_to_non_nullable
-              as List<Map<String, String>>,
+      question: null == question
+          ? _value.question
+          : question // ignore: cast_nullable_to_non_nullable
+              as String,
+      options: null == options
+          ? _value.options
+          : options // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      correctAnswer: null == correctAnswer
+          ? _value.correctAnswer
+          : correctAnswer // ignore: cast_nullable_to_non_nullable
+              as int,
+      explanation: null == explanation
+          ? _value.explanation
+          : explanation // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -69,7 +94,11 @@ abstract class _$$QuizModelImplCopyWith<$Res>
       __$$QuizModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({@JsonKey(name: 'my_quiz') List<Map<String, String>> myQuiz});
+  $Res call(
+      {@JsonKey(name: 'question') String question,
+      @JsonKey(name: 'options') List<String> options,
+      @JsonKey(name: 'correctAnswer') int correctAnswer,
+      @JsonKey(name: 'explanation') String explanation});
 }
 
 /// @nodoc
@@ -83,13 +112,28 @@ class __$$QuizModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? myQuiz = null,
+    Object? question = null,
+    Object? options = null,
+    Object? correctAnswer = null,
+    Object? explanation = null,
   }) {
     return _then(_$QuizModelImpl(
-      myQuiz: null == myQuiz
-          ? _value._myQuiz
-          : myQuiz // ignore: cast_nullable_to_non_nullable
-              as List<Map<String, String>>,
+      question: null == question
+          ? _value.question
+          : question // ignore: cast_nullable_to_non_nullable
+              as String,
+      options: null == options
+          ? _value._options
+          : options // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      correctAnswer: null == correctAnswer
+          ? _value.correctAnswer
+          : correctAnswer // ignore: cast_nullable_to_non_nullable
+              as int,
+      explanation: null == explanation
+          ? _value.explanation
+          : explanation // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -98,25 +142,37 @@ class __$$QuizModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$QuizModelImpl implements _QuizModel {
   const _$QuizModelImpl(
-      {@JsonKey(name: 'my_quiz')
-      required final List<Map<String, String>> myQuiz})
-      : _myQuiz = myQuiz;
+      {@JsonKey(name: 'question') required this.question,
+      @JsonKey(name: 'options') required final List<String> options,
+      @JsonKey(name: 'correctAnswer') required this.correctAnswer,
+      @JsonKey(name: 'explanation') required this.explanation})
+      : _options = options;
 
   factory _$QuizModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$QuizModelImplFromJson(json);
 
-  final List<Map<String, String>> _myQuiz;
   @override
-  @JsonKey(name: 'my_quiz')
-  List<Map<String, String>> get myQuiz {
-    if (_myQuiz is EqualUnmodifiableListView) return _myQuiz;
+  @JsonKey(name: 'question')
+  final String question;
+  final List<String> _options;
+  @override
+  @JsonKey(name: 'options')
+  List<String> get options {
+    if (_options is EqualUnmodifiableListView) return _options;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_myQuiz);
+    return EqualUnmodifiableListView(_options);
   }
 
   @override
+  @JsonKey(name: 'correctAnswer')
+  final int correctAnswer;
+  @override
+  @JsonKey(name: 'explanation')
+  final String explanation;
+
+  @override
   String toString() {
-    return 'QuizModel(myQuiz: $myQuiz)';
+    return 'QuizModel(question: $question, options: $options, correctAnswer: $correctAnswer, explanation: $explanation)';
   }
 
   @override
@@ -124,13 +180,23 @@ class _$QuizModelImpl implements _QuizModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$QuizModelImpl &&
-            const DeepCollectionEquality().equals(other._myQuiz, _myQuiz));
+            (identical(other.question, question) ||
+                other.question == question) &&
+            const DeepCollectionEquality().equals(other._options, _options) &&
+            (identical(other.correctAnswer, correctAnswer) ||
+                other.correctAnswer == correctAnswer) &&
+            (identical(other.explanation, explanation) ||
+                other.explanation == explanation));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_myQuiz));
+  int get hashCode => Object.hash(
+      runtimeType,
+      question,
+      const DeepCollectionEquality().hash(_options),
+      correctAnswer,
+      explanation);
 
   @JsonKey(ignore: true)
   @override
@@ -148,15 +214,27 @@ class _$QuizModelImpl implements _QuizModel {
 
 abstract class _QuizModel implements QuizModel {
   const factory _QuizModel(
-      {@JsonKey(name: 'my_quiz')
-      required final List<Map<String, String>> myQuiz}) = _$QuizModelImpl;
+          {@JsonKey(name: 'question') required final String question,
+          @JsonKey(name: 'options') required final List<String> options,
+          @JsonKey(name: 'correctAnswer') required final int correctAnswer,
+          @JsonKey(name: 'explanation') required final String explanation}) =
+      _$QuizModelImpl;
 
   factory _QuizModel.fromJson(Map<String, dynamic> json) =
       _$QuizModelImpl.fromJson;
 
   @override
-  @JsonKey(name: 'my_quiz')
-  List<Map<String, String>> get myQuiz;
+  @JsonKey(name: 'question')
+  String get question;
+  @override
+  @JsonKey(name: 'options')
+  List<String> get options;
+  @override
+  @JsonKey(name: 'correctAnswer')
+  int get correctAnswer;
+  @override
+  @JsonKey(name: 'explanation')
+  String get explanation;
   @override
   @JsonKey(ignore: true)
   _$$QuizModelImplCopyWith<_$QuizModelImpl> get copyWith =>

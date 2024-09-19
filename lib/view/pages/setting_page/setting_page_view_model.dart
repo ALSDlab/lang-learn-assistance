@@ -1,6 +1,7 @@
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lang_learn/view/pages/setting_page/setting_page_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -65,6 +66,9 @@ class SettingPageViewModel with ChangeNotifier {
         _state.targetLanguage.isNotEmpty) {
       languageController.value = _state.selectedLanguage.tr();
       targetLanguageController.value = _state.targetLanguage.tr();
+      Globals.level = _state.selectedLevel;
+      Globals.yourLang = _state.selectedLanguage;
+      Globals.target = _state.targetLanguage;
     }
     dropDownLocalization(null);
     targetDropDownLocalization(languages.firstWhere(
@@ -152,6 +156,7 @@ class SettingPageViewModel with ChangeNotifier {
     _state = state.copyWith(selectedLevel: selectedLevel);
     notifyListeners();
   }
+
 
   Future<void> applyAndSaveSettings() async {
     Globals.level = _state.selectedLevel;

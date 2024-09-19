@@ -6,6 +6,6 @@ class WordSearchesMapper {
     return WordSearchesModel(
         word: dto.word ?? '',
         explanation: dto.explanation ?? '',
-        exSentence: dto.exSentence ?? '');
+        exSentence: dto.exSentence ?? {});
   }
 }

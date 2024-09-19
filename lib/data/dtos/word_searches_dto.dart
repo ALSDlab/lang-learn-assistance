@@ -1,7 +1,7 @@
 class WordSearchesDto {
   final String? word;
   final String? explanation;
-  final String? exSentence;
+  final Map<String, String>? exSentence;
 
 //<editor-fold desc="Data Methods">
   const WordSearchesDto({
@@ -31,7 +31,7 @@ class WordSearchesDto {
   WordSearchesDto copyWith({
     String? word,
     String? explanation,
-    String? exSentence,
+    Map<String, String>? exSentence,
   }) {
     return WordSearchesDto(
       word: word ?? this.word,
@@ -52,7 +52,8 @@ class WordSearchesDto {
     return WordSearchesDto(
       word: map['word'] as String,
       explanation: map['explanation'] as String,
-      exSentence: map['exSentence'] as String,
+      exSentence: (map['exSentence'] as Map<String, dynamic>).map(
+            (key, value) => MapEntry(key, value as String)),
     );
   }
 

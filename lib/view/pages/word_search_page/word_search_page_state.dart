@@ -11,9 +11,10 @@ class WordSearchPageState with _$WordSearchPageState {
   const factory WordSearchPageState({
 
     @Default(false) bool isLoading,
+    @Default(false) bool isCompleted,
     @Default('') String word,
     @Default('') String explanation,
-    @Default('') String exSentence,
+    @Default({}) Map<String, String> exSentence,
 
   }) = _WordSearchPageState;
 

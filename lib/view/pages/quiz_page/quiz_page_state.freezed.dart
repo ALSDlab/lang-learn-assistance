@@ -21,6 +21,7 @@ QuizPageState _$QuizPageStateFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$QuizPageState {
   bool get isLoading => throw _privateConstructorUsedError;
+  bool get isLoaded => throw _privateConstructorUsedError;
   List<QuizModel> get quizList => throw _privateConstructorUsedError;
   List<int> get correctAnswer => throw _privateConstructorUsedError;
 
@@ -37,7 +38,10 @@ abstract class $QuizPageStateCopyWith<$Res> {
       _$QuizPageStateCopyWithImpl<$Res, QuizPageState>;
   @useResult
   $Res call(
-      {bool isLoading, List<QuizModel> quizList, List<int> correctAnswer});
+      {bool isLoading,
+      bool isLoaded,
+      List<QuizModel> quizList,
+      List<int> correctAnswer});
 }
 
 /// @nodoc
@@ -54,6 +58,7 @@ class _$QuizPageStateCopyWithImpl<$Res, $Val extends QuizPageState>
   @override
   $Res call({
     Object? isLoading = null,
+    Object? isLoaded = null,
     Object? quizList = null,
     Object? correctAnswer = null,
   }) {
@@ -61,6 +66,10 @@ class _$QuizPageStateCopyWithImpl<$Res, $Val extends QuizPageState>
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isLoaded: null == isLoaded
+          ? _value.isLoaded
+          : isLoaded // ignore: cast_nullable_to_non_nullable
               as bool,
       quizList: null == quizList
           ? _value.quizList
@@ -83,7 +92,10 @@ abstract class _$$QuizPageStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {bool isLoading, List<QuizModel> quizList, List<int> correctAnswer});
+      {bool isLoading,
+      bool isLoaded,
+      List<QuizModel> quizList,
+      List<int> correctAnswer});
 }
 
 /// @nodoc
@@ -98,6 +110,7 @@ class __$$QuizPageStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isLoading = null,
+    Object? isLoaded = null,
     Object? quizList = null,
     Object? correctAnswer = null,
   }) {
@@ -105,6 +118,10 @@ class __$$QuizPageStateImplCopyWithImpl<$Res>
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isLoaded: null == isLoaded
+          ? _value.isLoaded
+          : isLoaded // ignore: cast_nullable_to_non_nullable
               as bool,
       quizList: null == quizList
           ? _value._quizList
@@ -123,6 +140,7 @@ class __$$QuizPageStateImplCopyWithImpl<$Res>
 class _$QuizPageStateImpl implements _QuizPageState {
   const _$QuizPageStateImpl(
       {this.isLoading = false,
+      this.isLoaded = false,
       final List<QuizModel> quizList = const [],
       final List<int> correctAnswer = const []})
       : _quizList = quizList,
@@ -134,6 +152,9 @@ class _$QuizPageStateImpl implements _QuizPageState {
   @override
   @JsonKey()
   final bool isLoading;
+  @override
+  @JsonKey()
+  final bool isLoaded;
   final List<QuizModel> _quizList;
   @override
   @JsonKey()
@@ -154,7 +175,7 @@ class _$QuizPageStateImpl implements _QuizPageState {
 
   @override
   String toString() {
-    return 'QuizPageState(isLoading: $isLoading, quizList: $quizList, correctAnswer: $correctAnswer)';
+    return 'QuizPageState(isLoading: $isLoading, isLoaded: $isLoaded, quizList: $quizList, correctAnswer: $correctAnswer)';
   }
 
   @override
@@ -164,6 +185,8 @@ class _$QuizPageStateImpl implements _QuizPageState {
             other is _$QuizPageStateImpl &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
+            (identical(other.isLoaded, isLoaded) ||
+                other.isLoaded == isLoaded) &&
             const DeepCollectionEquality().equals(other._quizList, _quizList) &&
             const DeepCollectionEquality()
                 .equals(other._correctAnswer, _correctAnswer));
@@ -174,6 +197,7 @@ class _$QuizPageStateImpl implements _QuizPageState {
   int get hashCode => Object.hash(
       runtimeType,
       isLoading,
+      isLoaded,
       const DeepCollectionEquality().hash(_quizList),
       const DeepCollectionEquality().hash(_correctAnswer));
 
@@ -194,6 +218,7 @@ class _$QuizPageStateImpl implements _QuizPageState {
 abstract class _QuizPageState implements QuizPageState {
   const factory _QuizPageState(
       {final bool isLoading,
+      final bool isLoaded,
       final List<QuizModel> quizList,
       final List<int> correctAnswer}) = _$QuizPageStateImpl;
 
@@ -202,6 +227,8 @@ abstract class _QuizPageState implements QuizPageState {
 
   @override
   bool get isLoading;
+  @override
+  bool get isLoaded;
   @override
   List<QuizModel> get quizList;
   @override

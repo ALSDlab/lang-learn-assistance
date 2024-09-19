@@ -12,6 +12,7 @@ class QuizPageState with _$QuizPageState {
   const factory QuizPageState({
 
     @Default(false) bool isLoading,
+    @Default(false) bool isLoaded,
     @Default([]) List<QuizModel> quizList,
     @Default([]) List<int> correctAnswer,
 

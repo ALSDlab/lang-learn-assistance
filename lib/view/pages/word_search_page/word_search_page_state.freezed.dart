@@ -21,9 +21,10 @@ WordSearchPageState _$WordSearchPageStateFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$WordSearchPageState {
   bool get isLoading => throw _privateConstructorUsedError;
+  bool get isCompleted => throw _privateConstructorUsedError;
   String get word => throw _privateConstructorUsedError;
   String get explanation => throw _privateConstructorUsedError;
-  String get exSentence => throw _privateConstructorUsedError;
+  Map<String, String> get exSentence => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -38,7 +39,11 @@ abstract class $WordSearchPageStateCopyWith<$Res> {
       _$WordSearchPageStateCopyWithImpl<$Res, WordSearchPageState>;
   @useResult
   $Res call(
-      {bool isLoading, String word, String explanation, String exSentence});
+      {bool isLoading,
+      bool isCompleted,
+      String word,
+      String explanation,
+      Map<String, String> exSentence});
 }
 
 /// @nodoc
@@ -55,6 +60,7 @@ class _$WordSearchPageStateCopyWithImpl<$Res, $Val extends WordSearchPageState>
   @override
   $Res call({
     Object? isLoading = null,
+    Object? isCompleted = null,
     Object? word = null,
     Object? explanation = null,
     Object? exSentence = null,
@@ -63,6 +69,10 @@ class _$WordSearchPageStateCopyWithImpl<$Res, $Val extends WordSearchPageState>
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isCompleted: null == isCompleted
+          ? _value.isCompleted
+          : isCompleted // ignore: cast_nullable_to_non_nullable
               as bool,
       word: null == word
           ? _value.word
@@ -75,7 +85,7 @@ class _$WordSearchPageStateCopyWithImpl<$Res, $Val extends WordSearchPageState>
       exSentence: null == exSentence
           ? _value.exSentence
           : exSentence // ignore: cast_nullable_to_non_nullable
-              as String,
+              as Map<String, String>,
     ) as $Val);
   }
 }
@@ -89,7 +99,11 @@ abstract class _$$WordSearchPageStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {bool isLoading, String word, String explanation, String exSentence});
+      {bool isLoading,
+      bool isCompleted,
+      String word,
+      String explanation,
+      Map<String, String> exSentence});
 }
 
 /// @nodoc
@@ -104,6 +118,7 @@ class __$$WordSearchPageStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isLoading = null,
+    Object? isCompleted = null,
     Object? word = null,
     Object? explanation = null,
     Object? exSentence = null,
@@ -112,6 +127,10 @@ class __$$WordSearchPageStateImplCopyWithImpl<$Res>
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isCompleted: null == isCompleted
+          ? _value.isCompleted
+          : isCompleted // ignore: cast_nullable_to_non_nullable
               as bool,
       word: null == word
           ? _value.word
@@ -122,9 +141,9 @@ class __$$WordSearchPageStateImplCopyWithImpl<$Res>
           : explanation // ignore: cast_nullable_to_non_nullable
               as String,
       exSentence: null == exSentence
-          ? _value.exSentence
+          ? _value._exSentence
           : exSentence // ignore: cast_nullable_to_non_nullable
-              as String,
+              as Map<String, String>,
     ));
   }
 }
@@ -134,9 +153,11 @@ class __$$WordSearchPageStateImplCopyWithImpl<$Res>
 class _$WordSearchPageStateImpl implements _WordSearchPageState {
   const _$WordSearchPageStateImpl(
       {this.isLoading = false,
+      this.isCompleted = false,
       this.word = '',
       this.explanation = '',
-      this.exSentence = ''});
+      final Map<String, String> exSentence = const {}})
+      : _exSentence = exSentence;
 
   factory _$WordSearchPageStateImpl.fromJson(Map<String, dynamic> json) =>
       _$$WordSearchPageStateImplFromJson(json);
@@ -146,17 +167,25 @@ class _$WordSearchPageStateImpl implements _WordSearchPageState {
   final bool isLoading;
   @override
   @JsonKey()
+  final bool isCompleted;
+  @override
+  @JsonKey()
   final String word;
   @override
   @JsonKey()
   final String explanation;
+  final Map<String, String> _exSentence;
   @override
   @JsonKey()
-  final String exSentence;
+  Map<String, String> get exSentence {
+    if (_exSentence is EqualUnmodifiableMapView) return _exSentence;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_exSentence);
+  }
 
   @override
   String toString() {
-    return 'WordSearchPageState(isLoading: $isLoading, word: $word, explanation: $explanation, exSentence: $exSentence)';
+    return 'WordSearchPageState(isLoading: $isLoading, isCompleted: $isCompleted, word: $word, explanation: $explanation, exSentence: $exSentence)';
   }
 
   @override
@@ -166,17 +195,19 @@ class _$WordSearchPageStateImpl implements _WordSearchPageState {
             other is _$WordSearchPageStateImpl &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
+            (identical(other.isCompleted, isCompleted) ||
+                other.isCompleted == isCompleted) &&
             (identical(other.word, word) || other.word == word) &&
             (identical(other.explanation, explanation) ||
                 other.explanation == explanation) &&
-            (identical(other.exSentence, exSentence) ||
-                other.exSentence == exSentence));
+            const DeepCollectionEquality()
+                .equals(other._exSentence, _exSentence));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, isLoading, word, explanation, exSentence);
+  int get hashCode => Object.hash(runtimeType, isLoading, isCompleted, word,
+      explanation, const DeepCollectionEquality().hash(_exSentence));
 
   @JsonKey(ignore: true)
   @override
@@ -196,9 +227,10 @@ class _$WordSearchPageStateImpl implements _WordSearchPageState {
 abstract class _WordSearchPageState implements WordSearchPageState {
   const factory _WordSearchPageState(
       {final bool isLoading,
+      final bool isCompleted,
       final String word,
       final String explanation,
-      final String exSentence}) = _$WordSearchPageStateImpl;
+      final Map<String, String> exSentence}) = _$WordSearchPageStateImpl;
 
   factory _WordSearchPageState.fromJson(Map<String, dynamic> json) =
       _$WordSearchPageStateImpl.fromJson;
@@ -206,11 +238,13 @@ abstract class _WordSearchPageState implements WordSearchPageState {
   @override
   bool get isLoading;
   @override
+  bool get isCompleted;
+  @override
   String get word;
   @override
   String get explanation;
   @override
-  String get exSentence;
+  Map<String, String> get exSentence;
   @override
   @JsonKey(ignore: true)
   _$$WordSearchPageStateImplCopyWith<_$WordSearchPageStateImpl> get copyWith =>

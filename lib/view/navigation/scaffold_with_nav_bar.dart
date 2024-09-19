@@ -45,9 +45,6 @@ class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
   @override
   void initState() {
     Future.microtask(() async {
-      // final ProductDetailPageViewModel viewModel =
-      //     context.read<ProductDetailPageViewModel>();
-      // badgeCount = await viewModel.getBadgeCount();
 
       _subscription = _connectivityObserver.observe().listen((status) {
         setState(() {
@@ -96,6 +93,7 @@ class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
           widget.child,
 
       bottomNavigationBar: StylishBottomBar(
+
         option: AnimatedBarOptions(
           padding: const EdgeInsets.only(top: 12),
           iconSize: 25,
@@ -150,7 +148,8 @@ class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
                 style: TextStyle(fontFamily: 'KoPub', fontSize: 10),
               ),),
         ],
-        backgroundColor: const Color(0xFFFFF8E7),
+        backgroundColor: const Color(0xFFEBF4F6),
+        elevation: 0,
         currentIndex: widget.location.contains('/day_sentence_page')
             ? 0
             : widget.location.contains('/quiz_page')

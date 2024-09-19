@@ -68,6 +68,7 @@ class GetGeminiAnswer {
         Content.text(question),
       );
       final text = response.text?.replaceAll('json', '').replaceAll("```", '');
+      print(text);
       if (text != null) {
         final jsonText = jsonDecode(text);
         WordSearchesDto result = WordSearchesDto.fromJson(jsonText);

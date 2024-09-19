@@ -38,12 +38,13 @@ class WordSearchPageViewModel with ChangeNotifier {
     notifyListeners();
 
     final String question =
-        "Explain the word '$word' in ${Globals.yourLang}. I want the result in exact JSON format, including the 'word', the 'explanation' and 'exSentence' as an example sentence.";
+        "Explain in ${Globals.yourLang} about the word '$word'. It's maybe other language. I want the result in exact JSON format, including the 'word', the 'explanation' and 'exSentence' as an example sentence with their language and 'translation'.";
 
     try {
       final result = await _getWordSearchesUseCase.execute(question);
       _state = state.copyWith(
           isLoading: false,
+          isCompleted: true,
           word: result.word,
           explanation: result.explanation,
           exSentence: result.exSentence);

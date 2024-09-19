@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:lang_learn/view/pages/word_search_page/word_search_page_view_model.dart';
@@ -16,7 +17,10 @@ class _WordSearchPageState extends State<WordSearchPage> {
     final viewModel = context.watch<WordSearchPageViewModel>();
     final state = viewModel.state;
     return Scaffold(
+      backgroundColor: const Color(0xFFEBF4F6),
       appBar: AppBar(
+        elevation: 0,
+        backgroundColor: const Color(0xFFEBF4F6),
         title: Text('search'.tr()),
       ),
       body: Center(
@@ -28,20 +32,20 @@ class _WordSearchPageState extends State<WordSearchPage> {
                 controller: viewModel.wordController,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(20),
                       borderSide: const BorderSide(
-                        width: 4,
-                        color: Colors.greenAccent,
+                        width: 2,
+                        color: Colors.black,
                       ),
                     ),
                     enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(20),
                       borderSide: const BorderSide(
-                        width: 4,
-                        color: Colors.green,
+                        width: 2,
+                        color: Colors.black,
                       ),
                     ),
-                    hintText: 'INPUT WORD',
+                    hintText: 'INPUT HERE',
                     suffixIcon: IconButton(
                       icon: const Icon(Icons.search),
                       onPressed: () {
@@ -53,24 +57,90 @@ class _WordSearchPageState extends State<WordSearchPage> {
                 height: 10,
               ),
               state.isLoading
-                  ? const Center(
-                      child: CircularProgressIndicator(),
-                    )
-                  : Column(
+                  ? const Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const SizedBox(
-                          height: 16,
-                        ),
-                        Text(state.word, style: const TextStyle(fontSize: 25),),
-                        const SizedBox(
-                          height: 16,
-                        ),
-                        Text(state.explanation),
-                        const SizedBox(
-                          height: 16,
-                        ),
-                        Text(state.exSentence),
+                        CircularProgressIndicator(),
                       ],
+                    )
+                  : Visibility(
+                      visible: state.isCompleted,
+                      child: Column(
+                        children: [
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Ink(
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      width: 2, color: const Color(0xFF37B7C3)),
+                                  borderRadius: BorderRadius.circular(18),
+                                  color: const Color(0xFFEBF4F6)),
+                              height: 50,
+                              child: Container(
+                                alignment: Alignment.center,
+                                child: FittedBox(
+                                  fit: BoxFit.fitWidth,
+                                  child: Text(
+                                    state.word,
+                                    style: const TextStyle(fontSize: 25),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Ink(
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      width: 2, color: const Color(0xFF088395)),
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: const Color(0xFFEBF4F6)),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  child: AutoSizeText(
+                                    state.explanation,
+                                    style: const TextStyle(fontSize: 20),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Ink(
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      width: 2, color: const Color(0xFF071952)),
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: const Color(0xFFEBF4F6)),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  child: AutoSizeText(
+                                    state.exSentence.entries.map((entry) {
+                                      return '${entry.key}: ${entry.value}';
+                                    }).join('\n'),
+                                    style: const TextStyle(fontSize: 16,height: 1.5,),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
             ],
           ),

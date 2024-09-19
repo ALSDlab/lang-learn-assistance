@@ -10,6 +10,7 @@ part 'day_sentences_page_state.g.dart';
 class DaySentencesState with _$DaySentencesState {
   const factory DaySentencesState({
     @Default(false) bool isLoading,
+    @Default(false) bool isLoaded,
     @Default('') String date,
     @Default('') String sentence,
     @Default(false) bool like,

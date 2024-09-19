@@ -21,6 +21,7 @@ DaySentencesState _$DaySentencesStateFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$DaySentencesState {
   bool get isLoading => throw _privateConstructorUsedError;
+  bool get isLoaded => throw _privateConstructorUsedError;
   String get date => throw _privateConstructorUsedError;
   String get sentence => throw _privateConstructorUsedError;
   bool get like => throw _privateConstructorUsedError;
@@ -40,6 +41,7 @@ abstract class $DaySentencesStateCopyWith<$Res> {
   @useResult
   $Res call(
       {bool isLoading,
+      bool isLoaded,
       String date,
       String sentence,
       bool like,
@@ -60,6 +62,7 @@ class _$DaySentencesStateCopyWithImpl<$Res, $Val extends DaySentencesState>
   @override
   $Res call({
     Object? isLoading = null,
+    Object? isLoaded = null,
     Object? date = null,
     Object? sentence = null,
     Object? like = null,
@@ -69,6 +72,10 @@ class _$DaySentencesStateCopyWithImpl<$Res, $Val extends DaySentencesState>
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isLoaded: null == isLoaded
+          ? _value.isLoaded
+          : isLoaded // ignore: cast_nullable_to_non_nullable
               as bool,
       date: null == date
           ? _value.date
@@ -100,6 +107,7 @@ abstract class _$$DaySentencesStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {bool isLoading,
+      bool isLoaded,
       String date,
       String sentence,
       bool like,
@@ -118,6 +126,7 @@ class __$$DaySentencesStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isLoading = null,
+    Object? isLoaded = null,
     Object? date = null,
     Object? sentence = null,
     Object? like = null,
@@ -127,6 +136,10 @@ class __$$DaySentencesStateImplCopyWithImpl<$Res>
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isLoaded: null == isLoaded
+          ? _value.isLoaded
+          : isLoaded // ignore: cast_nullable_to_non_nullable
               as bool,
       date: null == date
           ? _value.date
@@ -153,6 +166,7 @@ class __$$DaySentencesStateImplCopyWithImpl<$Res>
 class _$DaySentencesStateImpl implements _DaySentencesState {
   const _$DaySentencesStateImpl(
       {this.isLoading = false,
+      this.isLoaded = false,
       this.date = '',
       this.sentence = '',
       this.like = false,
@@ -164,6 +178,9 @@ class _$DaySentencesStateImpl implements _DaySentencesState {
   @override
   @JsonKey()
   final bool isLoading;
+  @override
+  @JsonKey()
+  final bool isLoaded;
   @override
   @JsonKey()
   final String date;
@@ -179,7 +196,7 @@ class _$DaySentencesStateImpl implements _DaySentencesState {
 
   @override
   String toString() {
-    return 'DaySentencesState(isLoading: $isLoading, date: $date, sentence: $sentence, like: $like, explanation: $explanation)';
+    return 'DaySentencesState(isLoading: $isLoading, isLoaded: $isLoaded, date: $date, sentence: $sentence, like: $like, explanation: $explanation)';
   }
 
   @override
@@ -189,6 +206,8 @@ class _$DaySentencesStateImpl implements _DaySentencesState {
             other is _$DaySentencesStateImpl &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
+            (identical(other.isLoaded, isLoaded) ||
+                other.isLoaded == isLoaded) &&
             (identical(other.date, date) || other.date == date) &&
             (identical(other.sentence, sentence) ||
                 other.sentence == sentence) &&
@@ -199,8 +218,8 @@ class _$DaySentencesStateImpl implements _DaySentencesState {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, isLoading, date, sentence, like, explanation);
+  int get hashCode => Object.hash(
+      runtimeType, isLoading, isLoaded, date, sentence, like, explanation);
 
   @JsonKey(ignore: true)
   @override
@@ -220,6 +239,7 @@ class _$DaySentencesStateImpl implements _DaySentencesState {
 abstract class _DaySentencesState implements DaySentencesState {
   const factory _DaySentencesState(
       {final bool isLoading,
+      final bool isLoaded,
       final String date,
       final String sentence,
       final bool like,
@@ -230,6 +250,8 @@ abstract class _DaySentencesState implements DaySentencesState {
 
   @override
   bool get isLoading;
+  @override
+  bool get isLoaded;
   @override
   String get date;
   @override

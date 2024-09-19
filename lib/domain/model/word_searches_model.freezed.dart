@@ -25,7 +25,7 @@ mixin _$WordSearchesModel {
   @JsonKey(name: 'explanation')
   String get explanation => throw _privateConstructorUsedError;
   @JsonKey(name: 'exSentence')
-  String get exSentence => throw _privateConstructorUsedError;
+  Map<String, String> get exSentence => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -42,7 +42,7 @@ abstract class $WordSearchesModelCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: 'word') String word,
       @JsonKey(name: 'explanation') String explanation,
-      @JsonKey(name: 'exSentence') String exSentence});
+      @JsonKey(name: 'exSentence') Map<String, String> exSentence});
 }
 
 /// @nodoc
@@ -74,7 +74,7 @@ class _$WordSearchesModelCopyWithImpl<$Res, $Val extends WordSearchesModel>
       exSentence: null == exSentence
           ? _value.exSentence
           : exSentence // ignore: cast_nullable_to_non_nullable
-              as String,
+              as Map<String, String>,
     ) as $Val);
   }
 }
@@ -90,7 +90,7 @@ abstract class _$$WordSearchesModelImplCopyWith<$Res>
   $Res call(
       {@JsonKey(name: 'word') String word,
       @JsonKey(name: 'explanation') String explanation,
-      @JsonKey(name: 'exSentence') String exSentence});
+      @JsonKey(name: 'exSentence') Map<String, String> exSentence});
 }
 
 /// @nodoc
@@ -118,9 +118,9 @@ class __$$WordSearchesModelImplCopyWithImpl<$Res>
           : explanation // ignore: cast_nullable_to_non_nullable
               as String,
       exSentence: null == exSentence
-          ? _value.exSentence
+          ? _value._exSentence
           : exSentence // ignore: cast_nullable_to_non_nullable
-              as String,
+              as Map<String, String>,
     ));
   }
 }
@@ -131,7 +131,9 @@ class _$WordSearchesModelImpl implements _WordSearchesModel {
   const _$WordSearchesModelImpl(
       {@JsonKey(name: 'word') required this.word,
       @JsonKey(name: 'explanation') required this.explanation,
-      @JsonKey(name: 'exSentence') required this.exSentence});
+      @JsonKey(name: 'exSentence')
+      required final Map<String, String> exSentence})
+      : _exSentence = exSentence;
 
   factory _$WordSearchesModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$WordSearchesModelImplFromJson(json);
@@ -142,9 +144,14 @@ class _$WordSearchesModelImpl implements _WordSearchesModel {
   @override
   @JsonKey(name: 'explanation')
   final String explanation;
+  final Map<String, String> _exSentence;
   @override
   @JsonKey(name: 'exSentence')
-  final String exSentence;
+  Map<String, String> get exSentence {
+    if (_exSentence is EqualUnmodifiableMapView) return _exSentence;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_exSentence);
+  }
 
   @override
   String toString() {
@@ -159,13 +166,14 @@ class _$WordSearchesModelImpl implements _WordSearchesModel {
             (identical(other.word, word) || other.word == word) &&
             (identical(other.explanation, explanation) ||
                 other.explanation == explanation) &&
-            (identical(other.exSentence, exSentence) ||
-                other.exSentence == exSentence));
+            const DeepCollectionEquality()
+                .equals(other._exSentence, _exSentence));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, word, explanation, exSentence);
+  int get hashCode => Object.hash(runtimeType, word, explanation,
+      const DeepCollectionEquality().hash(_exSentence));
 
   @JsonKey(ignore: true)
   @override
@@ -184,10 +192,10 @@ class _$WordSearchesModelImpl implements _WordSearchesModel {
 
 abstract class _WordSearchesModel implements WordSearchesModel {
   const factory _WordSearchesModel(
-          {@JsonKey(name: 'word') required final String word,
-          @JsonKey(name: 'explanation') required final String explanation,
-          @JsonKey(name: 'exSentence') required final String exSentence}) =
-      _$WordSearchesModelImpl;
+      {@JsonKey(name: 'word') required final String word,
+      @JsonKey(name: 'explanation') required final String explanation,
+      @JsonKey(name: 'exSentence')
+      required final Map<String, String> exSentence}) = _$WordSearchesModelImpl;
 
   factory _WordSearchesModel.fromJson(Map<String, dynamic> json) =
       _$WordSearchesModelImpl.fromJson;
@@ -200,7 +208,7 @@ abstract class _WordSearchesModel implements WordSearchesModel {
   String get explanation;
   @override
   @JsonKey(name: 'exSentence')
-  String get exSentence;
+  Map<String, String> get exSentence;
   @override
   @JsonKey(ignore: true)
   _$$WordSearchesModelImplCopyWith<_$WordSearchesModelImpl> get copyWith =>

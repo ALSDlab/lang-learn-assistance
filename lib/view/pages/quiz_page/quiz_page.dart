@@ -76,7 +76,7 @@ class _QuizPageState extends State<QuizPage>
                 );
               },
               tabs: List.generate(
-                  state.quizList.length, (index) => Text('${index + 1}')),
+                  state.quizList.length, (index) => Text('${index + 1}',)),
               children: List.generate(
                   state.quizList.length,
                   (index) => QuizCardWidget(

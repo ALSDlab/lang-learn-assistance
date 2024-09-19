@@ -1,8 +1,11 @@
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lang_learn/view/pages/setting_page/setting_page_view_model.dart';
 import 'package:provider/provider.dart';
+
+import '../../navigation/globals.dart';
 
 class SettingPage extends StatefulWidget {
   const SettingPage({super.key});
@@ -18,7 +21,10 @@ class _SettingPageState extends State<SettingPage> {
     final state = viewModel.state;
 
     return Scaffold(
+      backgroundColor: const Color(0xFFEBF4F6),
       appBar: AppBar(
+        elevation: 0,
+        backgroundColor: const Color(0xFFEBF4F6),
         title: Text('setting'.tr()),
       ),
       body: Padding(
@@ -49,8 +55,11 @@ class _SettingPageState extends State<SettingPage> {
                   Future.delayed(
                       const Duration(milliseconds: 100),
                       () => {
-                            viewModel.updateLanguageMenu(
-                                selectedLang, targetLang, value)
+                            if (mounted)
+                              {
+                                viewModel.updateLanguageMenu(
+                                    selectedLang, targetLang, value)
+                              }
                           });
                 }
               },
@@ -77,55 +86,136 @@ class _SettingPageState extends State<SettingPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                ElevatedButton(
-                  onPressed: () {
-                    viewModel.selectLevel('beginner');
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: state.selectedLevel == 'beginner'
-                        ? Colors.blue
-                        : Colors.grey,
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(20),
+                      onTap: () {
+                        viewModel.selectLevel('beginner');
+                      },
+                      child: Ink(
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                                width: 5, color: const Color(0xFF37B7C3)),
+                            borderRadius: BorderRadius.circular(20),
+                            color: (state.selectedLevel == 'beginner')
+                                ? const Color(0xFF37B7C3)
+                                : const Color(0xFFEBF4F6)),
+                        height: 150,
+                        child: Container(
+                          alignment: Alignment.center,
+                          child: Text(
+                            'beginner'.tr(),
+                            style: TextStyle(
+                                color: (state.selectedLevel == 'beginner')
+                                    ? const Color(0xFFEBF4F6)
+                                    : Colors.black),
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
-                  child: Text('beginner'.tr()),
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    viewModel.selectLevel('intermediate');
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: state.selectedLevel == 'intermediate'
-                        ? Colors.blue
-                        : Colors.grey,
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(20),
+                      onTap: () {
+                        viewModel.selectLevel('intermediate');
+                      },
+                      child: Ink(
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                                width: 5, color: const Color(0xFF088395)),
+                            borderRadius: BorderRadius.circular(20),
+                            color: (state.selectedLevel == 'intermediate')
+                                ? const Color(0xFF088395)
+                                : const Color(0xFFEBF4F6)),
+                        height: 150,
+                        child: Container(
+                          alignment: Alignment.center,
+                          child: Text(
+                            'intermediate'.tr(),
+                            style: TextStyle(
+                                color: (state.selectedLevel == 'intermediate')
+                                    ? const Color(0xFFEBF4F6)
+                                    : Colors.black),
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
-                  child: Text('intermediate'.tr()),
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    viewModel.selectLevel('advanced');
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: state.selectedLevel == 'advanced'
-                        ? Colors.blue
-                        : Colors.grey,
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(20),
+                      onTap: () {
+                        viewModel.selectLevel('advanced');
+                      },
+                      child: Ink(
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                                width: 5, color: const Color(0xFF071952)),
+                            borderRadius: BorderRadius.circular(20),
+                            color: (state.selectedLevel == 'advanced')
+                                ? const Color(0xFF071952)
+                                : const Color(0xFFEBF4F6)),
+                        height: 150,
+                        child: Container(
+                          alignment: Alignment.center,
+                          child: Text(
+                            'advanced'.tr(),
+                            style: TextStyle(
+                                color: (state.selectedLevel == 'advanced')
+                                    ? const Color(0xFFEBF4F6)
+                                    : Colors.black),
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
-                  child: Text('advanced'.tr()),
                 ),
               ],
             ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () async {
-                if (viewModel.languageController.value != null &&
-                    viewModel.targetLanguageController.value != null) {
-                  await viewModel.applyAndSaveSettings();
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Please select a language')),
-                  );
-                }
-              },
-              child: const Text('APPLY'),
+            const Spacer(),
+            Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: InkWell(
+                borderRadius: BorderRadius.circular(20),
+                onTap: () async {
+                  if (viewModel.languageController.value != null &&
+                      viewModel.targetLanguageController.value != null) {
+                    await viewModel.applyAndSaveSettings();
+                    if (context.mounted) {
+                      context.go('/day_sentence_page');
+                    }
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Please select a language')),
+                    );
+                  }
+                },
+                child: Ink(
+                  decoration: BoxDecoration(
+                      border: Border.all(width: 2, color: Colors.black),
+                      borderRadius: BorderRadius.circular(20),
+                      color: const Color(0xFFEBF4F6)),
+                  height: 60,
+                  child: Container(
+                    alignment: Alignment.center,
+                    child: const Text(
+                      'APPLY',
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ),
+                ),
+              ),
             ),
+            const Spacer(),
           ],
         ),
       ),

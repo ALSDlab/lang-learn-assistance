@@ -34,6 +34,7 @@ class QuizPageViewModel with ChangeNotifier {
   }
 
   Future<void> fetchData() async {
+    if (_state.isLoaded) return;
     _state = state.copyWith(isLoading: true);
     notifyListeners();
 
@@ -44,6 +45,7 @@ class QuizPageViewModel with ChangeNotifier {
       final result = await _getQuizUseCase.execute(question);
       _state = state.copyWith(
           isLoading: false,
+          isLoaded: true,
           quizList: result,
           correctAnswer: List.generate(
               result.length, (index) => result[index].correctAnswer));

@@ -1,11 +1,13 @@
 class WordSearchesDto {
   final String? word;
   final String? explanation;
+  final String? exSentence;
 
 //<editor-fold desc="Data Methods">
   const WordSearchesDto({
     this.word,
     this.explanation,
+    this.exSentence,
   });
 
   @override
@@ -14,23 +16,27 @@ class WordSearchesDto {
       (other is WordSearchesDto &&
           runtimeType == other.runtimeType &&
           word == other.word &&
-          explanation == other.explanation);
+          explanation == other.explanation &&
+          exSentence == other.exSentence);
 
   @override
-  int get hashCode => word.hashCode ^ explanation.hashCode;
+  int get hashCode =>
+      word.hashCode ^ explanation.hashCode ^ exSentence.hashCode;
 
   @override
   String toString() {
-    return 'WordSearchesDto{ word: $word, explanation: $explanation,}';
+    return 'WordSearchesDto{ word: $word, explanation: $explanation, exSentence: $exSentence,}';
   }
 
   WordSearchesDto copyWith({
     String? word,
     String? explanation,
+    String? exSentence,
   }) {
     return WordSearchesDto(
       word: word ?? this.word,
       explanation: explanation ?? this.explanation,
+      exSentence: exSentence ?? this.exSentence,
     );
   }
 
@@ -38,6 +44,7 @@ class WordSearchesDto {
     return {
       'word': word,
       'explanation': explanation,
+      'exSentence': exSentence,
     };
   }
 
@@ -45,6 +52,7 @@ class WordSearchesDto {
     return WordSearchesDto(
       word: map['word'] as String,
       explanation: map['explanation'] as String,
+      exSentence: map['exSentence'] as String,
     );
   }
 

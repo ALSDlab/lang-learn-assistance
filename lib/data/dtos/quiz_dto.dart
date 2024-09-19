@@ -60,7 +60,7 @@ class QuizDto {
   factory QuizDto.fromJson(Map<String, dynamic> map) {
     return QuizDto(
       question: map['question'] as String,
-      options: map['options'] as List<String>,
+      options: (map['options'] as List<dynamic>?)?.map((e) => e as String).toList(),
       correctAnswer: map['correctAnswer'] as int,
       explanation: map['explanation'] as String,
     );

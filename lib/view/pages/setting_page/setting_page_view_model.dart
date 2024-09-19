@@ -61,13 +61,12 @@ class SettingPageViewModel with ChangeNotifier {
         targetLanguage: prefs.getString('target_language') ?? '',
         selectedLevel: prefs.getString('selected_level') ?? 'beginner');
 
-    if (_state.selectedLanguage != '' && _state.targetLanguage != '') {
+    if (_state.selectedLanguage.isNotEmpty &&
+        _state.targetLanguage.isNotEmpty) {
       languageController.value = _state.selectedLanguage.tr();
       targetLanguageController.value = _state.targetLanguage.tr();
     }
-    dropDownLocalization(languages.firstWhere(
-        (lang) => lang['name']?.tr() == targetLanguageController.value,
-        orElse: () => {}));
+    dropDownLocalization(null);
     targetDropDownLocalization(languages.firstWhere(
         (lang) => lang['name']?.tr() == languageController.value,
         orElse: () => {}));
@@ -116,10 +115,10 @@ class SettingPageViewModel with ChangeNotifier {
     if (value != null) {
       languageController.value = selectedLang['name']?.tr();
 
-      if(targetLang != {}) {
+      if (targetLang != {}) {
         targetLanguageController.value = targetLang['name']?.tr();
       }
-          languageNames = dropDownLocalization(targetLang);
+      languageNames = dropDownLocalization(null);
       if (selectedLang == targetLang) {
         targetLanguageController.clear();
       }
@@ -157,15 +156,15 @@ class SettingPageViewModel with ChangeNotifier {
   Future<void> applyAndSaveSettings() async {
     Globals.level = _state.selectedLevel;
     Globals.yourLang = languages.firstWhere(
-            (lang) => lang['name']?.tr() == languageController.value,
+        (lang) => lang['name']?.tr() == languageController.value,
         orElse: () => {})['name']!;
     Globals.target = languages.firstWhere(
-            (lang) => lang['name']?.tr() == targetLanguageController.value,
+        (lang) => lang['name']?.tr() == targetLanguageController.value,
         orElse: () => {})['name']!;
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('selected_language', Globals.yourLang);
     await prefs.setString('target_language', Globals.target);
     await prefs.setString('selected_level', _state.selectedLevel);
-
+    notifyListeners();
   }
 }

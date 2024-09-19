@@ -45,8 +45,8 @@ final router = GoRouter(
           GoRoute(
             path: '/quiz_page',
             builder: (context, state) {
-              final extra = state.extra! as Map<String, dynamic>;
-              final navSetState = extra['navSetState'];
+              // final extra = state.extra! as Map<String, dynamic>;
+              // final navSetState = extra['navSetState'];
               return ChangeNotifierProvider(
                 create: (_) => getIt<QuizPageViewModel>(),
                 child: const QuizPage(),
@@ -128,11 +128,11 @@ final router = GoRouter(
           GoRoute(
             path: '/word_search_page',
             builder: (context, state) {
-              final extra = state.extra! as Map<String, dynamic>;
-              final navSetState = extra['navSetState'];
+              // final extra = state.extra! as Map<String, dynamic>;
+              // final navSetState = extra['navSetState'];
               return ChangeNotifierProvider(
                 create: (_) => getIt<WordSearchPageViewModel>(),
-                child: WordSearchPage(),
+                child: const WordSearchPage(),
               );
             },
           ),

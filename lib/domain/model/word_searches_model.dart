@@ -12,6 +12,7 @@ class WordSearchesModel with _$WordSearchesModel {
 
     @JsonKey(name: 'word') required String word,
     @JsonKey(name: 'explanation') required String explanation,
+    @JsonKey(name: 'exSentence') required String exSentence,
 
 
 

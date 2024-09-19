@@ -38,18 +38,17 @@ class WordSearchPageViewModel with ChangeNotifier {
     notifyListeners();
 
     final String question =
-        "Explain the word '$word' in ${Globals.yourLang}. I want the result in JSON format, including the word and the explanation.";
+        "Explain the word '$word' in ${Globals.yourLang}. I want the result in exact JSON format, including the 'word', the 'explanation' and 'exSentence' as an example sentence.";
 
     try {
       final result = await _getWordSearchesUseCase.execute(question);
       _state = state.copyWith(
-        isLoading: false,
-        word: result.word,
-        explanation: result.explanation,
-      );
+          isLoading: false,
+          word: result.word,
+          explanation: result.explanation,
+          exSentence: result.exSentence);
       notifyListeners();
     } catch (error) {
-      // 에러 처리
       logger.info('Error fetching data: $error');
     } finally {
       _state = state.copyWith(isLoading: false);

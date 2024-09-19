@@ -4,7 +4,7 @@ import 'package:lang_learn/domain/model/quiz_model.dart';
 import '../../data/core/result.dart';
 
 abstract interface class QuizRepository {
-  Future<Result<List<QuizDto>>> getGeminiDaySentenceAnswer(String question);
+  Future<Result<List<QuizModel>>> getGeminiQuizAnswer(String question);
 
   Future<Result<void>> postFirebaseQuiz(String docId, Map<String, String> item);
 

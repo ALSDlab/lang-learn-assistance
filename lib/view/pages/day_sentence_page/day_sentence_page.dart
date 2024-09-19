@@ -26,8 +26,10 @@ class _DaySentencePageState extends State<DaySentencePage> {
             )
           : Column(
               children: [
-                Text(state.date),
-                Text(state.sentence),
+                Text(state.date, style: const TextStyle(fontSize: 20),),
+                const SizedBox(height: 16,),
+                Text(state.sentence, style: const TextStyle(fontSize: 25),),
+                const SizedBox(height: 16,),
                 Text(state.explanation)
               ],
             ),

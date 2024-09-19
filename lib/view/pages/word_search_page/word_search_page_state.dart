@@ -13,6 +13,7 @@ class WordSearchPageState with _$WordSearchPageState {
     @Default(false) bool isLoading,
     @Default('') String word,
     @Default('') String explanation,
+    @Default('') String exSentence,
 
   }) = _WordSearchPageState;
 

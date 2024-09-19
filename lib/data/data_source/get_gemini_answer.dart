@@ -32,7 +32,7 @@ class GetGeminiAnswer {
         return const Result.error('Cannot get the Answer');
       }
     } catch (e) {
-      logger.info('GEMINI 통신 에러 => $e');
+      logger.info('GEMINI Communication Error => $e');
       throw Exception(e);
     }
   }
@@ -45,16 +45,17 @@ class GetGeminiAnswer {
         Content.text(question),
       );
       final text = response.text?.replaceAll('json', '').replaceAll("```", '');
+
       if (text != null) {
-        List<QuizDto> quizList = [];
         final List<dynamic> jsonText = jsonDecode(text);
-        quizList = jsonText.map((e) => QuizDto.fromJson(e)).toList();
+        final List<QuizDto> quizList = jsonText.map((e) => QuizDto.fromJson(e)).toList();
+        print(quizList);
         return Result.success(quizList);
       } else {
         return const Result.error('Cannot get the Answer');
       }
     } catch (e) {
-      logger.info('GEMINI 통신 에러 => $e');
+      logger.info('GEMINI Communication Error => $e');
       throw Exception(e);
     }
   }
@@ -75,7 +76,7 @@ class GetGeminiAnswer {
         return const Result.error('Cannot get the Answer');
       }
     } catch (e) {
-      logger.info('GEMINI 통신 에러 => $e');
+      logger.info('GEMINI Communication Error => $e');
       throw Exception(e);
     }
   }

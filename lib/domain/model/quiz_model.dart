@@ -15,6 +15,8 @@ class QuizModel with _$QuizModel {
     @JsonKey(name: 'options') required List<String> options,
     @JsonKey(name: 'correctAnswer') required int correctAnswer,
     @JsonKey(name: 'explanation') required String explanation,
+    @JsonKey(name: 'deleted') required bool deleted,
+
 
 
   }) = _QuizModel;

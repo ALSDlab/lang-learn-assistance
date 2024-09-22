@@ -42,12 +42,18 @@ class DaySentencePageViewModel with ChangeNotifier {
     final String todayDate = DateFormat.yMMMMd('en_US').format(DateTime.now());
 
     final String question =
-        "Show me a sentence in ${Globals.level} ${Globals.target} for today and provide an explanation in ${Globals.yourLang}. Today is $todayDate. I want the response to be in exact JSON format, including today's 'date' with 'DateFormat.yMMMMd('en_US')', the 'sentence' of the day, and the 'explanation' excluding anything related to pronunciation.";
+        '''Show me a sentence in ${Globals.level} ${Globals.target} for today and provide an explanation in ${Globals.yourLang}. 
+        Today is $todayDate. I want the response to be in exact JSON format, including today's 'date' that must be in Full date format, the 'sentence' of the day, and the 'explanation' excluding anything related to pronunciation.
+        JSON structure must be always like this
+        {
+          "date" : "$todayDate",
+          "sentence" : "",
+          "explanation" : "" 
+        }''';
 
     try {
       final result = await _getDaySentencesUseCase.execute(question);
       _state = state.copyWith(
-        isLoading: false,
         isLoaded: true,
         date: result.date,
         sentence: result.sentence,

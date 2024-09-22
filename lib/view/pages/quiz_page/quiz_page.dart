@@ -23,10 +23,10 @@ class _QuizPageState extends State<QuizPage>
   void initState() {
     super.initState();
     final viewModel = context.read<QuizPageViewModel>();
-    _tabController =
-        TabController(length: Globals.quizCount, vsync: this);
+    _tabController = TabController(length: Globals.quizCount, vsync: this);
 
     _tabController.addListener(() {
+      setState(() {});
       if (_tabController.indexIsChanging) {
         if (_tabController.index > currentTabIndex &&
             viewModel.selectedOptions[currentTabIndex] == null) {
@@ -49,7 +49,10 @@ class _QuizPageState extends State<QuizPage>
     final viewModel = context.watch<QuizPageViewModel>();
     final state = viewModel.state;
     return Scaffold(
+      backgroundColor: const Color(0xFFEBF4F6),
       appBar: AppBar(
+        elevation: 0,
+        backgroundColor: const Color(0xFFEBF4F6),
         title: Text('quiz'.tr()),
       ),
       body: (state.isLoading)
@@ -62,6 +65,8 @@ class _QuizPageState extends State<QuizPage>
               tabEdge: TabEdge.top,
               curve: Curves.ease,
               transitionBuilder: (child, animation) {
+                print(_tabController.index);
+                print(viewModel.checkTapped);
                 animation =
                     CurvedAnimation(curve: Curves.easeIn, parent: animation);
                 return SlideTransition(
@@ -76,12 +81,33 @@ class _QuizPageState extends State<QuizPage>
                 );
               },
               tabs: List.generate(
-                  state.quizList.length, (index) => Text('${index + 1}',)),
+                Globals.quizCount,
+                (index) => Text(
+                  '${index + 1}',
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: (_tabController.index == index)
+                          ? (viewModel.checkTapped[index] == null)
+                              ? Colors.black
+                              : (viewModel.checkTapped[index] == true)
+                                  ? const Color(0xff52B788)
+                                  : const Color(0xffE63946)
+                          : (_tabController.index < index &&
+                                  viewModel.checkTapped[index] == null)
+                              ? Colors.grey
+                              : (viewModel.checkTapped[index] == true)
+                                  ? const Color(0xff52B788)
+                                  : const Color(0xffE63946)),
+                ),
+              ),
               children: List.generate(
-                  state.quizList.length,
+                  Globals.quizCount,
                   (index) => QuizCardWidget(
                         quizItem: state.quizList[index],
                         index: index,
+                        animatedTo: () {
+                          _tabController.animateTo(_tabController.index + 1);
+                        },
                       )),
             ),
     );

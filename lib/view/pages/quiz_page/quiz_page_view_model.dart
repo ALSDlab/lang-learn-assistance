@@ -18,6 +18,7 @@ class QuizPageViewModel with ChangeNotifier {
   QuizPageState get state => _state;
 
   List selectedOptions = List.generate(Globals.quizCount, (i) => null);
+  List checkTapped = List.generate(Globals.quizCount, (i) => null);
   bool _disposed = false;
 
   @override
@@ -39,7 +40,16 @@ class QuizPageViewModel with ChangeNotifier {
     notifyListeners();
 
     final String question =
-        "Create ${Globals.quizCount} multiple-choice quizzes in ${Globals.level} ${Globals.target} with 3 options each. Provide explanations in ${Globals.yourLang}. I want the result in exact JSON format, including the quiz 'question', 3 'options', the 'correctAnswer' as index, and the 'explanation'.";
+        '''Create ${Globals.quizCount} multiple-choice quizzes in ${Globals.level} ${Globals.target} with 3 options each.
+        You must provide explanations in ${Globals.yourLang}. I want the result in exact JSON format, including the quiz 'question', 3 'options', the 'correctAnswer' as index, and the 'explanation'.
+        JSON structure must be always like this
+        {
+          "question" : "",
+          "options" : ["", "", ""],
+          "correctAnswer" : ,
+          "explanation" : ""
+        }
+        ''';
 
     try {
       final result = await _getQuizUseCase.execute(question);
@@ -58,7 +68,22 @@ class QuizPageViewModel with ChangeNotifier {
     }
   }
 
+
   void selectOption (int questionIndex, int selectIndex) {
     selectedOptions[questionIndex] = selectIndex;
+    notifyListeners();
+  }
+
+  void checkTheAnswer(int questionIndex) {
+    _state = state.copyWith(checkTapped: true);
+    notifyListeners();
+    if (selectedOptions[questionIndex] == _state.correctAnswer[questionIndex]){
+      checkTapped[questionIndex] = true;
+    } else {
+      checkTapped[questionIndex] = false;
+    }
+    _state = state.copyWith(checkTapped: false);
+    notifyListeners();
+
   }
 }

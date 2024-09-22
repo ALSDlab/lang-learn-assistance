@@ -28,33 +28,36 @@ class _WordSearchPageState extends State<WordSearchPage> {
           padding: const EdgeInsets.all(10),
           child: Column(
             children: [
-              TextField(
-                controller: viewModel.wordController,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      borderSide: const BorderSide(
-                        width: 2,
-                        color: Colors.black,
+              Padding(
+                padding: const EdgeInsets.all(2.0),
+                child: TextField(
+                  controller: viewModel.wordController,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: const BorderSide(
+                          width: 2,
+                          color: Colors.black,
+                        ),
                       ),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      borderSide: const BorderSide(
-                        width: 2,
-                        color: Colors.black,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: const BorderSide(
+                          width: 2,
+                          color: Colors.black,
+                        ),
                       ),
-                    ),
-                    hintText: 'INPUT HERE',
-                    suffixIcon: IconButton(
-                      icon: const Icon(Icons.search),
-                      onPressed: () {
-                        viewModel.searchWord(viewModel.wordController.text);
-                      },
-                    )),
+                      hintText: 'INPUT HERE',
+                      suffixIcon: IconButton(
+                        icon: const Icon(Icons.search),
+                        onPressed: () {
+                          viewModel.searchWord(viewModel.wordController.text);
+                        },
+                      )),
+                ),
               ),
               const SizedBox(
-                height: 10,
+                height: 32,
               ),
               state.isLoading
                   ? const Column(

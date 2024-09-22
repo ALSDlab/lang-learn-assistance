@@ -159,6 +159,7 @@ class SettingPageViewModel with ChangeNotifier {
 
 
   Future<void> applyAndSaveSettings() async {
+    _state = state.copyWith(tapped: true);
     Globals.level = _state.selectedLevel;
     Globals.yourLang = languages.firstWhere(
         (lang) => lang['name']?.tr() == languageController.value,

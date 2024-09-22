@@ -38,7 +38,19 @@ class WordSearchPageViewModel with ChangeNotifier {
     notifyListeners();
 
     final String question =
-        "Explain in ${Globals.yourLang} about the word '$word'. It's maybe other language. I want the result in exact JSON format, including the 'word', the 'explanation' and 'exSentence' as an example sentence with their language and 'translation'.";
+        '''Explain in ${Globals.yourLang} about the word '$word'. It's maybe other language. 
+        I want the result in exact JSON format, including the 'word', the 'explanation' and 'exSentence' as an example sentence with their language and 'translation'.
+        JSON structure must be always like this
+        {
+          "word" : "",
+          "explanation" : "",
+          "exSentence" : {
+            "language" : "",
+            "sentence" : "",
+            "translation" : ""
+          }
+        }
+        ''';
 
     try {
       final result = await _getWordSearchesUseCase.execute(question);

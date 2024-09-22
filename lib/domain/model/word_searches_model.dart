@@ -13,6 +13,8 @@ class WordSearchesModel with _$WordSearchesModel {
     @JsonKey(name: 'word') required String word,
     @JsonKey(name: 'explanation') required String explanation,
     @JsonKey(name: 'exSentence') required Map<String, String> exSentence,
+    @JsonKey(name: 'deleted') required bool deleted,
+
 
 
 

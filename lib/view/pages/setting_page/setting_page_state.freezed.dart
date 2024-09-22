@@ -20,6 +20,7 @@ SettingPageState _$SettingPageStateFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$SettingPageState {
+  bool get tapped => throw _privateConstructorUsedError;
   String get selectedLanguage => throw _privateConstructorUsedError;
   String get targetLanguage => throw _privateConstructorUsedError;
   String get selectedLevel => throw _privateConstructorUsedError;
@@ -37,7 +38,10 @@ abstract class $SettingPageStateCopyWith<$Res> {
       _$SettingPageStateCopyWithImpl<$Res, SettingPageState>;
   @useResult
   $Res call(
-      {String selectedLanguage, String targetLanguage, String selectedLevel});
+      {bool tapped,
+      String selectedLanguage,
+      String targetLanguage,
+      String selectedLevel});
 }
 
 /// @nodoc
@@ -53,11 +57,16 @@ class _$SettingPageStateCopyWithImpl<$Res, $Val extends SettingPageState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? tapped = null,
     Object? selectedLanguage = null,
     Object? targetLanguage = null,
     Object? selectedLevel = null,
   }) {
     return _then(_value.copyWith(
+      tapped: null == tapped
+          ? _value.tapped
+          : tapped // ignore: cast_nullable_to_non_nullable
+              as bool,
       selectedLanguage: null == selectedLanguage
           ? _value.selectedLanguage
           : selectedLanguage // ignore: cast_nullable_to_non_nullable
@@ -83,7 +92,10 @@ abstract class _$$SettingPageStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String selectedLanguage, String targetLanguage, String selectedLevel});
+      {bool tapped,
+      String selectedLanguage,
+      String targetLanguage,
+      String selectedLevel});
 }
 
 /// @nodoc
@@ -97,11 +109,16 @@ class __$$SettingPageStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? tapped = null,
     Object? selectedLanguage = null,
     Object? targetLanguage = null,
     Object? selectedLevel = null,
   }) {
     return _then(_$SettingPageStateImpl(
+      tapped: null == tapped
+          ? _value.tapped
+          : tapped // ignore: cast_nullable_to_non_nullable
+              as bool,
       selectedLanguage: null == selectedLanguage
           ? _value.selectedLanguage
           : selectedLanguage // ignore: cast_nullable_to_non_nullable
@@ -122,13 +139,17 @@ class __$$SettingPageStateImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$SettingPageStateImpl implements _SettingPageState {
   const _$SettingPageStateImpl(
-      {this.selectedLanguage = '',
+      {this.tapped = false,
+      this.selectedLanguage = '',
       this.targetLanguage = '',
       this.selectedLevel = ''});
 
   factory _$SettingPageStateImpl.fromJson(Map<String, dynamic> json) =>
       _$$SettingPageStateImplFromJson(json);
 
+  @override
+  @JsonKey()
+  final bool tapped;
   @override
   @JsonKey()
   final String selectedLanguage;
@@ -141,7 +162,7 @@ class _$SettingPageStateImpl implements _SettingPageState {
 
   @override
   String toString() {
-    return 'SettingPageState(selectedLanguage: $selectedLanguage, targetLanguage: $targetLanguage, selectedLevel: $selectedLevel)';
+    return 'SettingPageState(tapped: $tapped, selectedLanguage: $selectedLanguage, targetLanguage: $targetLanguage, selectedLevel: $selectedLevel)';
   }
 
   @override
@@ -149,6 +170,7 @@ class _$SettingPageStateImpl implements _SettingPageState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SettingPageStateImpl &&
+            (identical(other.tapped, tapped) || other.tapped == tapped) &&
             (identical(other.selectedLanguage, selectedLanguage) ||
                 other.selectedLanguage == selectedLanguage) &&
             (identical(other.targetLanguage, targetLanguage) ||
@@ -159,8 +181,8 @@ class _$SettingPageStateImpl implements _SettingPageState {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, selectedLanguage, targetLanguage, selectedLevel);
+  int get hashCode => Object.hash(
+      runtimeType, tapped, selectedLanguage, targetLanguage, selectedLevel);
 
   @JsonKey(ignore: true)
   @override
@@ -179,13 +201,16 @@ class _$SettingPageStateImpl implements _SettingPageState {
 
 abstract class _SettingPageState implements SettingPageState {
   const factory _SettingPageState(
-      {final String selectedLanguage,
+      {final bool tapped,
+      final String selectedLanguage,
       final String targetLanguage,
       final String selectedLevel}) = _$SettingPageStateImpl;
 
   factory _SettingPageState.fromJson(Map<String, dynamic> json) =
       _$SettingPageStateImpl.fromJson;
 
+  @override
+  bool get tapped;
   @override
   String get selectedLanguage;
   @override

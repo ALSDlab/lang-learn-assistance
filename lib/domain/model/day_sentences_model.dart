@@ -14,6 +14,7 @@ class DaySentencesModel with _$DaySentencesModel {
     @JsonKey(name: 'date') required String date,
     @JsonKey(name: 'sentence') required String sentence,
     @JsonKey(name: 'like') required bool like,
+    @JsonKey(name: 'deleted') required bool deleted,
     @JsonKey(name: 'explanation') required String explanation,
 
 

@@ -1,11 +1,10 @@
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lang_learn/view/pages/setting_page/setting_page_view_model.dart';
 import 'package:provider/provider.dart';
-
-import '../../navigation/globals.dart';
 
 class SettingPage extends StatefulWidget {
   const SettingPage({super.key});
@@ -32,11 +31,13 @@ class _SettingPageState extends State<SettingPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'your_lang'.tr(),
-              style: const TextStyle(fontSize: 18),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: Text(
+                'your_lang'.tr(),
+                style: const TextStyle(fontSize: 18),
+              ),
             ),
-            const SizedBox(height: 16),
             CustomDropdown(
               controller: viewModel.languageController,
               items: viewModel.languageNames,
@@ -53,7 +54,7 @@ class _SettingPageState extends State<SettingPage> {
                           viewModel.targetLanguageController.value,
                       orElse: () => {});
                   Future.delayed(
-                      const Duration(milliseconds: 100),
+                      const Duration(milliseconds: 200),
                       () => {
                             if (mounted)
                               {
@@ -64,12 +65,14 @@ class _SettingPageState extends State<SettingPage> {
                 }
               },
             ),
-            const SizedBox(height: 20),
-            Text(
-              'target'.tr(),
-              style: const TextStyle(fontSize: 18),
+            const Spacer(),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: Text(
+                'target'.tr(),
+                style: const TextStyle(fontSize: 18),
+              ),
             ),
-            const SizedBox(height: 16),
             CustomDropdown(
               controller: viewModel.targetLanguageController,
               items: viewModel.targetLanguageNames,
@@ -77,12 +80,14 @@ class _SettingPageState extends State<SettingPage> {
                 viewModel.updateTargetLanguageMenu(value);
               },
             ),
-            const SizedBox(height: 20),
-            Text(
-              'level'.tr(), // 'level' 번역
-              style: const TextStyle(fontSize: 18),
+            const Spacer(),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: Text(
+                'level'.tr(), // 'level' 번역
+                style: const TextStyle(fontSize: 18),
+              ),
             ),
-            const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -97,7 +102,7 @@ class _SettingPageState extends State<SettingPage> {
                       child: Ink(
                         decoration: BoxDecoration(
                             border: Border.all(
-                                width: 5, color: const Color(0xFF37B7C3)),
+                                width: 4, color: const Color(0xFF37B7C3)),
                             borderRadius: BorderRadius.circular(20),
                             color: (state.selectedLevel == 'beginner')
                                 ? const Color(0xFF37B7C3)
@@ -105,9 +110,11 @@ class _SettingPageState extends State<SettingPage> {
                         height: 150,
                         child: Container(
                           alignment: Alignment.center,
-                          child: Text(
+                          child: AutoSizeText(
                             'beginner'.tr(),
+                            maxLines: 1,
                             style: TextStyle(
+                                fontSize: 16,
                                 color: (state.selectedLevel == 'beginner')
                                     ? const Color(0xFFEBF4F6)
                                     : Colors.black),
@@ -128,7 +135,7 @@ class _SettingPageState extends State<SettingPage> {
                       child: Ink(
                         decoration: BoxDecoration(
                             border: Border.all(
-                                width: 5, color: const Color(0xFF088395)),
+                                width: 4, color: const Color(0xFF088395)),
                             borderRadius: BorderRadius.circular(20),
                             color: (state.selectedLevel == 'intermediate')
                                 ? const Color(0xFF088395)
@@ -136,9 +143,11 @@ class _SettingPageState extends State<SettingPage> {
                         height: 150,
                         child: Container(
                           alignment: Alignment.center,
-                          child: Text(
+                          child: AutoSizeText(
                             'intermediate'.tr(),
+                            maxLines: 1,
                             style: TextStyle(
+                                fontSize: 16,
                                 color: (state.selectedLevel == 'intermediate')
                                     ? const Color(0xFFEBF4F6)
                                     : Colors.black),
@@ -159,20 +168,25 @@ class _SettingPageState extends State<SettingPage> {
                       child: Ink(
                         decoration: BoxDecoration(
                             border: Border.all(
-                                width: 5, color: const Color(0xFF071952)),
+                                width: 4, color: const Color(0xFF071952)),
                             borderRadius: BorderRadius.circular(20),
                             color: (state.selectedLevel == 'advanced')
                                 ? const Color(0xFF071952)
                                 : const Color(0xFFEBF4F6)),
                         height: 150,
-                        child: Container(
-                          alignment: Alignment.center,
-                          child: Text(
-                            'advanced'.tr(),
-                            style: TextStyle(
-                                color: (state.selectedLevel == 'advanced')
-                                    ? const Color(0xFFEBF4F6)
-                                    : Colors.black),
+                        child: Padding(
+                          padding: const EdgeInsets.all(2.0),
+                          child: Container(
+                            alignment: Alignment.center,
+                            child: AutoSizeText(
+                              'advanced'.tr(),
+                              maxLines: 1,
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: (state.selectedLevel == 'advanced')
+                                      ? const Color(0xFFEBF4F6)
+                                      : Colors.black),
+                            ),
                           ),
                         ),
                       ),
@@ -185,6 +199,8 @@ class _SettingPageState extends State<SettingPage> {
             Padding(
               padding: const EdgeInsets.all(4.0),
               child: InkWell(
+                highlightColor: Colors.transparent,
+                splashColor: Colors.transparent,
                 borderRadius: BorderRadius.circular(20),
                 onTap: () async {
                   if (viewModel.languageController.value != null &&
@@ -201,15 +217,23 @@ class _SettingPageState extends State<SettingPage> {
                 },
                 child: Ink(
                   decoration: BoxDecoration(
-                      border: Border.all(width: 2, color: Colors.black),
+                      border: Border.all(
+                          width: 2,
+                          color: (state.tapped)
+                              ? const Color(0xff4FB0C6)
+                              : const Color(0xff54D1DB)),
                       borderRadius: BorderRadius.circular(20),
-                      color: const Color(0xFFEBF4F6)),
-                  height: 60,
+                      color: (state.tapped)
+                          ? const Color(0xff4FB0C6)
+                          : const Color(0xFFEBF4F6)),
+                  height: 50,
                   child: Container(
                     alignment: Alignment.center,
-                    child: const Text(
+                    child: Text(
                       'APPLY',
-                      style: TextStyle(fontSize: 18),
+                      style: TextStyle(
+                          fontSize: 18,
+                          color: (state.tapped) ? Colors.white : Colors.black),
                     ),
                   ),
                 ),

@@ -9,6 +9,7 @@ part 'setting_page_state.g.dart';
 @freezed
 class SettingPageState with _$SettingPageState {
   const factory SettingPageState({
+    @Default(false) bool tapped,
     @Default('') String selectedLanguage,
     @Default('') String targetLanguage,
     @Default('') String selectedLevel,

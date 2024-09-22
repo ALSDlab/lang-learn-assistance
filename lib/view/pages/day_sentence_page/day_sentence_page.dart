@@ -83,19 +83,19 @@ class _DaySentencePageState extends State<DaySentencePage> {
                   const SizedBox(
                     height: 20,
                   ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Ink(
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                width: 2, color: const Color(0xFF071952)),
-                            borderRadius: BorderRadius.circular(20),
-                            color: const Color(0xFFEBF4F6)),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            alignment: Alignment.center,
+                  Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Ink(
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              width: 2, color: const Color(0xFF071952)),
+                          borderRadius: BorderRadius.circular(20),
+                          color: const Color(0xFFEBF4F6)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          alignment: Alignment.center,
+                          child: SingleChildScrollView(
                             child: AutoSizeText(
                               state.explanation,
                               style: const TextStyle(fontSize: 15),

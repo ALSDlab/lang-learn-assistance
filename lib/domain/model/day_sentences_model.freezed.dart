@@ -26,6 +26,8 @@ mixin _$DaySentencesModel {
   String get sentence => throw _privateConstructorUsedError;
   @JsonKey(name: 'like')
   bool get like => throw _privateConstructorUsedError;
+  @JsonKey(name: 'deleted')
+  bool get deleted => throw _privateConstructorUsedError;
   @JsonKey(name: 'explanation')
   String get explanation => throw _privateConstructorUsedError;
 
@@ -45,6 +47,7 @@ abstract class $DaySentencesModelCopyWith<$Res> {
       {@JsonKey(name: 'date') String date,
       @JsonKey(name: 'sentence') String sentence,
       @JsonKey(name: 'like') bool like,
+      @JsonKey(name: 'deleted') bool deleted,
       @JsonKey(name: 'explanation') String explanation});
 }
 
@@ -64,6 +67,7 @@ class _$DaySentencesModelCopyWithImpl<$Res, $Val extends DaySentencesModel>
     Object? date = null,
     Object? sentence = null,
     Object? like = null,
+    Object? deleted = null,
     Object? explanation = null,
   }) {
     return _then(_value.copyWith(
@@ -78,6 +82,10 @@ class _$DaySentencesModelCopyWithImpl<$Res, $Val extends DaySentencesModel>
       like: null == like
           ? _value.like
           : like // ignore: cast_nullable_to_non_nullable
+              as bool,
+      deleted: null == deleted
+          ? _value.deleted
+          : deleted // ignore: cast_nullable_to_non_nullable
               as bool,
       explanation: null == explanation
           ? _value.explanation
@@ -99,6 +107,7 @@ abstract class _$$DaySentencesModelImplCopyWith<$Res>
       {@JsonKey(name: 'date') String date,
       @JsonKey(name: 'sentence') String sentence,
       @JsonKey(name: 'like') bool like,
+      @JsonKey(name: 'deleted') bool deleted,
       @JsonKey(name: 'explanation') String explanation});
 }
 
@@ -116,6 +125,7 @@ class __$$DaySentencesModelImplCopyWithImpl<$Res>
     Object? date = null,
     Object? sentence = null,
     Object? like = null,
+    Object? deleted = null,
     Object? explanation = null,
   }) {
     return _then(_$DaySentencesModelImpl(
@@ -130,6 +140,10 @@ class __$$DaySentencesModelImplCopyWithImpl<$Res>
       like: null == like
           ? _value.like
           : like // ignore: cast_nullable_to_non_nullable
+              as bool,
+      deleted: null == deleted
+          ? _value.deleted
+          : deleted // ignore: cast_nullable_to_non_nullable
               as bool,
       explanation: null == explanation
           ? _value.explanation
@@ -146,6 +160,7 @@ class _$DaySentencesModelImpl implements _DaySentencesModel {
       {@JsonKey(name: 'date') required this.date,
       @JsonKey(name: 'sentence') required this.sentence,
       @JsonKey(name: 'like') required this.like,
+      @JsonKey(name: 'deleted') required this.deleted,
       @JsonKey(name: 'explanation') required this.explanation});
 
   factory _$DaySentencesModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -161,12 +176,15 @@ class _$DaySentencesModelImpl implements _DaySentencesModel {
   @JsonKey(name: 'like')
   final bool like;
   @override
+  @JsonKey(name: 'deleted')
+  final bool deleted;
+  @override
   @JsonKey(name: 'explanation')
   final String explanation;
 
   @override
   String toString() {
-    return 'DaySentencesModel(date: $date, sentence: $sentence, like: $like, explanation: $explanation)';
+    return 'DaySentencesModel(date: $date, sentence: $sentence, like: $like, deleted: $deleted, explanation: $explanation)';
   }
 
   @override
@@ -178,6 +196,7 @@ class _$DaySentencesModelImpl implements _DaySentencesModel {
             (identical(other.sentence, sentence) ||
                 other.sentence == sentence) &&
             (identical(other.like, like) || other.like == like) &&
+            (identical(other.deleted, deleted) || other.deleted == deleted) &&
             (identical(other.explanation, explanation) ||
                 other.explanation == explanation));
   }
@@ -185,7 +204,7 @@ class _$DaySentencesModelImpl implements _DaySentencesModel {
   @JsonKey(ignore: true)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, date, sentence, like, explanation);
+      Object.hash(runtimeType, date, sentence, like, deleted, explanation);
 
   @JsonKey(ignore: true)
   @override
@@ -207,6 +226,7 @@ abstract class _DaySentencesModel implements DaySentencesModel {
           {@JsonKey(name: 'date') required final String date,
           @JsonKey(name: 'sentence') required final String sentence,
           @JsonKey(name: 'like') required final bool like,
+          @JsonKey(name: 'deleted') required final bool deleted,
           @JsonKey(name: 'explanation') required final String explanation}) =
       _$DaySentencesModelImpl;
 
@@ -222,6 +242,9 @@ abstract class _DaySentencesModel implements DaySentencesModel {
   @override
   @JsonKey(name: 'like')
   bool get like;
+  @override
+  @JsonKey(name: 'deleted')
+  bool get deleted;
   @override
   @JsonKey(name: 'explanation')
   String get explanation;

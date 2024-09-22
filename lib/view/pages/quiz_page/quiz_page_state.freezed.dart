@@ -22,6 +22,10 @@ QuizPageState _$QuizPageStateFromJson(Map<String, dynamic> json) {
 mixin _$QuizPageState {
   bool get isLoading => throw _privateConstructorUsedError;
   bool get isLoaded => throw _privateConstructorUsedError;
+  bool get checkTapped => throw _privateConstructorUsedError;
+  bool get nextTapped => throw _privateConstructorUsedError;
+  int get selectedIndex => throw _privateConstructorUsedError;
+  List<bool> get quizState => throw _privateConstructorUsedError;
   List<QuizModel> get quizList => throw _privateConstructorUsedError;
   List<int> get correctAnswer => throw _privateConstructorUsedError;
 
@@ -40,6 +44,10 @@ abstract class $QuizPageStateCopyWith<$Res> {
   $Res call(
       {bool isLoading,
       bool isLoaded,
+      bool checkTapped,
+      bool nextTapped,
+      int selectedIndex,
+      List<bool> quizState,
       List<QuizModel> quizList,
       List<int> correctAnswer});
 }
@@ -59,6 +67,10 @@ class _$QuizPageStateCopyWithImpl<$Res, $Val extends QuizPageState>
   $Res call({
     Object? isLoading = null,
     Object? isLoaded = null,
+    Object? checkTapped = null,
+    Object? nextTapped = null,
+    Object? selectedIndex = null,
+    Object? quizState = null,
     Object? quizList = null,
     Object? correctAnswer = null,
   }) {
@@ -71,6 +83,22 @@ class _$QuizPageStateCopyWithImpl<$Res, $Val extends QuizPageState>
           ? _value.isLoaded
           : isLoaded // ignore: cast_nullable_to_non_nullable
               as bool,
+      checkTapped: null == checkTapped
+          ? _value.checkTapped
+          : checkTapped // ignore: cast_nullable_to_non_nullable
+              as bool,
+      nextTapped: null == nextTapped
+          ? _value.nextTapped
+          : nextTapped // ignore: cast_nullable_to_non_nullable
+              as bool,
+      selectedIndex: null == selectedIndex
+          ? _value.selectedIndex
+          : selectedIndex // ignore: cast_nullable_to_non_nullable
+              as int,
+      quizState: null == quizState
+          ? _value.quizState
+          : quizState // ignore: cast_nullable_to_non_nullable
+              as List<bool>,
       quizList: null == quizList
           ? _value.quizList
           : quizList // ignore: cast_nullable_to_non_nullable
@@ -94,6 +122,10 @@ abstract class _$$QuizPageStateImplCopyWith<$Res>
   $Res call(
       {bool isLoading,
       bool isLoaded,
+      bool checkTapped,
+      bool nextTapped,
+      int selectedIndex,
+      List<bool> quizState,
       List<QuizModel> quizList,
       List<int> correctAnswer});
 }
@@ -111,6 +143,10 @@ class __$$QuizPageStateImplCopyWithImpl<$Res>
   $Res call({
     Object? isLoading = null,
     Object? isLoaded = null,
+    Object? checkTapped = null,
+    Object? nextTapped = null,
+    Object? selectedIndex = null,
+    Object? quizState = null,
     Object? quizList = null,
     Object? correctAnswer = null,
   }) {
@@ -123,6 +159,22 @@ class __$$QuizPageStateImplCopyWithImpl<$Res>
           ? _value.isLoaded
           : isLoaded // ignore: cast_nullable_to_non_nullable
               as bool,
+      checkTapped: null == checkTapped
+          ? _value.checkTapped
+          : checkTapped // ignore: cast_nullable_to_non_nullable
+              as bool,
+      nextTapped: null == nextTapped
+          ? _value.nextTapped
+          : nextTapped // ignore: cast_nullable_to_non_nullable
+              as bool,
+      selectedIndex: null == selectedIndex
+          ? _value.selectedIndex
+          : selectedIndex // ignore: cast_nullable_to_non_nullable
+              as int,
+      quizState: null == quizState
+          ? _value._quizState
+          : quizState // ignore: cast_nullable_to_non_nullable
+              as List<bool>,
       quizList: null == quizList
           ? _value._quizList
           : quizList // ignore: cast_nullable_to_non_nullable
@@ -141,9 +193,14 @@ class _$QuizPageStateImpl implements _QuizPageState {
   const _$QuizPageStateImpl(
       {this.isLoading = false,
       this.isLoaded = false,
+      this.checkTapped = false,
+      this.nextTapped = false,
+      this.selectedIndex = 3,
+      final List<bool> quizState = const [],
       final List<QuizModel> quizList = const [],
       final List<int> correctAnswer = const []})
-      : _quizList = quizList,
+      : _quizState = quizState,
+        _quizList = quizList,
         _correctAnswer = correctAnswer;
 
   factory _$QuizPageStateImpl.fromJson(Map<String, dynamic> json) =>
@@ -155,6 +212,24 @@ class _$QuizPageStateImpl implements _QuizPageState {
   @override
   @JsonKey()
   final bool isLoaded;
+  @override
+  @JsonKey()
+  final bool checkTapped;
+  @override
+  @JsonKey()
+  final bool nextTapped;
+  @override
+  @JsonKey()
+  final int selectedIndex;
+  final List<bool> _quizState;
+  @override
+  @JsonKey()
+  List<bool> get quizState {
+    if (_quizState is EqualUnmodifiableListView) return _quizState;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_quizState);
+  }
+
   final List<QuizModel> _quizList;
   @override
   @JsonKey()
@@ -175,7 +250,7 @@ class _$QuizPageStateImpl implements _QuizPageState {
 
   @override
   String toString() {
-    return 'QuizPageState(isLoading: $isLoading, isLoaded: $isLoaded, quizList: $quizList, correctAnswer: $correctAnswer)';
+    return 'QuizPageState(isLoading: $isLoading, isLoaded: $isLoaded, checkTapped: $checkTapped, nextTapped: $nextTapped, selectedIndex: $selectedIndex, quizState: $quizState, quizList: $quizList, correctAnswer: $correctAnswer)';
   }
 
   @override
@@ -187,6 +262,14 @@ class _$QuizPageStateImpl implements _QuizPageState {
                 other.isLoading == isLoading) &&
             (identical(other.isLoaded, isLoaded) ||
                 other.isLoaded == isLoaded) &&
+            (identical(other.checkTapped, checkTapped) ||
+                other.checkTapped == checkTapped) &&
+            (identical(other.nextTapped, nextTapped) ||
+                other.nextTapped == nextTapped) &&
+            (identical(other.selectedIndex, selectedIndex) ||
+                other.selectedIndex == selectedIndex) &&
+            const DeepCollectionEquality()
+                .equals(other._quizState, _quizState) &&
             const DeepCollectionEquality().equals(other._quizList, _quizList) &&
             const DeepCollectionEquality()
                 .equals(other._correctAnswer, _correctAnswer));
@@ -198,6 +281,10 @@ class _$QuizPageStateImpl implements _QuizPageState {
       runtimeType,
       isLoading,
       isLoaded,
+      checkTapped,
+      nextTapped,
+      selectedIndex,
+      const DeepCollectionEquality().hash(_quizState),
       const DeepCollectionEquality().hash(_quizList),
       const DeepCollectionEquality().hash(_correctAnswer));
 
@@ -219,6 +306,10 @@ abstract class _QuizPageState implements QuizPageState {
   const factory _QuizPageState(
       {final bool isLoading,
       final bool isLoaded,
+      final bool checkTapped,
+      final bool nextTapped,
+      final int selectedIndex,
+      final List<bool> quizState,
       final List<QuizModel> quizList,
       final List<int> correctAnswer}) = _$QuizPageStateImpl;
 
@@ -229,6 +320,14 @@ abstract class _QuizPageState implements QuizPageState {
   bool get isLoading;
   @override
   bool get isLoaded;
+  @override
+  bool get checkTapped;
+  @override
+  bool get nextTapped;
+  @override
+  int get selectedIndex;
+  @override
+  List<bool> get quizState;
   @override
   List<QuizModel> get quizList;
   @override

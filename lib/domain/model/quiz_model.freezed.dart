@@ -28,6 +28,8 @@ mixin _$QuizModel {
   int get correctAnswer => throw _privateConstructorUsedError;
   @JsonKey(name: 'explanation')
   String get explanation => throw _privateConstructorUsedError;
+  @JsonKey(name: 'deleted')
+  bool get deleted => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -44,7 +46,8 @@ abstract class $QuizModelCopyWith<$Res> {
       {@JsonKey(name: 'question') String question,
       @JsonKey(name: 'options') List<String> options,
       @JsonKey(name: 'correctAnswer') int correctAnswer,
-      @JsonKey(name: 'explanation') String explanation});
+      @JsonKey(name: 'explanation') String explanation,
+      @JsonKey(name: 'deleted') bool deleted});
 }
 
 /// @nodoc
@@ -64,6 +67,7 @@ class _$QuizModelCopyWithImpl<$Res, $Val extends QuizModel>
     Object? options = null,
     Object? correctAnswer = null,
     Object? explanation = null,
+    Object? deleted = null,
   }) {
     return _then(_value.copyWith(
       question: null == question
@@ -82,6 +86,10 @@ class _$QuizModelCopyWithImpl<$Res, $Val extends QuizModel>
           ? _value.explanation
           : explanation // ignore: cast_nullable_to_non_nullable
               as String,
+      deleted: null == deleted
+          ? _value.deleted
+          : deleted // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -98,7 +106,8 @@ abstract class _$$QuizModelImplCopyWith<$Res>
       {@JsonKey(name: 'question') String question,
       @JsonKey(name: 'options') List<String> options,
       @JsonKey(name: 'correctAnswer') int correctAnswer,
-      @JsonKey(name: 'explanation') String explanation});
+      @JsonKey(name: 'explanation') String explanation,
+      @JsonKey(name: 'deleted') bool deleted});
 }
 
 /// @nodoc
@@ -116,6 +125,7 @@ class __$$QuizModelImplCopyWithImpl<$Res>
     Object? options = null,
     Object? correctAnswer = null,
     Object? explanation = null,
+    Object? deleted = null,
   }) {
     return _then(_$QuizModelImpl(
       question: null == question
@@ -134,6 +144,10 @@ class __$$QuizModelImplCopyWithImpl<$Res>
           ? _value.explanation
           : explanation // ignore: cast_nullable_to_non_nullable
               as String,
+      deleted: null == deleted
+          ? _value.deleted
+          : deleted // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -145,7 +159,8 @@ class _$QuizModelImpl implements _QuizModel {
       {@JsonKey(name: 'question') required this.question,
       @JsonKey(name: 'options') required final List<String> options,
       @JsonKey(name: 'correctAnswer') required this.correctAnswer,
-      @JsonKey(name: 'explanation') required this.explanation})
+      @JsonKey(name: 'explanation') required this.explanation,
+      @JsonKey(name: 'deleted') required this.deleted})
       : _options = options;
 
   factory _$QuizModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -169,10 +184,13 @@ class _$QuizModelImpl implements _QuizModel {
   @override
   @JsonKey(name: 'explanation')
   final String explanation;
+  @override
+  @JsonKey(name: 'deleted')
+  final bool deleted;
 
   @override
   String toString() {
-    return 'QuizModel(question: $question, options: $options, correctAnswer: $correctAnswer, explanation: $explanation)';
+    return 'QuizModel(question: $question, options: $options, correctAnswer: $correctAnswer, explanation: $explanation, deleted: $deleted)';
   }
 
   @override
@@ -186,7 +204,8 @@ class _$QuizModelImpl implements _QuizModel {
             (identical(other.correctAnswer, correctAnswer) ||
                 other.correctAnswer == correctAnswer) &&
             (identical(other.explanation, explanation) ||
-                other.explanation == explanation));
+                other.explanation == explanation) &&
+            (identical(other.deleted, deleted) || other.deleted == deleted));
   }
 
   @JsonKey(ignore: true)
@@ -196,7 +215,8 @@ class _$QuizModelImpl implements _QuizModel {
       question,
       const DeepCollectionEquality().hash(_options),
       correctAnswer,
-      explanation);
+      explanation,
+      deleted);
 
   @JsonKey(ignore: true)
   @override
@@ -214,11 +234,11 @@ class _$QuizModelImpl implements _QuizModel {
 
 abstract class _QuizModel implements QuizModel {
   const factory _QuizModel(
-          {@JsonKey(name: 'question') required final String question,
-          @JsonKey(name: 'options') required final List<String> options,
-          @JsonKey(name: 'correctAnswer') required final int correctAnswer,
-          @JsonKey(name: 'explanation') required final String explanation}) =
-      _$QuizModelImpl;
+      {@JsonKey(name: 'question') required final String question,
+      @JsonKey(name: 'options') required final List<String> options,
+      @JsonKey(name: 'correctAnswer') required final int correctAnswer,
+      @JsonKey(name: 'explanation') required final String explanation,
+      @JsonKey(name: 'deleted') required final bool deleted}) = _$QuizModelImpl;
 
   factory _QuizModel.fromJson(Map<String, dynamic> json) =
       _$QuizModelImpl.fromJson;
@@ -235,6 +255,9 @@ abstract class _QuizModel implements QuizModel {
   @override
   @JsonKey(name: 'explanation')
   String get explanation;
+  @override
+  @JsonKey(name: 'deleted')
+  bool get deleted;
   @override
   @JsonKey(ignore: true)
   _$$QuizModelImplCopyWith<_$QuizModelImpl> get copyWith =>

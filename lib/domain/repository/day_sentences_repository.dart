@@ -6,10 +6,10 @@ abstract interface class DaySentencesRepository {
   Future<Result<DaySentencesModel>> getGeminiDaySentenceAnswer(String question);
 
   Future<Result<void>> postFirebaseDaySentence(
-      String docId, Map<String, String> item);
+      String docId, DaySentencesModel item);
 
-  Future<Result<DaySentencesModel>> getFirebaseDaySentence(String docId);
+  Future<Result<List<DaySentencesModel>>> getFirebaseDaySentence(String docId);
 
-  Future<Result<void>> updateFirebaseDaySentence(
-      String docId, List<Map<String, String>> updatedSentences);
+  Future<Result<void>> deleteFirebaseDaySentence(
+      String docId, DaySentencesModel item);
 }

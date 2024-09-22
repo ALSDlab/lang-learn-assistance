@@ -7,7 +7,9 @@ import 'package:lang_learn/view/pages/setting_page/setting_page_view_model.dart'
 import 'package:provider/provider.dart';
 
 class SettingPage extends StatefulWidget {
-  const SettingPage({super.key});
+  const SettingPage({super.key, required this.resetNavigation});
+
+  final bool Function(bool) resetNavigation;
 
   @override
   State<SettingPage> createState() => _SettingPageState();
@@ -207,7 +209,9 @@ class _SettingPageState extends State<SettingPage> {
                       viewModel.targetLanguageController.value != null) {
                     await viewModel.applyAndSaveSettings();
                     if (context.mounted) {
-                      context.go('/day_sentence_page');
+                      context.go('/day_sentence_page', extra: {
+                        'resetNavigation': widget.resetNavigation,
+                      });
                     }
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(

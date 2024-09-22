@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:lang_learn/domain/model/word_searches_model.dart';
 import 'package:lang_learn/domain/use_case/word_searches/get_word_searches_use_case.dart';
 import 'package:lang_learn/view/pages/word_search_page/word_search_page_state.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../data/core/result.dart';
+import '../../../domain/use_case/word_searches/save_my_searches_use_case.dart';
 import '../../../utils/simple_logger.dart';
 import '../../navigation/globals.dart';
 
 class WordSearchPageViewModel with ChangeNotifier {
   final GetWordSearchesUseCase _getWordSearchesUseCase;
+  final SaveMySearchesUseCase _saveMySearchesUseCase;
 
   WordSearchPageViewModel(
-      {required GetWordSearchesUseCase getWordSearchesUseCase})
-      : _getWordSearchesUseCase = getWordSearchesUseCase;
+      {required GetWordSearchesUseCase getWordSearchesUseCase,
+      required SaveMySearchesUseCase saveMySearchesUseCase})
+      : _getWordSearchesUseCase = getWordSearchesUseCase,
+        _saveMySearchesUseCase = saveMySearchesUseCase;
 
   WordSearchPageState _state = const WordSearchPageState();
 
@@ -67,5 +74,29 @@ class WordSearchPageViewModel with ChangeNotifier {
       _state = state.copyWith(isLoading: false);
       notifyListeners();
     }
+  }
+
+  Future<void> postMySearchesData(
+      BuildContext context, WordSearchesModel item) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final mySearchesCount = prefs.getInt('my_searches_list');
+
+    final result = await _saveMySearchesUseCase.execute(Globals.docId, item);
+    switch (result) {
+      case Success<void>():
+        await prefs.setInt('my_searches_list', mySearchesCount! + 1);
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Day Sentence saved.')),
+          );
+        }
+        notifyListeners();
+        break;
+      case Error<void>():
+        logger.info(result.message);
+        notifyListeners();
+        break;
+    }
+    notifyListeners();
   }
 }

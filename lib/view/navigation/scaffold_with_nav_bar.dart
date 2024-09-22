@@ -5,17 +5,25 @@ import 'package:bootstrap_icons/bootstrap_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
 
-import '../../data/repository/connectivity_observer.dart';
 import '../../../data/repository/network_connectivity_observer.dart';
+import '../../data/repository/connectivity_observer.dart';
 import '../../utils/one_answer_dialog.dart';
 import '../../utils/simple_logger.dart';
+import 'navigation_page_view_model.dart';
 
 class ScaffoldWithNavBar extends StatefulWidget {
+  final bool Function(bool) resetNavigation;
+
   String location;
 
-  ScaffoldWithNavBar({super.key, required this.child, required this.location});
+  ScaffoldWithNavBar(
+      {super.key,
+      required this.child,
+      required this.location,
+      required this.resetNavigation});
 
   final Widget child;
 
@@ -24,8 +32,6 @@ class ScaffoldWithNavBar extends StatefulWidget {
 }
 
 class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
-  int badgeCount = 0;
-
   //네트워크 통신 확인 코드
   final ConnectivityObserver _connectivityObserver =
       NetworkConnectivityObserver();
@@ -35,17 +41,13 @@ class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
 
   StreamSubscription<Status>? _subscription;
 
-  bool resetNavigation(int newCount) {
-    setState(() {
-      badgeCount = newCount;
-    });
-    return true;
-  }
-
   @override
   void initState() {
-    Future.microtask(() async {
+    final NavigationPageViewModel viewModel =
+        context.read<NavigationPageViewModel>();
+    viewModel.generateDocId();
 
+    Future.microtask(() async {
       _subscription = _connectivityObserver.observe().listen((status) {
         setState(() {
           _status = status;
@@ -88,12 +90,10 @@ class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
 
   @override
   Widget build(BuildContext context) {
+    final viewModel = context.watch<NavigationPageViewModel>();
     return Scaffold(
-      body:
-          widget.child,
-
+      body: widget.child,
       bottomNavigationBar: StylishBottomBar(
-
         option: AnimatedBarOptions(
           padding: const EdgeInsets.only(top: 12),
           iconSize: 25,
@@ -104,7 +104,7 @@ class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
           BottomBarItem(
             icon: const Icon(BootstrapIcons.calendar_check),
             selectedIcon: const Icon(BootstrapIcons.calendar_check_fill),
-            selectedColor: const Color(0xFF2F362F),
+            selectedColor: const Color(0xFF088395),
             unSelectedColor: CupertinoColors.black,
             title: const Text(
               'TODAY',
@@ -112,41 +112,48 @@ class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
             ),
           ),
           BottomBarItem(
-              icon: const Icon(BootstrapIcons.question_diamond),
-              selectedIcon: const Icon(BootstrapIcons.question_diamond_fill),
-              selectedColor: const Color(0xFF2F362F),
-              unSelectedColor: CupertinoColors.black,
-              title: const Text(
-                'QUIZ',
-                style: TextStyle(fontFamily: 'KoPub', fontSize: 10),
-              ),),
+            icon: const Icon(BootstrapIcons.question_diamond),
+            selectedIcon: const Icon(BootstrapIcons.question_diamond_fill),
+            selectedColor: const Color(0xFF088395),
+            unSelectedColor: CupertinoColors.black,
+            title: const Text(
+              'QUIZ',
+              style: TextStyle(fontFamily: 'KoPub', fontSize: 10),
+            ),
+          ),
           BottomBarItem(
-              icon: const Icon(BootstrapIcons.search_heart),
-              selectedIcon: const Icon(BootstrapIcons.search_heart_fill),
-              selectedColor: const Color(0xFF2F362F),
-              unSelectedColor: CupertinoColors.black,
-              title: const Text(
-                'SEARCH',
-                style: TextStyle(fontFamily: 'KoPub', fontSize: 10),
-              ),),
+            icon: const Icon(BootstrapIcons.search_heart),
+            selectedIcon: const Icon(BootstrapIcons.search_heart_fill),
+            selectedColor: const Color(0xFF088395),
+            unSelectedColor: CupertinoColors.black,
+            title: const Text(
+              'SEARCH',
+              style: TextStyle(fontFamily: 'KoPub', fontSize: 10),
+            ),
+          ),
           BottomBarItem(
-              icon: const Icon(BootstrapIcons.heart),
-              selectedIcon: const Icon(BootstrapIcons.heart_fill),
-              selectedColor: const Color(0xFF2F362F),
-              unSelectedColor: CupertinoColors.black,
-              title: const Text(
-                'LIKE',
-                style: TextStyle(fontFamily: 'KoPub', fontSize: 10),
-              ),),
+            icon: const Icon(BootstrapIcons.heart),
+            selectedIcon: const Icon(BootstrapIcons.heart_fill),
+            selectedColor: const Color(0xFF088395),
+            unSelectedColor: CupertinoColors.black,
+            showBadge: viewModel.badgeValue,
+            badgeColor: Colors.red,
+            badgePadding: const EdgeInsets.only(left: 4, right: 4),
+            title: const Text(
+              'LIKE',
+              style: TextStyle(fontFamily: 'KoPub', fontSize: 10),
+            ),
+          ),
           BottomBarItem(
-              icon: const Icon(BootstrapIcons.gear),
-              selectedIcon: const Icon(BootstrapIcons.gear_fill),
-              selectedColor: const Color(0xFF2F362F),
-              unSelectedColor: CupertinoColors.black,
-              title: const Text(
-                'SETTING',
-                style: TextStyle(fontFamily: 'KoPub', fontSize: 10),
-              ),),
+            icon: const Icon(BootstrapIcons.gear),
+            selectedIcon: const Icon(BootstrapIcons.gear_fill),
+            selectedColor: const Color(0xFF088395),
+            unSelectedColor: CupertinoColors.black,
+            title: const Text(
+              'SETTING',
+              style: TextStyle(fontFamily: 'KoPub', fontSize: 10),
+            ),
+          ),
         ],
         backgroundColor: const Color(0xFFEBF4F6),
         elevation: 0,
@@ -166,14 +173,14 @@ class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
             if (Navigator.canPop(context)) {
               Navigator.pop(context);
             }
-            _goOtherTab(context, index);
+            _goOtherTab(context, index, viewModel.resetNavigation);
           }
         },
       ),
     );
   }
 
-  void _goOtherTab(BuildContext context, int index) {
+  void _goOtherTab(BuildContext context, int index, Function resetNavigation) {
     // if (index == _currentIndex) return;
     GoRouter router = GoRouter.of(context);
     List<String> locations = [
@@ -185,6 +192,8 @@ class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
     ];
     String? location = locations[index];
 
-    router.go(location);
+    router.go(location, extra: {
+      'resetNavigation': resetNavigation,
+    });
   }
 }

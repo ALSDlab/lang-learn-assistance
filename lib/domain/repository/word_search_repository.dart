@@ -6,11 +6,11 @@ abstract interface class WordSearchRepository {
   Future<Result<WordSearchesModel>> getGeminiWordSearchesAnswer(
       String question);
 
-  Future<Result<List<WordSearchesModel>>> getFirebaseWordSearch(String docId);
+  Future<Result<List<WordSearchesModel>>> getFirebaseWordSearch(String myDocId);
 
   Future<Result<void>> postFirebaseWordSearch(
-      String docId, WordSearchesModel item);
+      String myDocId, WordSearchesModel item);
 
   Future<Result<void>> deleteFirebaseWordSearch(
-      String docId, WordSearchesModel item);
+      String myDocId, WordSearchesModel item);
 }

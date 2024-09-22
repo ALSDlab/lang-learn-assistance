@@ -22,6 +22,8 @@ WordSearchPageState _$WordSearchPageStateFromJson(Map<String, dynamic> json) {
 mixin _$WordSearchPageState {
   bool get isLoading => throw _privateConstructorUsedError;
   bool get isCompleted => throw _privateConstructorUsedError;
+  bool get isPosting => throw _privateConstructorUsedError;
+  bool get isPosted => throw _privateConstructorUsedError;
   String get word => throw _privateConstructorUsedError;
   String get explanation => throw _privateConstructorUsedError;
   Map<String, String> get exSentence => throw _privateConstructorUsedError;
@@ -41,6 +43,8 @@ abstract class $WordSearchPageStateCopyWith<$Res> {
   $Res call(
       {bool isLoading,
       bool isCompleted,
+      bool isPosting,
+      bool isPosted,
       String word,
       String explanation,
       Map<String, String> exSentence});
@@ -61,6 +65,8 @@ class _$WordSearchPageStateCopyWithImpl<$Res, $Val extends WordSearchPageState>
   $Res call({
     Object? isLoading = null,
     Object? isCompleted = null,
+    Object? isPosting = null,
+    Object? isPosted = null,
     Object? word = null,
     Object? explanation = null,
     Object? exSentence = null,
@@ -73,6 +79,14 @@ class _$WordSearchPageStateCopyWithImpl<$Res, $Val extends WordSearchPageState>
       isCompleted: null == isCompleted
           ? _value.isCompleted
           : isCompleted // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isPosting: null == isPosting
+          ? _value.isPosting
+          : isPosting // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isPosted: null == isPosted
+          ? _value.isPosted
+          : isPosted // ignore: cast_nullable_to_non_nullable
               as bool,
       word: null == word
           ? _value.word
@@ -101,6 +115,8 @@ abstract class _$$WordSearchPageStateImplCopyWith<$Res>
   $Res call(
       {bool isLoading,
       bool isCompleted,
+      bool isPosting,
+      bool isPosted,
       String word,
       String explanation,
       Map<String, String> exSentence});
@@ -119,6 +135,8 @@ class __$$WordSearchPageStateImplCopyWithImpl<$Res>
   $Res call({
     Object? isLoading = null,
     Object? isCompleted = null,
+    Object? isPosting = null,
+    Object? isPosted = null,
     Object? word = null,
     Object? explanation = null,
     Object? exSentence = null,
@@ -131,6 +149,14 @@ class __$$WordSearchPageStateImplCopyWithImpl<$Res>
       isCompleted: null == isCompleted
           ? _value.isCompleted
           : isCompleted // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isPosting: null == isPosting
+          ? _value.isPosting
+          : isPosting // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isPosted: null == isPosted
+          ? _value.isPosted
+          : isPosted // ignore: cast_nullable_to_non_nullable
               as bool,
       word: null == word
           ? _value.word
@@ -154,6 +180,8 @@ class _$WordSearchPageStateImpl implements _WordSearchPageState {
   const _$WordSearchPageStateImpl(
       {this.isLoading = false,
       this.isCompleted = false,
+      this.isPosting = false,
+      this.isPosted = false,
       this.word = '',
       this.explanation = '',
       final Map<String, String> exSentence = const {}})
@@ -168,6 +196,12 @@ class _$WordSearchPageStateImpl implements _WordSearchPageState {
   @override
   @JsonKey()
   final bool isCompleted;
+  @override
+  @JsonKey()
+  final bool isPosting;
+  @override
+  @JsonKey()
+  final bool isPosted;
   @override
   @JsonKey()
   final String word;
@@ -185,7 +219,7 @@ class _$WordSearchPageStateImpl implements _WordSearchPageState {
 
   @override
   String toString() {
-    return 'WordSearchPageState(isLoading: $isLoading, isCompleted: $isCompleted, word: $word, explanation: $explanation, exSentence: $exSentence)';
+    return 'WordSearchPageState(isLoading: $isLoading, isCompleted: $isCompleted, isPosting: $isPosting, isPosted: $isPosted, word: $word, explanation: $explanation, exSentence: $exSentence)';
   }
 
   @override
@@ -197,6 +231,10 @@ class _$WordSearchPageStateImpl implements _WordSearchPageState {
                 other.isLoading == isLoading) &&
             (identical(other.isCompleted, isCompleted) ||
                 other.isCompleted == isCompleted) &&
+            (identical(other.isPosting, isPosting) ||
+                other.isPosting == isPosting) &&
+            (identical(other.isPosted, isPosted) ||
+                other.isPosted == isPosted) &&
             (identical(other.word, word) || other.word == word) &&
             (identical(other.explanation, explanation) ||
                 other.explanation == explanation) &&
@@ -206,8 +244,15 @@ class _$WordSearchPageStateImpl implements _WordSearchPageState {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, isLoading, isCompleted, word,
-      explanation, const DeepCollectionEquality().hash(_exSentence));
+  int get hashCode => Object.hash(
+      runtimeType,
+      isLoading,
+      isCompleted,
+      isPosting,
+      isPosted,
+      word,
+      explanation,
+      const DeepCollectionEquality().hash(_exSentence));
 
   @JsonKey(ignore: true)
   @override
@@ -228,6 +273,8 @@ abstract class _WordSearchPageState implements WordSearchPageState {
   const factory _WordSearchPageState(
       {final bool isLoading,
       final bool isCompleted,
+      final bool isPosting,
+      final bool isPosted,
       final String word,
       final String explanation,
       final Map<String, String> exSentence}) = _$WordSearchPageStateImpl;
@@ -239,6 +286,10 @@ abstract class _WordSearchPageState implements WordSearchPageState {
   bool get isLoading;
   @override
   bool get isCompleted;
+  @override
+  bool get isPosting;
+  @override
+  bool get isPosted;
   @override
   String get word;
   @override

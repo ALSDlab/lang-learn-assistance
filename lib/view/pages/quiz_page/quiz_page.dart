@@ -8,7 +8,9 @@ import 'package:tab_container/tab_container.dart';
 import '../../navigation/globals.dart';
 
 class QuizPage extends StatefulWidget {
-  const QuizPage({super.key});
+  const QuizPage({super.key, required this.resetNavigation});
+
+  final bool Function(bool) resetNavigation;
 
   @override
   State<QuizPage> createState() => _QuizPageState();
@@ -65,8 +67,6 @@ class _QuizPageState extends State<QuizPage>
               tabEdge: TabEdge.top,
               curve: Curves.ease,
               transitionBuilder: (child, animation) {
-                print(_tabController.index);
-                print(viewModel.checkTapped);
                 animation =
                     CurvedAnimation(curve: Curves.easeIn, parent: animation);
                 return SlideTransition(

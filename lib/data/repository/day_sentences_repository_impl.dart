@@ -30,8 +30,8 @@ class DaySentencesRepositoryImpl implements DaySentencesRepository {
 
   @override
   Future<Result<List<DaySentencesModel>>> getFirebaseDaySentence(
-      String docId) async {
-    final result = await MyFavoritesFirebase().getDaySentencesData(docId);
+      String myDocId) async {
+    final result = await MyFavoritesFirebase().getDaySentencesData(myDocId);
 
     return result.when(
       success: (data) {
@@ -51,9 +51,9 @@ class DaySentencesRepositoryImpl implements DaySentencesRepository {
 
   @override
   Future<Result<void>> postFirebaseDaySentence(
-      String docId, DaySentencesModel item) async {
+      String myDocId, DaySentencesModel item) async {
     final result = await MyFavoritesFirebase()
-        .postDaySentencesData(docId, DaySentencesMapper.toDTO(item));
+        .postDaySentencesData(myDocId, DaySentencesMapper.toDTO(item));
 
     return result.when(
       success: (data) {
@@ -71,9 +71,9 @@ class DaySentencesRepositoryImpl implements DaySentencesRepository {
 
   @override
   Future<Result<void>> deleteFirebaseDaySentence(
-      String docId, DaySentencesModel item) async {
+      String myDocId, DaySentencesModel item) async {
     final result = await MyFavoritesFirebase()
-        .deleteDaySentencesData(docId, DaySentencesMapper.toDTO(item));
+        .deleteDaySentencesData(myDocId, DaySentencesMapper.toDTO(item));
 
     return result.when(
       success: (data) {

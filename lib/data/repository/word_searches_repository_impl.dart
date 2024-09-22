@@ -30,8 +30,8 @@ class WordSearchesRepositoryImpl implements WordSearchRepository {
 
   @override
   Future<Result<List<WordSearchesModel>>> getFirebaseWordSearch(
-      String docId) async {
-    final result = await MyFavoritesFirebase().getWordSearchesData(docId);
+      String myDocId) async {
+    final result = await MyFavoritesFirebase().getWordSearchesData(myDocId);
 
     return result.when(
       success: (data) {
@@ -51,9 +51,9 @@ class WordSearchesRepositoryImpl implements WordSearchRepository {
 
   @override
   Future<Result<void>> postFirebaseWordSearch(
-      String docId, WordSearchesModel item) async {
+      String myDocId, WordSearchesModel item) async {
     final result = await MyFavoritesFirebase()
-        .postWordSearchesData(docId, WordSearchesMapper.toDTO(item));
+        .postWordSearchesData(myDocId, WordSearchesMapper.toDTO(item));
 
     return result.when(
       success: (data) {
@@ -71,9 +71,9 @@ class WordSearchesRepositoryImpl implements WordSearchRepository {
 
   @override
   Future<Result<void>> deleteFirebaseWordSearch(
-      String docId, WordSearchesModel item) async {
+      String myDocId, WordSearchesModel item) async {
     final result = await MyFavoritesFirebase()
-        .deleteWordSearchesData(docId, WordSearchesMapper.toDTO(item));
+        .deleteWordSearchesData(myDocId, WordSearchesMapper.toDTO(item));
 
     return result.when(
       success: (data) {

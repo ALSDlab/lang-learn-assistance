@@ -3,15 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:lang_learn/domain/use_case/day_sentences/get_day_sentences_use_case.dart';
 import 'package:lang_learn/view/navigation/globals.dart';
 import 'package:lang_learn/view/pages/day_sentence_page/day_sentences_page_state.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../data/core/result.dart';
+import '../../../domain/model/day_sentences_model.dart';
+import '../../../domain/use_case/day_sentences/save_my_sentences_use_case.dart';
 import '../../../utils/simple_logger.dart';
 
 class DaySentencePageViewModel with ChangeNotifier {
   final GetDaySentencesUseCase _getDaySentencesUseCase;
+  final SaveMySentencesUseCase _saveMySentencesUseCase;
 
   DaySentencePageViewModel(
-      {required GetDaySentencesUseCase getDaySentencesUseCase})
-      : _getDaySentencesUseCase = getDaySentencesUseCase {
+      {required GetDaySentencesUseCase getDaySentencesUseCase,
+      required SaveMySentencesUseCase saveMySentencesUseCase})
+      : _getDaySentencesUseCase = getDaySentencesUseCase,
+        _saveMySentencesUseCase = saveMySentencesUseCase {
     fetchData();
   }
 
@@ -67,5 +74,37 @@ class DaySentencePageViewModel with ChangeNotifier {
       _state = state.copyWith(isLoading: false);
       notifyListeners();
     }
+  }
+
+  Future<void> postMySentencesData(
+      BuildContext context, DaySentencesModel item, bool Function(bool) resetNavigation) async {
+    _state = state.copyWith(isPosting: true);
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final mySentencesCount = prefs.getInt('my_sentences_list');
+
+    final result = await _saveMySentencesUseCase.execute(Globals.docId, item);
+    switch (result) {
+      case Success<void>():
+        if (mySentencesCount != null) {
+          await prefs.setInt('my_sentences_list', mySentencesCount + 1);
+        } else {
+          await prefs.setInt('my_sentences_list', 1);
+        }
+        if (context.mounted) {
+          resetNavigation(true);
+          _state = state.copyWith(isPosting: false, isPosted: true);
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Day Sentence saved.')),
+          );
+        }
+        notifyListeners();
+        break;
+      case Error<void>():
+        logger.info(result.message);
+        notifyListeners();
+        break;
+    }
+    notifyListeners();
   }
 }

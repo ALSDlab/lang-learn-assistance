@@ -28,8 +28,8 @@ class QuizRepositoryImpl implements QuizRepository {
   }
 
   @override
-  Future<Result<List<QuizModel>>> getFirebaseQuiz(String docId) async {
-    final result = await MyFavoritesFirebase().getQuizData(docId);
+  Future<Result<List<QuizModel>>> getFirebaseQuiz(String myDocId) async {
+    final result = await MyFavoritesFirebase().getQuizData(myDocId);
 
     return result.when(
       success: (data) {
@@ -48,9 +48,9 @@ class QuizRepositoryImpl implements QuizRepository {
   }
 
   @override
-  Future<Result<void>> postFirebaseQuiz(String docId, QuizModel item) async {
+  Future<Result<void>> postFirebaseQuiz(String myDocId, QuizModel item) async {
     final result =
-        await MyFavoritesFirebase().postQuizData(docId, QuizMapper.toDTO(item));
+        await MyFavoritesFirebase().postQuizData(myDocId, QuizMapper.toDTO(item));
 
     return result.when(
       success: (data) {
@@ -67,9 +67,9 @@ class QuizRepositoryImpl implements QuizRepository {
   }
 
   @override
-  Future<Result<void>> deleteFirebaseQuiz(String docId, QuizModel item) async {
+  Future<Result<void>> deleteFirebaseQuiz(String myDocId, QuizModel item) async {
     final result = await MyFavoritesFirebase()
-        .deleteQuizData(docId, QuizMapper.toDTO(item));
+        .deleteQuizData(myDocId, QuizMapper.toDTO(item));
 
     return result.when(
       success: (data) {

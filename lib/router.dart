@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lang_learn/view/navigation/navigation_page_view_model.dart';
 import 'package:lang_learn/view/navigation/scaffold_with_nav_bar.dart';
 import 'package:lang_learn/view/pages/day_sentence_page/day_sentence_page.dart';
 import 'package:lang_learn/view/pages/day_sentence_page/day_sentences_page_view_model.dart';
@@ -26,113 +27,60 @@ final router = GoRouter(
   routes: [
     ShellRoute(
         navigatorKey: _shellNavigatorKey,
-        pageBuilder: (context, state, child) => NoTransitionPage(
-                child: ChangeNotifierProvider(
-              create: (_) => getIt<DaySentencePageViewModel>(),
+        pageBuilder: (context, state, child) {
+          resetNavigation(bool newValue) {
+            NavigationPageViewModel().resetNavigation(newValue);
+            return true;
+          }
+
+          return NoTransitionPage(
+            child: ChangeNotifierProvider(
+              create: (_) => getIt<NavigationPageViewModel>(),
               child: ScaffoldWithNavBar(
+                resetNavigation: resetNavigation,
                 location: state.matchedLocation,
                 child: child,
               ),
-            )),
+            ),
+          );
+        },
         routes: [
           GoRoute(
             path: '/day_sentence_page',
-            builder: (context, state) => ChangeNotifierProvider(
-              create: (_) => getIt<DaySentencePageViewModel>(),
-              child: const DaySentencePage(),
-            ),
+            builder: (context, state) {
+              final extra = state.extra! as Map<String, dynamic>;
+              final navSetState = extra['resetNavigation'];
+              return ChangeNotifierProvider(
+                create: (_) => getIt<DaySentencePageViewModel>(),
+                child: DaySentencePage(
+                  resetNavigation: navSetState,
+                ),
+              );
+            },
           ),
           GoRoute(
             path: '/quiz_page',
             builder: (context, state) {
-              // final extra = state.extra! as Map<String, dynamic>;
-              // final navSetState = extra['navSetState'];
+              final extra = state.extra! as Map<String, dynamic>;
+              final navSetState = extra['resetNavigation'];
               return ChangeNotifierProvider(
                 create: (_) => getIt<QuizPageViewModel>(),
-                child: const QuizPage(),
+                child: QuizPage(
+                  resetNavigation: navSetState,
+                ),
               );
             },
-            // routes: [
-            //   GoRoute(
-            //     path: 'quiz_first_page',
-            //     builder: (context, state) {
-            //       final extra = state.extra! as Map<String, dynamic>;
-            //       final navSetState = extra['navSetState'];
-            //       return ChangeNotifierProvider(
-            //         create: (_) => getIt<FillOrderFormPageViewModel>(),
-            //         child: MySentencesPage(
-            //             forOrderItems: extra['orderModelList'],
-            //             hideNavBar: hideNavBar,
-            //             navSetState: navSetState),
-            //       );
-            //     },
-            //   ),
-            //   GoRoute(
-            //     path: 'my_sentences_page',
-            //     builder: (context, state) {
-            //       final extra = state.extra! as Map<String, dynamic>;
-            //       final navSetState = extra['navSetState'];
-            //       return ChangeNotifierProvider(
-            //         create: (_) => getIt<FillOrderFormPageViewModel>(),
-            //         child: MySentencesPage(
-            //             forOrderItems: extra['orderModelList'],
-            //             hideNavBar: hideNavBar,
-            //             navSetState: navSetState),
-            //       );
-            //     },
-            //   ),
-            //   GoRoute(
-            //     path: 'my_sentences_page',
-            //     builder: (context, state) {
-            //       final extra = state.extra! as Map<String, dynamic>;
-            //       final navSetState = extra['navSetState'];
-            //       return ChangeNotifierProvider(
-            //         create: (_) => getIt<FillOrderFormPageViewModel>(),
-            //         child: MySentencesPage(
-            //             forOrderItems: extra['orderModelList'],
-            //             hideNavBar: hideNavBar,
-            //             navSetState: navSetState),
-            //       );
-            //     },
-            //   ),
-            //   GoRoute(
-            //     path: 'my_sentences_page',
-            //     builder: (context, state) {
-            //       final extra = state.extra! as Map<String, dynamic>;
-            //       final navSetState = extra['navSetState'];
-            //       return ChangeNotifierProvider(
-            //         create: (_) => getIt<FillOrderFormPageViewModel>(),
-            //         child: MySentencesPage(
-            //             forOrderItems: extra['orderModelList'],
-            //             hideNavBar: hideNavBar,
-            //             navSetState: navSetState),
-            //       );
-            //     },
-            //   ),
-            //   GoRoute(
-            //     path: 'my_sentences_page',
-            //     builder: (context, state) {
-            //       final extra = state.extra! as Map<String, dynamic>;
-            //       final navSetState = extra['navSetState'];
-            //       return ChangeNotifierProvider(
-            //         create: (_) => getIt<FillOrderFormPageViewModel>(),
-            //         child: MySentencesPage(
-            //             forOrderItems: extra['orderModelList'],
-            //             hideNavBar: hideNavBar,
-            //             navSetState: navSetState),
-            //       );
-            //     },
-            //   ),
-            // ],
           ),
           GoRoute(
             path: '/word_search_page',
             builder: (context, state) {
-              // final extra = state.extra! as Map<String, dynamic>;
-              // final navSetState = extra['navSetState'];
+              final extra = state.extra! as Map<String, dynamic>;
+              final navSetState = extra['resetNavigation'];
               return ChangeNotifierProvider(
                 create: (_) => getIt<WordSearchPageViewModel>(),
-                child: const WordSearchPage(),
+                child: WordSearchPage(
+                  resetNavigation: navSetState,
+                ),
               );
             },
           ),
@@ -140,10 +88,12 @@ final router = GoRouter(
             path: '/my_favorite_page',
             builder: (context, state) {
               final extra = state.extra! as Map<String, dynamic>;
-              final navSetState = extra['navSetState'];
+              final navSetState = extra['resetNavigation'];
               return ChangeNotifierProvider(
                 create: (_) => getIt<MyFavoritePageViewModel>(),
-                child: const MyFavoritePage(),
+                child: MyFavoritePage(
+                  resetNavigation: navSetState,
+                ),
               );
             },
             // routes: [
@@ -195,8 +145,14 @@ final router = GoRouter(
             path: '/setting_page',
             builder: (context, state) {
               return ChangeNotifierProvider(
-                create: (_) => getIt<SettingPageViewModel>(),
-                child: const SettingPage(),
+                create: (_) {
+                  return getIt<SettingPageViewModel>();
+                },
+                child: SettingPage(
+                  resetNavigation: (bool newValue) {
+                    return NavigationPageViewModel().resetNavigation(newValue);
+                  },
+                ),
               );
             },
           ),

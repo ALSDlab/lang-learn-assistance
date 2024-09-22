@@ -12,6 +12,8 @@ class WordSearchPageState with _$WordSearchPageState {
 
     @Default(false) bool isLoading,
     @Default(false) bool isCompleted,
+    @Default(false) bool isPosting,
+    @Default(false) bool isPosted,
     @Default('') String word,
     @Default('') String explanation,
     @Default({}) Map<String, String> exSentence,

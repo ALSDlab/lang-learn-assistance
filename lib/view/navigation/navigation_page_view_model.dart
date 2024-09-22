@@ -5,31 +5,23 @@ import 'package:flutter/material.dart';
 import 'globals.dart';
 
 class NavigationPageViewModel with ChangeNotifier {
-  int badgeCount = 0;
-  bool isHideNavBar = false;
+  bool badgeValue = false;
 
-
-  bool resetNavigation(int newCount) {
-    badgeCount = newCount;
+  bool resetNavigation(bool newValue) {
+    badgeValue = newValue;
     notifyListeners();
     return true;
   }
 
-  bool hideNavBar(bool newValue) {
-    isHideNavBar = newValue;
-    notifyListeners();
-    return isHideNavBar;
-  }
-
-
-  // 문서ID 생성하는 매서드 (영문 대소문자,숫자 15자리 조합)
   void generateDocId() {
-    // 4자리의 랜덤한 영문자 생성
+    //TODO: docId 불러와서 없으면 생성
     String letters =
         'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     Random random = Random();
     for (int i = 0; i < 15; i++) {
       Globals.docId += letters[random.nextInt(62)];
+
     }
+    //TODO: docid 저장
   }
 }

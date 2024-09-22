@@ -11,6 +11,8 @@ class QuizPageState with _$QuizPageState {
   const factory QuizPageState({
     @Default(false) bool isLoading,
     @Default(false) bool isLoaded,
+    @Default(false) bool isPosting,
+    @Default(false) bool isPosted,
     @Default(false) bool checkTapped,
     @Default(false) bool nextTapped,
     @Default([]) List<QuizModel> quizList,

@@ -15,11 +15,15 @@ class MyFavoritesFirebase {
       DocumentSnapshot docSnapshot =
           await _firestore.collection('day_sentences').doc(myDocId).get();
 
-      List<DaySentencesDto> originalData =
-          (docSnapshot.data() as List<Map<String, dynamic>>)
-              .map((e) => DaySentencesDto.fromJson(e))
-              .toList();
+      List<DaySentencesDto> originalData = [];
+      if (docSnapshot.data() != null) {
+        originalData = (docSnapshot.data() as List<Map<String, dynamic>>)
+            .map((e) => DaySentencesDto.fromJson(e))
+            .toList();
+      }
+
       originalData.insert(0, myFavorite);
+
       List<Map<String, dynamic>> updatedData =
           originalData.map((e) => e.toJson()).toList();
 
@@ -61,10 +65,13 @@ class MyFavoritesFirebase {
       DocumentSnapshot docSnapshot =
           await _firestore.collection('day_sentences').doc(myDocId).get();
 
-      List<DaySentencesDto> originalData =
-          (docSnapshot.data() as List<Map<String, dynamic>>)
-              .map((e) => DaySentencesDto.fromJson(e))
-              .toList();
+      List<DaySentencesDto> originalData = [];
+      if (docSnapshot.data() != null) {
+        originalData = (docSnapshot.data() as List<Map<String, dynamic>>)
+            .map((e) => DaySentencesDto.fromJson(e))
+            .toList();
+      }
+
       DaySentencesDto originalItem = originalData
           .where((e) => e.sentence == deleteFavorite.sentence)
           .first;
@@ -89,10 +96,12 @@ class MyFavoritesFirebase {
       DocumentSnapshot docSnapshot =
           await _firestore.collection('quiz').doc(myDocId).get();
 
-      List<QuizDto> originalData =
-          (docSnapshot.data() as List<Map<String, dynamic>>)
-              .map((e) => QuizDto.fromJson(e))
-              .toList();
+      List<QuizDto> originalData = [];
+      if (docSnapshot.data() != null) {
+        originalData = (docSnapshot.data() as List<Map<String, dynamic>>)
+            .map((e) => QuizDto.fromJson(e))
+            .toList();
+      }
       originalData.insert(0, myFavorite);
       List<Map<String, dynamic>> updatedData =
           originalData.map((e) => e.toJson()).toList();
@@ -132,11 +141,12 @@ class MyFavoritesFirebase {
     try {
       DocumentSnapshot docSnapshot =
           await _firestore.collection('quiz').doc(myDocId).get();
-
-      List<QuizDto> originalData =
-          (docSnapshot.data() as List<Map<String, dynamic>>)
-              .map((e) => QuizDto.fromJson(e))
-              .toList();
+      List<QuizDto> originalData = [];
+      if (docSnapshot.data() != null) {
+        originalData = (docSnapshot.data() as List<Map<String, dynamic>>)
+            .map((e) => QuizDto.fromJson(e))
+            .toList();
+      }
       QuizDto originalItem = originalData
           .where((e) => e.question == deleteFavorite.question)
           .first;
@@ -162,10 +172,13 @@ class MyFavoritesFirebase {
       DocumentSnapshot docSnapshot =
           await _firestore.collection('word_searches').doc(myDocId).get();
 
-      List<WordSearchesDto> originalData =
-          (docSnapshot.data() as List<Map<String, dynamic>>)
-              .map((e) => WordSearchesDto.fromJson(e))
-              .toList();
+      List<WordSearchesDto> originalData = [];
+      if (docSnapshot.data() != null) {
+        originalData = (docSnapshot.data() as List<Map<String, dynamic>>)
+            .map((e) => WordSearchesDto.fromJson(e))
+            .toList();
+      }
+
       originalData.insert(0, myFavorite);
       List<Map<String, dynamic>> updatedData =
           originalData.map((e) => e.toJson()).toList();
@@ -207,11 +220,12 @@ class MyFavoritesFirebase {
     try {
       DocumentSnapshot docSnapshot =
           await _firestore.collection('word_searches').doc(myDocId).get();
-
-      List<WordSearchesDto> originalData =
-          (docSnapshot.data() as List<Map<String, dynamic>>)
-              .map((e) => WordSearchesDto.fromJson(e))
-              .toList();
+      List<WordSearchesDto> originalData = [];
+      if (docSnapshot.data() != null) {
+        originalData = (docSnapshot.data() as List<Map<String, dynamic>>)
+            .map((e) => WordSearchesDto.fromJson(e))
+            .toList();
+      }
       WordSearchesDto originalItem =
           originalData.where((e) => e.word == deleteFavorite.word).first;
       int originalDataIndex = originalData.indexOf(originalItem);

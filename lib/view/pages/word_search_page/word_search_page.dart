@@ -5,7 +5,10 @@ import 'package:lang_learn/view/pages/word_search_page/word_search_page_view_mod
 import 'package:provider/provider.dart';
 
 class WordSearchPage extends StatefulWidget {
-  const WordSearchPage({super.key});
+  const WordSearchPage({super.key, required this.resetNavigation});
+
+  final bool Function(bool) resetNavigation;
+
 
   @override
   State<WordSearchPage> createState() => _WordSearchPageState();
@@ -68,81 +71,86 @@ class _WordSearchPageState extends State<WordSearchPage> {
                     )
                   : Visibility(
                       visible: state.isCompleted,
-                      child: Column(
-                        children: [
-                          const SizedBox(
-                            height: 16,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: Ink(
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      width: 2, color: const Color(0xFF37B7C3)),
-                                  borderRadius: BorderRadius.circular(18),
-                                  color: const Color(0xFFEBF4F6)),
-                              height: 50,
-                              child: Container(
-                                alignment: Alignment.center,
-                                child: FittedBox(
-                                  fit: BoxFit.fitWidth,
-                                  child: Text(
-                                    state.word,
-                                    style: const TextStyle(fontSize: 25),
+                      child: Expanded(
+                        child: ListView(
+                          physics: const NeverScrollableScrollPhysics(),
+                          children: [
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: Material(
+                                child: Ink(
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                          width: 2, color: const Color(0xFF37B7C3)),
+                                      borderRadius: BorderRadius.circular(18),
+                                      color: const Color(0xFFEBF4F6)),
+                                  height: 50,
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    child: FittedBox(
+                                      fit: BoxFit.fitWidth,
+                                      child: Text(
+                                        state.word,
+                                        style: const TextStyle(fontSize: 25),
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 16,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: Ink(
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      width: 2, color: const Color(0xFF088395)),
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: const Color(0xFFEBF4F6)),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  child: AutoSizeText(
-                                    state.explanation,
-                                    style: const TextStyle(fontSize: 20),
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: Ink(
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        width: 2, color: const Color(0xFF088395)),
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: const Color(0xFFEBF4F6)),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    child: AutoSizeText(
+                                      state.explanation,
+                                      style: const TextStyle(fontSize: 20),
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 16,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: Ink(
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      width: 2, color: const Color(0xFF071952)),
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: const Color(0xFFEBF4F6)),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  child: AutoSizeText(
-                                    state.exSentence.entries.map((entry) {
-                                      return '${entry.key}: ${entry.value}';
-                                    }).join('\n'),
-                                    style: const TextStyle(fontSize: 16,height: 1.5,),
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: Ink(
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        width: 2, color: const Color(0xFF071952)),
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: const Color(0xFFEBF4F6)),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    child: AutoSizeText(
+                                      state.exSentence.entries.map((entry) {
+                                        return '${entry.key}: ${entry.value}';
+                                      }).join('\n'),
+                                      style: const TextStyle(fontSize: 16,height: 1.5,),
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
             ],

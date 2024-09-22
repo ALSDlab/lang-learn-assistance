@@ -1,7 +1,6 @@
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:lang_learn/view/pages/setting_page/setting_page_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -156,7 +155,6 @@ class SettingPageViewModel with ChangeNotifier {
     _state = state.copyWith(selectedLevel: selectedLevel);
     notifyListeners();
   }
-
 
   Future<void> applyAndSaveSettings() async {
     _state = state.copyWith(tapped: true);

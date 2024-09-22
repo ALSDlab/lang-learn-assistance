@@ -11,6 +11,8 @@ class DaySentencesState with _$DaySentencesState {
   const factory DaySentencesState({
     @Default(false) bool isLoading,
     @Default(false) bool isLoaded,
+    @Default(false) bool isPosting,
+    @Default(false) bool isPosted,
     @Default('') String date,
     @Default('') String sentence,
     @Default(false) bool like,

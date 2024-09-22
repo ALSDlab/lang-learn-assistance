@@ -2,7 +2,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class MyFavoritePage extends StatefulWidget {
-  const MyFavoritePage({super.key});
+  const MyFavoritePage({super.key, required this.resetNavigation});
+
+  final bool Function(bool) resetNavigation;
+
 
   @override
   State<MyFavoritePage> createState() => _MyFavoritePageState();

@@ -13,6 +13,7 @@
   "quiz": "QUIZ",
   "correct": "RICHTIG",
   "wrong": "FALSCH",
+  "try_later": "Das Quiz wurde nicht erstellt. Bitte versuchen Sie es später erneut.",
   "result": "Ergebnis",
   "search": "SUCHE",
   "not_found": "Das Wort konnte nicht gefunden werden",

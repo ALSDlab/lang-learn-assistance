@@ -47,7 +47,8 @@ class WordSearchPageViewModel with ChangeNotifier {
     final String question =
         '''Explain in ${Globals.yourLang} about the word '$word'. It's maybe other language. 
         I want the result in exact JSON format, including the 'word', the 'explanation' and 'exSentence' as an example sentence with their language and 'translation'.
-        JSON structure must be always like this
+        Do not create sentences in a way that is not compliant with JSON format.
+        Wrap all string values with double quotes and JSON structure must be always like this
         {
           "word" : "",
           "explanation" : "",
@@ -76,18 +77,30 @@ class WordSearchPageViewModel with ChangeNotifier {
     }
   }
 
-  Future<void> postMySearchesData(
-      BuildContext context, WordSearchesModel item) async {
+  Future<void> postMySearchesData(BuildContext context, WordSearchesModel item,
+      Function(bool) resetNavigation) async {
+    _state = state.copyWith(isPosting: true);
+    notifyListeners();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final mySearchesCount = prefs.getInt('my_searches_list');
 
     final result = await _saveMySearchesUseCase.execute(Globals.docId, item);
     switch (result) {
       case Success<void>():
-        await prefs.setInt('my_searches_list', mySearchesCount! + 1);
+        if (mySearchesCount != null) {
+          await prefs.setInt('my_searches_list', mySearchesCount + 1);
+        } else {
+          await prefs.setInt('my_searches_list', 1);
+        }
         if (context.mounted) {
+          resetNavigation(true);
+          _state = state.copyWith(isPosting: false, isPosted: true);
+
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Day Sentence saved.')),
+            const SnackBar(
+              content: Text('Day Sentence saved.'),
+              duration: Duration(seconds: 2),
+            ),
           );
         }
         notifyListeners();
@@ -98,5 +111,31 @@ class WordSearchPageViewModel with ChangeNotifier {
         break;
     }
     notifyListeners();
+  }
+
+  Future<void> loadOldData(BuildContext context, String oldDocId) async {
+    if (oldDocId.length == 15) {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setString('my_docId', oldDocId).then((_) {
+        Globals.docId = oldDocId;
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Your previous data has been loaded.'),
+              duration: Duration(seconds: 2),
+            ),
+          );
+        }
+      });
+    } else {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Something went wrong.'),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
+    }
   }
 }

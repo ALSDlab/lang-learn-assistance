@@ -13,6 +13,7 @@ class QuizMapper {
 
   static QuizDto toDTO(QuizModel model) {
     return QuizDto(
+      question: model.question,
       options: model.options,
       correctAnswer: model.correctAnswer,
       deleted: model.deleted,

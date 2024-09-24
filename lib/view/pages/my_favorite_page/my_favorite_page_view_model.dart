@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lang_learn/domain/model/day_sentences_model.dart';
 import 'package:lang_learn/domain/model/quiz_model.dart';
 import 'package:lang_learn/domain/model/word_searches_model.dart';
@@ -68,54 +69,55 @@ class MyFavoritePageViewModel with ChangeNotifier {
     final mySearchesCount = prefs.getInt('my_searches_list');
 
     try {
-      if (mySentencesCount != null &&
-          mySentencesCount > _state.mySentencesList.length) {
-        final mySentencesResult =
-            await _loadMySentencesUseCase.execute(Globals.docId);
-        switch (mySentencesResult) {
-          case Success<List<DaySentencesModel>>():
-            _state = state.copyWith(
-                mySentencesList: mySentencesResult.data,
-                mySentencesBadge: true);
-            await prefs.setInt(
-                'my_sentences_list', mySentencesResult.data.length);
-            break;
-          case Error<List<DaySentencesModel>>():
-            logger.info(mySentencesResult.message);
-            break;
-        }
-      } else {
-        _state = state.copyWith(mySentencesBadge: !_state.mySentencesBadge);
+      final mySentencesResult =
+          await _loadMySentencesUseCase.execute(Globals.docId);
+      switch (mySentencesResult) {
+        case Success<List<DaySentencesModel>>():
+          _state = state.copyWith(mySentencesList: mySentencesResult.data);
+          if (mySentencesCount != null &&
+              mySentencesCount < _state.mySentencesList.length) {
+            _state = state.copyWith(mySentencesBadge: true);
+          } else {
+            _state = state.copyWith(mySentencesBadge: false);
+          }
+          await prefs.setInt(
+              'my_sentences_list', mySentencesResult.data.length);
+          break;
+        case Error<List<DaySentencesModel>>():
+          logger.info(mySentencesResult.message);
+          break;
       }
-      if (myQuizCount != null && myQuizCount > _state.myQuizList.length) {
-        final myQuizResult = await _loadMyQuizUseCase.execute(Globals.docId);
-        switch (myQuizResult) {
-          case Success<List<QuizModel>>():
-            _state = state.copyWith(
-                myQuizList: myQuizResult.data, myQuizBadge: true);
-            break;
-          case Error<List<QuizModel>>():
-            logger.info(myQuizResult.message);
-            break;
-        }
-      } else {
-        _state = state.copyWith(myQuizBadge: !_state.myQuizBadge);
+
+      final myQuizResult = await _loadMyQuizUseCase.execute(Globals.docId);
+      switch (myQuizResult) {
+        case Success<List<QuizModel>>():
+          _state = state.copyWith(myQuizList: myQuizResult.data);
+          if (myQuizCount != null && myQuizCount < _state.myQuizList.length) {
+            _state = state.copyWith(myQuizBadge: true);
+          } else {
+            _state = state.copyWith(myQuizBadge: false);
+          }
+          break;
+        case Error<List<QuizModel>>():
+          logger.info(myQuizResult.message);
+          break;
       }
-      if (mySearchesCount != null &&
-          mySearchesCount > _state.mySearchesList.length) {
-        final mySearchesResult =
-            await _loadMySearchesUseCase.execute(Globals.docId);
-        switch (mySearchesResult) {
-          case Success<List<WordSearchesModel>>():
-            _state = state.copyWith(
-                mySearchesList: mySearchesResult.data, mySearchesBadge: true);
-            break;
-          case Error<List<WordSearchesModel>>():
-            logger.info(mySearchesResult.message);
-            break;
-        }
-      } else {
-        _state = state.copyWith(mySearchesBadge: !_state.mySearchesBadge);
+
+      final mySearchesResult =
+          await _loadMySearchesUseCase.execute(Globals.docId);
+      switch (mySearchesResult) {
+        case Success<List<WordSearchesModel>>():
+          _state = state.copyWith(mySearchesList: mySearchesResult.data);
+          if (mySearchesCount != null &&
+              mySearchesCount < _state.mySearchesList.length) {
+            _state = state.copyWith(mySearchesBadge: true);
+          } else {
+            _state = state.copyWith(mySearchesBadge: false);
+          }
+          break;
+        case Error<List<WordSearchesModel>>():
+          logger.info(mySearchesResult.message);
+          break;
       }
 
       notifyListeners();
@@ -138,7 +140,10 @@ class MyFavoritePageViewModel with ChangeNotifier {
 
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Day Sentence deleted.')),
+            const SnackBar(
+              content: Text('Day Sentence deleted.'),
+              duration: Duration(seconds: 2),
+            ),
           );
         }
         notifyListeners();
@@ -160,7 +165,10 @@ class MyFavoritePageViewModel with ChangeNotifier {
 
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Quiz deleted.')),
+            const SnackBar(
+              content: Text('Quiz deleted.'),
+              duration: Duration(seconds: 2),
+            ),
           );
         }
         notifyListeners();
@@ -184,7 +192,10 @@ class MyFavoritePageViewModel with ChangeNotifier {
 
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Day Sentence deleted.')),
+            const SnackBar(
+              content: Text('Day Sentence deleted.'),
+              duration: Duration(seconds: 2),
+            ),
           );
         }
         notifyListeners();
@@ -195,5 +206,25 @@ class MyFavoritePageViewModel with ChangeNotifier {
         break;
     }
     notifyListeners();
+  }
+
+  void daySentencesTapped(
+      BuildContext context, Function(bool) resetNavigation) {
+    _state = state.copyWith(mySentencesTapped: true);
+    notifyListeners();
+
+    _state = state.copyWith(mySentencesTapped: false, mySentencesBadge: false);
+    notifyListeners();
+
+    if (state.mySentencesBadge == false &&
+        state.myQuizBadge == false &&
+        state.mySearchesBadge == false) {
+      resetNavigation(false);
+    }
+    notifyListeners();
+    if (context.mounted) {
+      context.push('/my_favorite_page/my_sentences_page',
+          extra: {'mySentencesItems': _state.mySentencesList});
+    }
   }
 }

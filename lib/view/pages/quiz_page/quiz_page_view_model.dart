@@ -13,8 +13,9 @@ class QuizPageViewModel with ChangeNotifier {
   final GetQuizUseCase _getQuizUseCase;
   final SaveMyQuizUseCase _saveMyQuizUseCase;
 
-  QuizPageViewModel({required GetQuizUseCase getQuizUseCase,
-    required SaveMyQuizUseCase saveMyQuizUseCase})
+  QuizPageViewModel(
+      {required GetQuizUseCase getQuizUseCase,
+      required SaveMyQuizUseCase saveMyQuizUseCase})
       : _getQuizUseCase = getQuizUseCase,
         _saveMyQuizUseCase = saveMyQuizUseCase {
     fetchData();
@@ -47,16 +48,20 @@ class QuizPageViewModel with ChangeNotifier {
     notifyListeners();
 
     final String question =
-    '''Create ${Globals.quizCount} multiple-choice quizzes in ${Globals
-        .level} ${Globals.target} with 3 options each.
-        You must provide explanations in ${Globals.yourLang}. I want the result in exact JSON format, including the quiz 'question', 3 'options', the 'correctAnswer' as index, and the 'explanation'.
-        JSON structure must be always like this
-        {
-          "question" : "",
-          "options" : ["", "", ""],
-          "correctAnswer" : ,
-          "explanation" : ""
-        }
+        '''Create ${Globals.quizCount} multiple-choice quizzes in ${Globals.level} ${Globals.target} with 3 options each. I would like the 3 options to be selected in a way that ensures there is a clear correct answer.
+        You write the options in the explanation in ${Globals.target}, Other than that, you have to provide the explanation only in ${Globals.yourLang}, but  as well. 
+        Never use indicates 1, 2, and 3 in the explanation.
+        I want the result in exact JSON format, including the quiz 'question', 3 'options', the 'correctAnswer' as index of List 'options', and the 'explanation'.
+        Do not create sentences in a way that is not compliant with JSON format.
+        Wrap all string values with double quotes and JSON structure must be always like this
+        [
+          {
+            "question" : "",
+            "options" : ["", "", ""],
+            "correctAnswer" : ,
+            "explanation" : ""
+          }
+        ]
         ''';
 
     try {
@@ -93,7 +98,8 @@ class QuizPageViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> postMyQuizData(BuildContext context, QuizModel item) async {
+  Future<void> postMyQuizData(BuildContext context, QuizModel item,
+      Function(bool) resetNavigation) async {
     _state = state.copyWith(isPosting: true);
     notifyListeners();
 
@@ -103,13 +109,21 @@ class QuizPageViewModel with ChangeNotifier {
     final result = await _saveMyQuizUseCase.execute(Globals.docId, item);
     switch (result) {
       case Success<void>():
-        await prefs.setInt('my_quiz_list', myQuizCount! + 1);
+        if (myQuizCount != null) {
+          await prefs.setInt('my_quiz_list', myQuizCount + 1);
+        } else {
+          await prefs.setInt('my_quiz_list', 1);
+        }
         if (context.mounted) {
+          resetNavigation(true);
+          _state = state.copyWith(isPosting: false, isPosted: true);
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Quiz saved.')),
+            const SnackBar(
+              content: Text('Quiz saved.'),
+              duration: Duration(seconds: 2),
+            ),
           );
         }
-        _state = state.copyWith(isPosting: false, isPosted: true);
         notifyListeners();
         break;
       case Error<void>():

@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
 
 import '../../../data/repository/network_connectivity_observer.dart';
@@ -15,15 +16,9 @@ import '../../utils/simple_logger.dart';
 import 'navigation_page_view_model.dart';
 
 class ScaffoldWithNavBar extends StatefulWidget {
-  final bool Function(bool) resetNavigation;
-
   String location;
 
-  ScaffoldWithNavBar(
-      {super.key,
-      required this.child,
-      required this.location,
-      required this.resetNavigation});
+  ScaffoldWithNavBar({super.key, required this.child, required this.location});
 
   final Widget child;
 
@@ -43,11 +38,10 @@ class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
 
   @override
   void initState() {
-    final NavigationPageViewModel viewModel =
-        context.read<NavigationPageViewModel>();
-    viewModel.generateDocId();
-
     Future.microtask(() async {
+      final NavigationPageViewModel viewModel =
+          context.read<NavigationPageViewModel>();
+      await viewModel.generateDocId();
       _subscription = _connectivityObserver.observe().listen((status) {
         setState(() {
           _status = status;
@@ -137,8 +131,14 @@ class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
             selectedColor: const Color(0xFF088395),
             unSelectedColor: CupertinoColors.black,
             showBadge: viewModel.badgeValue,
-            badgeColor: Colors.red,
-            badgePadding: const EdgeInsets.only(left: 4, right: 4),
+            badgeColor: Colors.transparent,
+            badge: Container(
+              padding: const EdgeInsets.all(6),
+              decoration: const BoxDecoration(
+                color: Colors.red,
+                shape: BoxShape.circle,
+              ),
+            ),
             title: const Text(
               'LIKE',
               style: TextStyle(fontFamily: 'KoPub', fontSize: 10),
@@ -180,7 +180,8 @@ class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
     );
   }
 
-  void _goOtherTab(BuildContext context, int index, Function resetNavigation) {
+  void _goOtherTab(
+      BuildContext context, int index, Function resetNavigation) async {
     // if (index == _currentIndex) return;
     GoRouter router = GoRouter.of(context);
     List<String> locations = [
@@ -191,9 +192,20 @@ class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
       '/setting_page'
     ];
     String? location = locations[index];
-
-    router.go(location, extra: {
-      'resetNavigation': resetNavigation,
-    });
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final yourLangCheck = prefs.getString('selected_language');
+    final targetLangCheck = prefs.getString('target_language');
+    if (yourLangCheck == null || targetLangCheck == null) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Please complete the settings.'),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
+    } else {
+      router.go(location);
+    }
   }
 }

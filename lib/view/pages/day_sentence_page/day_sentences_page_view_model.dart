@@ -50,8 +50,9 @@ class DaySentencePageViewModel with ChangeNotifier {
 
     final String question =
         '''Show me a sentence in ${Globals.level} ${Globals.target} for today and provide an explanation in ${Globals.yourLang}. 
-        Today is $todayDate. I want the response to be in exact JSON format, including today's 'date' that must be in Full date format, the 'sentence' of the day, and the 'explanation' excluding anything related to pronunciation.
-        JSON structure must be always like this
+        Today is $todayDate. I want the response to be in exact JSON format, including today's 'date' that must be in Full date format, the 'sentence' of the day, and the 'explanation' excluding anything related to pronunciation. 
+        Do not create sentences in a way that is not compliant with JSON format.
+        Wrap all string values with double quotes and JSON structure must be always like this
         {
           "date" : "$todayDate",
           "sentence" : "",
@@ -76,26 +77,30 @@ class DaySentencePageViewModel with ChangeNotifier {
     }
   }
 
-  Future<void> postMySentencesData(
-      BuildContext context, DaySentencesModel item, bool Function(bool) resetNavigation) async {
+  Future<void> postMySentencesData(BuildContext context, DaySentencesModel item,
+      Function(bool) resetNavigation) async {
     _state = state.copyWith(isPosting: true);
+    notifyListeners();
 
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    final mySentencesCount = prefs.getInt('my_sentences_list');
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
+    // final mySentencesCount = prefs.getInt('my_sentences_list');
 
     final result = await _saveMySentencesUseCase.execute(Globals.docId, item);
     switch (result) {
       case Success<void>():
-        if (mySentencesCount != null) {
-          await prefs.setInt('my_sentences_list', mySentencesCount + 1);
-        } else {
-          await prefs.setInt('my_sentences_list', 1);
-        }
+        // if (mySentencesCount != null) {
+        //   await prefs.setInt('my_sentences_list', mySentencesCount + 1);
+        // } else {
+        //   await prefs.setInt('my_sentences_list', 1);
+        // }
         if (context.mounted) {
           resetNavigation(true);
           _state = state.copyWith(isPosting: false, isPosted: true);
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Day Sentence saved.')),
+            const SnackBar(
+              content: Text('Day Sentence saved.'),
+              duration: Duration(seconds: 2),
+            ),
           );
         }
         notifyListeners();

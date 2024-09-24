@@ -25,7 +25,7 @@ class GetGeminiAnswer {
       );
       final text = response.text?.replaceAll('json', '').replaceAll("```", '');
       if (text != null) {
-        final jsonText = jsonDecode(text);
+        final jsonText = json.decode(text);
         DaySentencesDto result = DaySentencesDto.fromJson(jsonText);
         return Result.success(result);
       } else {
@@ -45,9 +45,8 @@ class GetGeminiAnswer {
         Content.text(question),
       );
       final text = response.text?.replaceAll('json', '').replaceAll("```", '');
-
       if (text != null) {
-        final List<dynamic> jsonText = jsonDecode(text);
+        final List<dynamic> jsonText = json.decode(text);
         final List<QuizDto> quizList = jsonText.map((e) => QuizDto.fromJson(e)).toList();
         return Result.success(quizList);
       } else {
@@ -68,7 +67,7 @@ class GetGeminiAnswer {
       );
       final text = response.text?.replaceAll('json', '').replaceAll("```", '');
       if (text != null) {
-        final jsonText = jsonDecode(text);
+        final jsonText = json.decode(text);
         WordSearchesDto result = WordSearchesDto.fromJson(jsonText);
         return Result.success(result);
       } else {

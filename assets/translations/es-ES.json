@@ -13,6 +13,7 @@
   "quiz": "CUESTIONARIO",
   "correct": "CORRECTO",
   "wrong": "INCORRECTO",
+  "try_later": "El cuestionario no se ha creado. Por favor, inténtelo de nuevo más tarde.",
   "result": "Resultado",
   "search": "BUSCAR",
   "not_found": "No se puede encontrar la palabra",

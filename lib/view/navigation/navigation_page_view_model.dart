@@ -1,27 +1,34 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'globals.dart';
 
 class NavigationPageViewModel with ChangeNotifier {
   bool badgeValue = false;
 
-  bool resetNavigation(bool newValue) {
+  void resetNavigation(bool newValue) {
     badgeValue = newValue;
+    print('2..$badgeValue');
     notifyListeners();
-    return true;
   }
 
-  void generateDocId() {
-    //TODO: docId 불러와서 없으면 생성
-    String letters =
-        'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    Random random = Random();
-    for (int i = 0; i < 15; i++) {
-      Globals.docId += letters[random.nextInt(62)];
+  Future<void> generateDocId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final savedDocId = prefs.getString('my_docId');
 
+    if (savedDocId == null) {
+      String letters =
+          'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      Random random = Random();
+      for (int i = 0; i < 15; i++) {
+        Globals.docId += letters[random.nextInt(62)];
+      }
+    } else {
+      Globals.docId = savedDocId;
     }
-    //TODO: docid 저장
+    await prefs.setString('my_docId', Globals.docId);
+    notifyListeners();
   }
 }

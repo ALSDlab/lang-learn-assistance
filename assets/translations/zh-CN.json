@@ -13,6 +13,7 @@
   "quiz": "测验",
   "correct": "正确",
   "wrong": "错误",
+  "try_later": "测验未创建，请稍后再试。",
   "result": "结果",
   "search": "搜索",
   "not_found": "找不到单词",

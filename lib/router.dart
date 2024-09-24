@@ -6,6 +6,9 @@ import 'package:lang_learn/view/pages/day_sentence_page/day_sentence_page.dart';
 import 'package:lang_learn/view/pages/day_sentence_page/day_sentences_page_view_model.dart';
 import 'package:lang_learn/view/pages/my_favorite_page/my_favorite_page.dart';
 import 'package:lang_learn/view/pages/my_favorite_page/my_favorite_page_view_model.dart';
+import 'package:lang_learn/view/pages/my_favorite_page/my_quiz_page.dart';
+import 'package:lang_learn/view/pages/my_favorite_page/my_search_page.dart';
+import 'package:lang_learn/view/pages/my_favorite_page/my_sentences_page.dart';
 import 'package:lang_learn/view/pages/quiz_page/quiz_page.dart';
 import 'package:lang_learn/view/pages/quiz_page/quiz_page_view_model.dart';
 import 'package:lang_learn/view/pages/setting_page/setting_page.dart';
@@ -28,16 +31,29 @@ final router = GoRouter(
     ShellRoute(
         navigatorKey: _shellNavigatorKey,
         pageBuilder: (context, state, child) {
-          resetNavigation(bool newValue) {
-            NavigationPageViewModel().resetNavigation(newValue);
-            return true;
-          }
-
           return NoTransitionPage(
-            child: ChangeNotifierProvider(
-              create: (_) => getIt<NavigationPageViewModel>(),
+            child: MultiProvider(
+              providers: [
+                ChangeNotifierProvider(
+                  create: (_) => getIt<NavigationPageViewModel>(),
+                ),
+                ChangeNotifierProvider(
+                  create: (_) => getIt<DaySentencePageViewModel>(),
+                ),
+                ChangeNotifierProvider(
+                  create: (_) => getIt<QuizPageViewModel>(),
+                ),
+                ChangeNotifierProvider(
+                  create: (_) => getIt<WordSearchPageViewModel>(),
+                ),
+                ChangeNotifierProvider(
+                  create: (_) => getIt<MyFavoritePageViewModel>(),
+                ),
+                ChangeNotifierProvider(
+                  create: (_) => getIt<SettingPageViewModel>(),
+                ),
+              ],
               child: ScaffoldWithNavBar(
-                resetNavigation: resetNavigation,
                 location: state.matchedLocation,
                 child: child,
               ),
@@ -48,12 +64,12 @@ final router = GoRouter(
           GoRoute(
             path: '/day_sentence_page',
             builder: (context, state) {
-              final extra = state.extra! as Map<String, dynamic>;
-              final navSetState = extra['resetNavigation'];
+              final navigationViewModel =
+                  Provider.of<NavigationPageViewModel>(context, listen: false);
               return ChangeNotifierProvider(
                 create: (_) => getIt<DaySentencePageViewModel>(),
                 child: DaySentencePage(
-                  resetNavigation: navSetState,
+                  resetNavigation: navigationViewModel.resetNavigation,
                 ),
               );
             },
@@ -61,12 +77,12 @@ final router = GoRouter(
           GoRoute(
             path: '/quiz_page',
             builder: (context, state) {
-              final extra = state.extra! as Map<String, dynamic>;
-              final navSetState = extra['resetNavigation'];
+              final navigationViewModel =
+                  Provider.of<NavigationPageViewModel>(context, listen: false);
               return ChangeNotifierProvider(
                 create: (_) => getIt<QuizPageViewModel>(),
                 child: QuizPage(
-                  resetNavigation: navSetState,
+                  resetNavigation: navigationViewModel.resetNavigation,
                 ),
               );
             },
@@ -74,12 +90,12 @@ final router = GoRouter(
           GoRoute(
             path: '/word_search_page',
             builder: (context, state) {
-              final extra = state.extra! as Map<String, dynamic>;
-              final navSetState = extra['resetNavigation'];
+              final navigationViewModel =
+                  Provider.of<NavigationPageViewModel>(context, listen: false);
               return ChangeNotifierProvider(
                 create: (_) => getIt<WordSearchPageViewModel>(),
                 child: WordSearchPage(
-                  resetNavigation: navSetState,
+                  resetNavigation: navigationViewModel.resetNavigation,
                 ),
               );
             },
@@ -87,71 +103,61 @@ final router = GoRouter(
           GoRoute(
             path: '/my_favorite_page',
             builder: (context, state) {
-              final extra = state.extra! as Map<String, dynamic>;
-              final navSetState = extra['resetNavigation'];
+              final navigationViewModel =
+                  Provider.of<NavigationPageViewModel>(context, listen: false);
               return ChangeNotifierProvider(
                 create: (_) => getIt<MyFavoritePageViewModel>(),
                 child: MyFavoritePage(
-                  resetNavigation: navSetState,
+                  resetNavigation: navigationViewModel.resetNavigation,
                 ),
               );
             },
-            // routes: [
-            //   GoRoute(
-            //     path: 'my_sentences_page',
-            //     builder: (context, state) {
-            //       final extra = state.extra! as Map<String, dynamic>;
-            //       final navSetState = extra['navSetState'];
-            //       return ChangeNotifierProvider(
-            //         create: (_) => getIt<FillOrderFormPageViewModel>(),
-            //         child: MySentencesPage(
-            //             forOrderItems: extra['orderModelList'],
-            //             hideNavBar: hideNavBar,
-            //             navSetState: navSetState),
-            //       );
-            //     },
-            //   ),
-            //   GoRoute(
-            //     path: 'my_quiz_page',
-            //     builder: (context, state) {
-            //       final extra = state.extra! as Map<String, dynamic>;
-            //       final navSetState = extra['navSetState'];
-            //       return ChangeNotifierProvider(
-            //         create: (_) => getIt<FillOrderFormPageViewModel>(),
-            //         child: MyQuizPage(
-            //             forOrderItems: extra['orderModelList'],
-            //             hideNavBar: hideNavBar,
-            //             navSetState: navSetState),
-            //       );
-            //     },
-            //   ),
-            //   GoRoute(
-            //     path: 'my_search_page',
-            //     builder: (context, state) {
-            //       final extra = state.extra! as Map<String, dynamic>;
-            //       final navSetState = extra['navSetState'];
-            //       return ChangeNotifierProvider(
-            //         create: (_) => getIt<FillOrderFormPageViewModel>(),
-            //         child: MySearchPage(
-            //             forOrderItems: extra['orderModelList'],
-            //             hideNavBar: hideNavBar,
-            //             navSetState: navSetState),
-            //       );
-            //     },
-            //   ),
-            // ],
+            routes: [
+              GoRoute(
+                path: 'my_sentences_page',
+                builder: (context, state) {
+                  final extra = state.extra! as Map<String, dynamic>;
+                  return ChangeNotifierProvider(
+                    create: (_) => getIt<MyFavoritePageViewModel>(),
+                    child: MySentencesPage(
+                        mySentencesItems: extra['mySentencesItems']),
+                  );
+                },
+              ),
+              GoRoute(
+                path: 'my_quiz_page',
+                builder: (context, state) {
+                  final extra = state.extra! as Map<String, dynamic>;
+                  return ChangeNotifierProvider(
+                    create: (_) => getIt<MyFavoritePageViewModel>(),
+                    child: MyQuizPage(myQuizItems: extra['orderModelList']),
+                  );
+                },
+              ),
+              GoRoute(
+                path: 'my_search_page',
+                builder: (context, state) {
+                  final extra = state.extra! as Map<String, dynamic>;
+                  return ChangeNotifierProvider(
+                    create: (_) => getIt<MyFavoritePageViewModel>(),
+                    child:
+                        MySearchPage(mySearchesItems: extra['mySearchesItems']),
+                  );
+                },
+              ),
+            ],
           ),
           GoRoute(
             path: '/setting_page',
             builder: (context, state) {
+              final navigationViewModel =
+                  Provider.of<NavigationPageViewModel>(context, listen: false);
               return ChangeNotifierProvider(
                 create: (_) {
                   return getIt<SettingPageViewModel>();
                 },
                 child: SettingPage(
-                  resetNavigation: (bool newValue) {
-                    return NavigationPageViewModel().resetNavigation(newValue);
-                  },
+                  resetNavigation: navigationViewModel.resetNavigation,
                 ),
               );
             },

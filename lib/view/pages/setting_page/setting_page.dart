@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 class SettingPage extends StatefulWidget {
   const SettingPage({super.key, required this.resetNavigation});
 
-  final bool Function(bool) resetNavigation;
+  final Function(bool) resetNavigation;
 
   @override
   State<SettingPage> createState() => _SettingPageState();
@@ -56,7 +56,7 @@ class _SettingPageState extends State<SettingPage> {
                           viewModel.targetLanguageController.value,
                       orElse: () => {});
                   Future.delayed(
-                      const Duration(milliseconds: 200),
+                      const Duration(milliseconds: 500),
                       () => {
                             if (mounted)
                               {
@@ -209,13 +209,15 @@ class _SettingPageState extends State<SettingPage> {
                       viewModel.targetLanguageController.value != null) {
                     await viewModel.applyAndSaveSettings();
                     if (context.mounted) {
-                      context.go('/day_sentence_page', extra: {
-                        'resetNavigation': widget.resetNavigation,
-                      });
+                      context.go('/day_sentence_page',
+                          extra: {'resetNavigation': widget.resetNavigation});
                     }
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Please select a language')),
+                      const SnackBar(
+                        content: Text('Please select a language'),
+                        duration: Duration(seconds: 2),
+                      ),
                     );
                   }
                 },

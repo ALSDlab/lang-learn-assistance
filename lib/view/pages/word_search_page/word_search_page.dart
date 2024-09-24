@@ -1,14 +1,18 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:bootstrap_icons/bootstrap_icons.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:lang_learn/domain/model/word_searches_model.dart';
+import 'package:lang_learn/utils/gif_progress_bar.dart';
 import 'package:lang_learn/view/pages/word_search_page/word_search_page_view_model.dart';
 import 'package:provider/provider.dart';
+
+import '../../navigation/globals.dart';
 
 class WordSearchPage extends StatefulWidget {
   const WordSearchPage({super.key, required this.resetNavigation});
 
-  final bool Function(bool) resetNavigation;
-
+  final Function(bool) resetNavigation;
 
   @override
   State<WordSearchPage> createState() => _WordSearchPageState();
@@ -54,29 +58,39 @@ class _WordSearchPageState extends State<WordSearchPage> {
                       suffixIcon: IconButton(
                         icon: const Icon(Icons.search),
                         onPressed: () {
-                          viewModel.searchWord(viewModel.wordController.text);
+                          if (viewModel.wordController.text.length == 17 &&
+                              (viewModel.wordController.text.startsWith('==') ||
+                                  viewModel.wordController.text
+                                      .endsWith('=='))) {
+                            viewModel.loadOldData(
+                                context,
+                                viewModel.wordController.text
+                                    .replaceAll('==', ''));
+                          } else {
+                            viewModel.searchWord(viewModel.wordController.text);
+                          }
                         },
                       )),
                 ),
               ),
               const SizedBox(
-                height: 32,
+                height: 16,
               ),
               state.isLoading
-                  ? const Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        CircularProgressIndicator(),
+                        GifProgressBar(),
                       ],
                     )
                   : Visibility(
                       visible: state.isCompleted,
                       child: Expanded(
                         child: ListView(
-                          physics: const NeverScrollableScrollPhysics(),
+                          physics: const BouncingScrollPhysics(),
                           children: [
                             const SizedBox(
-                              height: 16,
+                              height: 32,
                             ),
                             Padding(
                               padding: const EdgeInsets.all(4.0),
@@ -84,7 +98,8 @@ class _WordSearchPageState extends State<WordSearchPage> {
                                 child: Ink(
                                   decoration: BoxDecoration(
                                       border: Border.all(
-                                          width: 2, color: const Color(0xFF37B7C3)),
+                                          width: 2,
+                                          color: const Color(0xFF37B7C3)),
                                       borderRadius: BorderRadius.circular(18),
                                       color: const Color(0xFFEBF4F6)),
                                   height: 50,
@@ -106,19 +121,22 @@ class _WordSearchPageState extends State<WordSearchPage> {
                             ),
                             Padding(
                               padding: const EdgeInsets.all(4.0),
-                              child: Ink(
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        width: 2, color: const Color(0xFF088395)),
-                                    borderRadius: BorderRadius.circular(20),
-                                    color: const Color(0xFFEBF4F6)),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Container(
-                                    alignment: Alignment.center,
-                                    child: AutoSizeText(
-                                      state.explanation,
-                                      style: const TextStyle(fontSize: 20),
+                              child: Material(
+                                child: Ink(
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                          width: 2,
+                                          color: const Color(0xFF088395)),
+                                      borderRadius: BorderRadius.circular(20),
+                                      color: const Color(0xFFEBF4F6)),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
+                                      alignment: Alignment.center,
+                                      child: AutoSizeText(
+                                        state.explanation,
+                                        style: const TextStyle(fontSize: 20),
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -129,21 +147,27 @@ class _WordSearchPageState extends State<WordSearchPage> {
                             ),
                             Padding(
                               padding: const EdgeInsets.all(4.0),
-                              child: Ink(
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        width: 2, color: const Color(0xFF071952)),
-                                    borderRadius: BorderRadius.circular(20),
-                                    color: const Color(0xFFEBF4F6)),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Container(
-                                    alignment: Alignment.center,
-                                    child: AutoSizeText(
-                                      state.exSentence.entries.map((entry) {
-                                        return '${entry.key}: ${entry.value}';
-                                      }).join('\n'),
-                                      style: const TextStyle(fontSize: 16,height: 1.5,),
+                              child: Material(
+                                child: Ink(
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                          width: 2,
+                                          color: const Color(0xFF071952)),
+                                      borderRadius: BorderRadius.circular(20),
+                                      color: const Color(0xFFEBF4F6)),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
+                                      alignment: Alignment.center,
+                                      child: AutoSizeText(
+                                        state.exSentence.entries.map((entry) {
+                                          return '${entry.key}: ${entry.value}';
+                                        }).join('\n'),
+                                        style: const TextStyle(
+                                          fontSize: 16,
+                                          height: 1.5,
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -155,6 +179,42 @@ class _WordSearchPageState extends State<WordSearchPage> {
                     ),
             ],
           ),
+        ),
+      ),
+      floatingActionButton: SizedBox(
+        width: 50.0,
+        height: 50.0,
+        child: FloatingActionButton(
+          backgroundColor: const Color(0xFFEBF4F6),
+          shape: RoundedRectangleBorder(
+            side: const BorderSide(
+              color: Color(0xff54D1DB),
+              width: 2,
+            ),
+            borderRadius: BorderRadius.circular(50.0),
+          ),
+          onPressed: (state.isPosted)
+              ? () {}
+              : (state.word == '')
+                  ? () {}
+                  : () async {
+                      final WordSearchesModel item = WordSearchesModel(
+                        word: state.word,
+                        exSentence: state.exSentence,
+                        deleted: false,
+                        explanation: state.explanation,
+                      );
+                      await viewModel.postMySearchesData(
+                          context, item, widget.resetNavigation);
+                    },
+          child: (state.isPosting)
+              ? GifProgressBar()
+              : Icon(
+                  (state.isPosted)
+                      ? BootstrapIcons.heart_fill
+                      : BootstrapIcons.heart,
+                  color: const Color(0xff54D1DB),
+                ),
         ),
       ),
     );

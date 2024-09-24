@@ -6,10 +6,12 @@ import 'package:lang_learn/domain/model/day_sentences_model.dart';
 import 'package:lang_learn/view/pages/day_sentence_page/day_sentences_page_view_model.dart';
 import 'package:provider/provider.dart';
 
+import '../../../utils/gif_progress_bar.dart';
+
 class DaySentencePage extends StatefulWidget {
   const DaySentencePage({super.key, required this.resetNavigation});
 
-  final bool Function(bool) resetNavigation;
+  final Function(bool) resetNavigation;
 
   @override
   State<DaySentencePage> createState() => _DaySentencePageState();
@@ -29,9 +31,7 @@ class _DaySentencePageState extends State<DaySentencePage> {
         title: Text('today_sentence'.tr()),
       ),
       body: (state.isLoading)
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
+          ? GifProgressBar()
           : Padding(
               padding: const EdgeInsets.all(16.0),
               child: ListView(
@@ -114,36 +114,39 @@ class _DaySentencePageState extends State<DaySentencePage> {
                 ],
               ),
             ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color(0xFFEBF4F6),
-        shape: RoundedRectangleBorder(
-          side: const BorderSide(
-            color: Color(0xff54D1DB),
-            width: 2,
+      floatingActionButton: SizedBox(
+        width: 50.0,
+        height: 50.0,
+        child: FloatingActionButton(
+          backgroundColor: const Color(0xFFEBF4F6),
+          shape: RoundedRectangleBorder(
+            side: const BorderSide(
+              color: Color(0xff54D1DB),
+              width: 2,
+            ),
+            borderRadius: BorderRadius.circular(50.0),
           ),
-          borderRadius: BorderRadius.circular(50.0),
-        ), // 동그란 모양 유지
-        onPressed: (state.isPosted)
-            ? () {}
-            : () async {
-                final DaySentencesModel item = DaySentencesModel(
-                    date: state.date,
-                    sentence: state.sentence,
-                    like: true,
-                    deleted: false,
-                    explanation: state.explanation);
-                await viewModel.postMySentencesData(context, item, widget.resetNavigation);
-              },
-        child: (state.isPosting)
-            ? const Center(
-                child: CircularProgressIndicator(),
-              )
-            : Icon(
-                (state.isPosted)
-                    ? BootstrapIcons.heart_fill
-                    : BootstrapIcons.heart,
-                color: const Color(0xff54D1DB),
-              ),
+          onPressed: (state.isPosted)
+              ? () {}
+              : () async {
+                  final DaySentencesModel item = DaySentencesModel(
+                      date: state.date,
+                      sentence: state.sentence,
+                      like: true,
+                      deleted: false,
+                      explanation: state.explanation);
+                  await viewModel.postMySentencesData(
+                      context, item, widget.resetNavigation);
+                },
+          child: (state.isPosting)
+              ? GifProgressBar()
+              : Icon(
+                  (state.isPosted)
+                      ? BootstrapIcons.heart_fill
+                      : BootstrapIcons.heart,
+                  color: const Color(0xff54D1DB),
+                ),
+        ),
       ),
     );
   }

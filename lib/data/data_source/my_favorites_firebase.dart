@@ -16,17 +16,25 @@ class MyFavoritesFirebase {
           await _firestore.collection('day_sentences').doc(myDocId).get();
 
       List<DaySentencesDto> originalData = [];
+
       if (docSnapshot.data() != null) {
-        originalData = (docSnapshot.data() as List<Map<String, dynamic>>)
-            .map((e) => DaySentencesDto.fromJson(e))
-            .toList();
+        Map<String, dynamic> data = docSnapshot.data() as Map<String, dynamic>;
+
+        if (data.containsKey('my_sentences')) {
+          originalData = (data['my_sentences'] as List<dynamic>)
+              .map((e) => DaySentencesDto.fromJson(e as Map<String, dynamic>))
+              .toList();
+        }
       }
 
+      // 새로운 데이터를 리스트에 추가
       originalData.insert(0, myFavorite);
 
+      // 리스트를 Firestore에 저장할 수 있도록 변환
       List<Map<String, dynamic>> updatedData =
           originalData.map((e) => e.toJson()).toList();
 
+      // Firestore에 업데이트
       await _firestore.collection('day_sentences').doc(myDocId).set({
         'my_sentences': updatedData,
       });
@@ -45,11 +53,17 @@ class MyFavoritesFirebase {
           await _firestore.collection('day_sentences').doc(myDocId).get();
 
       if (docSnapshot.exists) {
-        List<Map<String, dynamic>>? data =
-            docSnapshot.data() as List<Map<String, dynamic>>;
+        Map<String, dynamic>? data =
+            docSnapshot.data() as Map<String, dynamic>?;
 
-        return Result.success(
-            data.map((e) => DaySentencesDto.fromJson(e)).toList());
+        if (data != null && data.containsKey('my_sentences')) {
+          List<dynamic> sentencesData = data['my_sentences'];
+          return Result.success(sentencesData
+              .map((e) => DaySentencesDto.fromJson(e as Map<String, dynamic>))
+              .toList());
+        } else {
+          return const Result.error('No sentences data found');
+        }
       } else {
         return const Result.error('Document not exist');
       }
@@ -66,10 +80,14 @@ class MyFavoritesFirebase {
           await _firestore.collection('day_sentences').doc(myDocId).get();
 
       List<DaySentencesDto> originalData = [];
+
       if (docSnapshot.data() != null) {
-        originalData = (docSnapshot.data() as List<Map<String, dynamic>>)
-            .map((e) => DaySentencesDto.fromJson(e))
-            .toList();
+        Map<String, dynamic> data = docSnapshot.data() as Map<String, dynamic>;
+        if (data.containsKey('my_sentences')) {
+          originalData = (data['my_sentences'] as List<dynamic>)
+              .map((e) => DaySentencesDto.fromJson(e as Map<String, dynamic>))
+              .toList();
+        }
       }
 
       DaySentencesDto originalItem = originalData
@@ -78,6 +96,7 @@ class MyFavoritesFirebase {
       int originalDataIndex = originalData.indexOf(originalItem);
       originalData.remove(originalItem);
       originalData.insert(originalDataIndex, deleteFavorite);
+
       List<Map<String, dynamic>> updatedData =
           originalData.map((e) => e.toJson()).toList();
 
@@ -97,11 +116,16 @@ class MyFavoritesFirebase {
           await _firestore.collection('quiz').doc(myDocId).get();
 
       List<QuizDto> originalData = [];
+
       if (docSnapshot.data() != null) {
-        originalData = (docSnapshot.data() as List<Map<String, dynamic>>)
-            .map((e) => QuizDto.fromJson(e))
-            .toList();
+        Map<String, dynamic> data = docSnapshot.data() as Map<String, dynamic>;
+        if (data.containsKey('my_quiz')) {
+          originalData = (data['my_quiz'] as List<dynamic>)
+              .map((e) => QuizDto.fromJson(e as Map<String, dynamic>))
+              .toList();
+        }
       }
+
       originalData.insert(0, myFavorite);
       List<Map<String, dynamic>> updatedData =
           originalData.map((e) => e.toJson()).toList();
@@ -123,10 +147,17 @@ class MyFavoritesFirebase {
           await _firestore.collection('quiz').doc(myDocId).get();
 
       if (docSnapshot.exists) {
-        List<Map<String, dynamic>>? data =
-            docSnapshot.data() as List<Map<String, dynamic>>;
+        Map<String, dynamic>? data =
+            docSnapshot.data() as Map<String, dynamic>?;
 
-        return Result.success(data.map((e) => QuizDto.fromJson(e)).toList());
+        if (data != null && data.containsKey('my_quiz')) {
+          List<dynamic> quizData = data['my_quiz'];
+          return Result.success(quizData
+              .map((e) => QuizDto.fromJson(e as Map<String, dynamic>))
+              .toList());
+        } else {
+          return const Result.error('No quiz data found');
+        }
       } else {
         return const Result.error('Document not exist');
       }
@@ -141,18 +172,25 @@ class MyFavoritesFirebase {
     try {
       DocumentSnapshot docSnapshot =
           await _firestore.collection('quiz').doc(myDocId).get();
+
       List<QuizDto> originalData = [];
+
       if (docSnapshot.data() != null) {
-        originalData = (docSnapshot.data() as List<Map<String, dynamic>>)
-            .map((e) => QuizDto.fromJson(e))
-            .toList();
+        Map<String, dynamic> data = docSnapshot.data() as Map<String, dynamic>;
+        if (data.containsKey('my_quiz')) {
+          originalData = (data['my_quiz'] as List<dynamic>)
+              .map((e) => QuizDto.fromJson(e as Map<String, dynamic>))
+              .toList();
+        }
       }
+
       QuizDto originalItem = originalData
           .where((e) => e.question == deleteFavorite.question)
           .first;
       int originalDataIndex = originalData.indexOf(originalItem);
       originalData.remove(originalItem);
       originalData.insert(originalDataIndex, deleteFavorite);
+
       List<Map<String, dynamic>> updatedData =
           originalData.map((e) => e.toJson()).toList();
 
@@ -173,10 +211,14 @@ class MyFavoritesFirebase {
           await _firestore.collection('word_searches').doc(myDocId).get();
 
       List<WordSearchesDto> originalData = [];
+
       if (docSnapshot.data() != null) {
-        originalData = (docSnapshot.data() as List<Map<String, dynamic>>)
-            .map((e) => WordSearchesDto.fromJson(e))
-            .toList();
+        Map<String, dynamic> data = docSnapshot.data() as Map<String, dynamic>;
+        if (data.containsKey('my_search')) {
+          originalData = (data['my_search'] as List<dynamic>)
+              .map((e) => WordSearchesDto.fromJson(e as Map<String, dynamic>))
+              .toList();
+        }
       }
 
       originalData.insert(0, myFavorite);
@@ -201,11 +243,17 @@ class MyFavoritesFirebase {
           await _firestore.collection('word_searches').doc(myDocId).get();
 
       if (docSnapshot.exists) {
-        List<Map<String, dynamic>>? data =
-            docSnapshot.data() as List<Map<String, dynamic>>;
+        Map<String, dynamic>? data =
+            docSnapshot.data() as Map<String, dynamic>?;
 
-        return Result.success(
-            data.map((e) => WordSearchesDto.fromJson(e)).toList());
+        if (data != null && data.containsKey('my_search')) {
+          List<dynamic> searchData = data['my_search'];
+          return Result.success(searchData
+              .map((e) => WordSearchesDto.fromJson(e as Map<String, dynamic>))
+              .toList());
+        } else {
+          return const Result.error('No search data found');
+        }
       } else {
         return const Result.error('Document not exist');
       }
@@ -220,17 +268,24 @@ class MyFavoritesFirebase {
     try {
       DocumentSnapshot docSnapshot =
           await _firestore.collection('word_searches').doc(myDocId).get();
+
       List<WordSearchesDto> originalData = [];
+
       if (docSnapshot.data() != null) {
-        originalData = (docSnapshot.data() as List<Map<String, dynamic>>)
-            .map((e) => WordSearchesDto.fromJson(e))
-            .toList();
+        Map<String, dynamic> data = docSnapshot.data() as Map<String, dynamic>;
+        if (data.containsKey('my_search')) {
+          originalData = (data['my_search'] as List<dynamic>)
+              .map((e) => WordSearchesDto.fromJson(e as Map<String, dynamic>))
+              .toList();
+        }
       }
+
       WordSearchesDto originalItem =
           originalData.where((e) => e.word == deleteFavorite.word).first;
       int originalDataIndex = originalData.indexOf(originalItem);
       originalData.remove(originalItem);
       originalData.insert(originalDataIndex, deleteFavorite);
+
       List<Map<String, dynamic>> updatedData =
           originalData.map((e) => e.toJson()).toList();
 

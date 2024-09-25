@@ -130,7 +130,7 @@ final router = GoRouter(
                   final extra = state.extra! as Map<String, dynamic>;
                   return ChangeNotifierProvider(
                     create: (_) => getIt<MyFavoritePageViewModel>(),
-                    child: MyQuizPage(myQuizItems: extra['orderModelList']),
+                    child: MyQuizPage(myQuizItems: extra['myQuizItems']),
                   );
                 },
               ),

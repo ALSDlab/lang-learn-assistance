@@ -1,4 +1,5 @@
 class QuizDto {
+  final int? id;
   final String? question;
   final List<String>? options;
   final int? correctAnswer;
@@ -6,8 +7,8 @@ class QuizDto {
   final String? explanation;
 
 //<editor-fold desc="Data Methods">
-
   const QuizDto({
+    this.id,
     this.question,
     this.options,
     this.correctAnswer,
@@ -20,6 +21,7 @@ class QuizDto {
       identical(this, other) ||
       (other is QuizDto &&
           runtimeType == other.runtimeType &&
+          id == other.id &&
           question == other.question &&
           options == other.options &&
           correctAnswer == other.correctAnswer &&
@@ -28,6 +30,7 @@ class QuizDto {
 
   @override
   int get hashCode =>
+      id.hashCode ^
       question.hashCode ^
       options.hashCode ^
       correctAnswer.hashCode ^
@@ -36,10 +39,11 @@ class QuizDto {
 
   @override
   String toString() {
-    return 'QuizDto{ question: $question, options: $options, correctAnswer: $correctAnswer, deleted: $deleted, explanation: $explanation,}';
+    return 'QuizDto{ id: $id, question: $question, options: $options, correctAnswer: $correctAnswer, deleted: $deleted, explanation: $explanation,}';
   }
 
   QuizDto copyWith({
+    int? id,
     String? question,
     List<String>? options,
     int? correctAnswer,
@@ -47,6 +51,7 @@ class QuizDto {
     String? explanation,
   }) {
     return QuizDto(
+      id: id ?? this.id,
       question: question ?? this.question,
       options: options ?? this.options,
       correctAnswer: correctAnswer ?? this.correctAnswer,
@@ -57,6 +62,7 @@ class QuizDto {
 
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'question': question,
       'options': options,
       'correctAnswer': correctAnswer,
@@ -67,9 +73,10 @@ class QuizDto {
 
   factory QuizDto.fromJson(Map<String, dynamic> map) {
     return QuizDto(
+      id: map['id'] ?? 0,
       question: map['question'] as String,
       options:
-          (map['options'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      (map['options'] as List<dynamic>?)?.map((e) => e as String).toList(),
       correctAnswer: map['correctAnswer'] as int,
       deleted: map['deleted'] ?? false,
       explanation: map['explanation'] as String,

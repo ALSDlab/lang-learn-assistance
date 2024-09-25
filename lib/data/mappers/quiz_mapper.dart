@@ -8,11 +8,12 @@ class QuizMapper {
         options: dto.options ?? [],
         deleted: dto.deleted ?? false,
         correctAnswer: dto.correctAnswer ?? -1,
-        explanation: dto.explanation ?? '');
+        explanation: dto.explanation ?? '', id: dto.id ?? 0);
   }
 
   static QuizDto toDTO(QuizModel model) {
     return QuizDto(
+      id: model.id,
       question: model.question,
       options: model.options,
       correctAnswer: model.correctAnswer,

@@ -11,6 +11,7 @@ part 'quiz_model.g.dart';
 class QuizModel with _$QuizModel {
   const factory QuizModel({
 
+    @JsonKey(name: 'id') required int id,
     @JsonKey(name: 'question') required String question,
     @JsonKey(name: 'options') required List<String> options,
     @JsonKey(name: 'correctAnswer') required int correctAnswer,

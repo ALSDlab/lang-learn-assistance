@@ -10,6 +10,7 @@ part 'word_searches_model.g.dart';
 class WordSearchesModel with _$WordSearchesModel {
   const factory WordSearchesModel({
 
+    @JsonKey(name: 'id') required int id,
     @JsonKey(name: 'word') required String word,
     @JsonKey(name: 'explanation') required String explanation,
     @JsonKey(name: 'exSentence') required Map<String, String> exSentence,

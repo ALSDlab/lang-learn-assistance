@@ -27,14 +27,19 @@ class MyFavoritesFirebase {
         }
       }
 
-      // 새로운 데이터를 리스트에 추가
-      originalData.insert(0, myFavorite);
+      final DaySentencesDto postingData = DaySentencesDto(
+          id: originalData.length,
+          sentence: myFavorite.sentence,
+          date: myFavorite.date,
+          like: myFavorite.like,
+          deleted: myFavorite.deleted,
+          explanation: myFavorite.explanation);
 
-      // 리스트를 Firestore에 저장할 수 있도록 변환
+      originalData.insert(0, postingData);
+
       List<Map<String, dynamic>> updatedData =
           originalData.map((e) => e.toJson()).toList();
 
-      // Firestore에 업데이트
       await _firestore.collection('day_sentences').doc(myDocId).set({
         'my_sentences': updatedData,
       });
@@ -60,6 +65,7 @@ class MyFavoritesFirebase {
           List<dynamic> sentencesData = data['my_sentences'];
           return Result.success(sentencesData
               .map((e) => DaySentencesDto.fromJson(e as Map<String, dynamic>))
+              .where((e) => e.deleted == false)
               .toList());
         } else {
           return const Result.error('No sentences data found');
@@ -86,19 +92,21 @@ class MyFavoritesFirebase {
         if (data.containsKey('my_sentences')) {
           originalData = (data['my_sentences'] as List<dynamic>)
               .map((e) => DaySentencesDto.fromJson(e as Map<String, dynamic>))
+              .where((e) => e.deleted == false)
               .toList();
         }
       }
 
-      DaySentencesDto originalItem = originalData
-          .where((e) => e.sentence == deleteFavorite.sentence)
-          .first;
-      int originalDataIndex = originalData.indexOf(originalItem);
-      originalData.remove(originalItem);
-      originalData.insert(originalDataIndex, deleteFavorite);
-
-      List<Map<String, dynamic>> updatedData =
-          originalData.map((e) => e.toJson()).toList();
+      List<Map<String, dynamic>> updatedData = originalData
+          .map((item) {
+            if (item.id == deleteFavorite.id) {
+              return item.copyWith(deleted: true);
+            }
+            return item;
+          })
+          .map((e) => e.toJson())
+          .toList();
+      print(updatedData);
 
       await _firestore.collection('day_sentences').doc(myDocId).set({
         'my_sentences': updatedData,
@@ -126,7 +134,15 @@ class MyFavoritesFirebase {
         }
       }
 
-      originalData.insert(0, myFavorite);
+      final QuizDto postingData = QuizDto(
+          id: originalData.length,
+          question: myFavorite.question,
+          options: myFavorite.options,
+          correctAnswer: myFavorite.correctAnswer,
+          deleted: myFavorite.deleted,
+          explanation: myFavorite.explanation);
+
+      originalData.insert(0, postingData);
       List<Map<String, dynamic>> updatedData =
           originalData.map((e) => e.toJson()).toList();
 
@@ -154,6 +170,7 @@ class MyFavoritesFirebase {
           List<dynamic> quizData = data['my_quiz'];
           return Result.success(quizData
               .map((e) => QuizDto.fromJson(e as Map<String, dynamic>))
+              .where((e) => e.deleted == false)
               .toList());
         } else {
           return const Result.error('No quiz data found');
@@ -184,15 +201,15 @@ class MyFavoritesFirebase {
         }
       }
 
-      QuizDto originalItem = originalData
-          .where((e) => e.question == deleteFavorite.question)
-          .first;
-      int originalDataIndex = originalData.indexOf(originalItem);
-      originalData.remove(originalItem);
-      originalData.insert(originalDataIndex, deleteFavorite);
-
-      List<Map<String, dynamic>> updatedData =
-          originalData.map((e) => e.toJson()).toList();
+      List<Map<String, dynamic>> updatedData = originalData
+          .map((item) {
+            if (item.id == deleteFavorite.id) {
+              return item.copyWith(deleted: true);
+            }
+            return item;
+          })
+          .map((e) => e.toJson())
+          .toList();
 
       await _firestore.collection('quiz').doc(myDocId).set({
         'my_quiz': updatedData,
@@ -221,7 +238,14 @@ class MyFavoritesFirebase {
         }
       }
 
-      originalData.insert(0, myFavorite);
+      final WordSearchesDto postingData = WordSearchesDto(
+          id: originalData.length,
+          word: myFavorite.word,
+          exSentence: myFavorite.exSentence,
+          deleted: myFavorite.deleted,
+          explanation: myFavorite.explanation);
+
+      originalData.insert(0, postingData);
       List<Map<String, dynamic>> updatedData =
           originalData.map((e) => e.toJson()).toList();
 
@@ -280,14 +304,15 @@ class MyFavoritesFirebase {
         }
       }
 
-      WordSearchesDto originalItem =
-          originalData.where((e) => e.word == deleteFavorite.word).first;
-      int originalDataIndex = originalData.indexOf(originalItem);
-      originalData.remove(originalItem);
-      originalData.insert(originalDataIndex, deleteFavorite);
-
-      List<Map<String, dynamic>> updatedData =
-          originalData.map((e) => e.toJson()).toList();
+      List<Map<String, dynamic>> updatedData = originalData
+          .map((item) {
+            if (item.id == deleteFavorite.id) {
+              return item.copyWith(deleted: true);
+            }
+            return item;
+          })
+          .map((e) => e.toJson())
+          .toList();
 
       await _firestore.collection('word_searches').doc(myDocId).set({
         'my_search': updatedData,

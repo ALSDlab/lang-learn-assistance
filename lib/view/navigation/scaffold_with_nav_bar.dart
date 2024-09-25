@@ -5,6 +5,10 @@ import 'package:bootstrap_icons/bootstrap_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lang_learn/view/pages/day_sentence_page/day_sentences_page_view_model.dart';
+import 'package:lang_learn/view/pages/my_favorite_page/my_favorite_page_view_model.dart';
+import 'package:lang_learn/view/pages/quiz_page/quiz_page_view_model.dart';
+import 'package:lang_learn/view/pages/word_search_page/word_search_page_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
@@ -85,6 +89,13 @@ class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<NavigationPageViewModel>();
+    final daySentenceViewModel = context.watch<DaySentencePageViewModel>();
+    final quizViewModel = context.watch<QuizPageViewModel>();
+    final wordSearchViewModel = context.watch<WordSearchPageViewModel>();
+    final favoritesViewModel = context.watch<MyFavoritePageViewModel>();
+    final daySentenceState = daySentenceViewModel.state;
+    final quizState = quizViewModel.state;
+    final wordSearchState = wordSearchViewModel.state;
     return Scaffold(
       body: widget.child,
       bottomNavigationBar: StylishBottomBar(
@@ -170,18 +181,30 @@ class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
           if (_status == Status.unavailable) {
             showConnectionErrorDialog();
           } else {
+            bool isFavoritesTab =
+                (widget.location.contains('/my_favorite_page') && index == 3);
+
+            if (isFavoritesTab) {
+              return;
+            }
             if (Navigator.canPop(context)) {
               Navigator.pop(context);
             }
-            _goOtherTab(context, index, viewModel.resetNavigation);
+            if (!daySentenceState.isPosting &&
+                !quizState.isPosting &&
+                !wordSearchState.isPosting) {
+              //TODO: currentPage가 index와 같을 경우(my_favorite_page의 자식 페이지에서 다시 my_favorite_page를 선택할 때 이동을 막음)
+              _goOtherTab(context, index, viewModel.resetNavigation,
+                  favoritesViewModel.fetchFirebaseData);
+            }
           }
         },
       ),
     );
   }
 
-  void _goOtherTab(
-      BuildContext context, int index, Function resetNavigation) async {
+  void _goOtherTab(BuildContext context, int index, Function resetNavigation,
+      Function resetFavorites) async {
     // if (index == _currentIndex) return;
     GoRouter router = GoRouter.of(context);
     List<String> locations = [
@@ -205,7 +228,12 @@ class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
         );
       }
     } else {
-      router.go(location);
+      if (index == 3) {
+        router.go(location);
+        await resetFavorites();
+      } else {
+        router.go(location);
+      }
     }
   }
 }

@@ -10,7 +10,6 @@ class NavigationPageViewModel with ChangeNotifier {
 
   void resetNavigation(bool newValue) {
     badgeValue = newValue;
-    print('2..$badgeValue');
     notifyListeners();
   }
 

@@ -82,17 +82,10 @@ class DaySentencePageViewModel with ChangeNotifier {
     _state = state.copyWith(isPosting: true);
     notifyListeners();
 
-    // SharedPreferences prefs = await SharedPreferences.getInstance();
-    // final mySentencesCount = prefs.getInt('my_sentences_list');
-
     final result = await _saveMySentencesUseCase.execute(Globals.docId, item);
     switch (result) {
       case Success<void>():
-        // if (mySentencesCount != null) {
-        //   await prefs.setInt('my_sentences_list', mySentencesCount + 1);
-        // } else {
-        //   await prefs.setInt('my_sentences_list', 1);
-        // }
+
         if (context.mounted) {
           resetNavigation(true);
           _state = state.copyWith(isPosting: false, isPosted: true);

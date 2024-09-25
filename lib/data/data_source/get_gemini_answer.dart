@@ -27,6 +27,7 @@ class GetGeminiAnswer {
       if (text != null) {
         final jsonText = json.decode(text);
         DaySentencesDto result = DaySentencesDto.fromJson(jsonText);
+        print(result);
         return Result.success(result);
       } else {
         return const Result.error('Cannot get the Answer');
@@ -45,6 +46,7 @@ class GetGeminiAnswer {
         Content.text(question),
       );
       final text = response.text?.replaceAll('json', '').replaceAll("```", '');
+      print(text);
       if (text != null) {
         final List<dynamic> jsonText = json.decode(text);
         final List<QuizDto> quizList = jsonText.map((e) => QuizDto.fromJson(e)).toList();

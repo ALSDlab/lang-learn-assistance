@@ -199,6 +199,7 @@ class _WordSearchPageState extends State<WordSearchPage> {
                   ? () {}
                   : () async {
                       final WordSearchesModel item = WordSearchesModel(
+                        id: 0,
                         word: state.word,
                         exSentence: state.exSentence,
                         deleted: false,

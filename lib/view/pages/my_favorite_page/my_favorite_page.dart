@@ -59,14 +59,11 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
                             children: [
                               AutoSizeText(
                                 'today_sentence'.tr(),
-                                style: TextStyle(
-                                    fontSize: 25,
-                                    color: (state.mySentencesTapped)
-                                        ? Colors.white
-                                        : Colors.black),
+                                style: const TextStyle(
+                                    fontSize: 25, color: Colors.black),
                               ),
                               const Spacer(),
-                              (state.isLoading)
+                              (state.isMySentencesLoading)
                                   ? GifProgressBar()
                                   : Text(
                                       state.mySentencesList.length.toString(),
@@ -99,7 +96,9 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
               child: InkWell(
                 splashColor: const Color(0xFF088395),
                 borderRadius: BorderRadius.circular(20),
-                onTap: () async {},
+                onTap: () {
+                  viewModel.quizTapped(context, widget.resetNavigation);
+                },
                 child: Stack(
                   children: [
                     Ink(
@@ -118,14 +117,11 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
                             children: [
                               AutoSizeText(
                                 'quiz'.tr(),
-                                style: TextStyle(
-                                    fontSize: 25,
-                                    color: (state.myQuizTapped)
-                                        ? Colors.white
-                                        : Colors.black),
+                                style: const TextStyle(
+                                    fontSize: 25, color: Colors.black),
                               ),
                               const Spacer(),
-                              (state.isLoading)
+                              (state.isMyQuizLoading)
                                   ? GifProgressBar()
                                   : Text(
                                       state.myQuizList.length.toString(),
@@ -158,7 +154,9 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
               child: InkWell(
                 splashColor: const Color(0xFF071952),
                 borderRadius: BorderRadius.circular(20),
-                onTap: () async {},
+                onTap: () {
+                  viewModel.wordSearchesTapped(context, widget.resetNavigation);
+                },
                 child: Stack(
                   children: [
                     Ink(
@@ -176,14 +174,11 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
                             children: [
                               AutoSizeText(
                                 'search'.tr(),
-                                style: TextStyle(
-                                    fontSize: 25,
-                                    color: (state.mySearchesTapped)
-                                        ? Colors.white
-                                        : Colors.black),
+                                style: const TextStyle(
+                                    fontSize: 25, color: Colors.black),
                               ),
                               const Spacer(),
-                              (state.isLoading)
+                              (state.isMyWordLoading)
                                   ? GifProgressBar()
                                   : Text(
                                       state.mySearchesList.length.toString(),

@@ -20,6 +20,8 @@ DaySentencesModel _$DaySentencesModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$DaySentencesModel {
+  @JsonKey(name: 'id')
+  int get id => throw _privateConstructorUsedError;
   @JsonKey(name: 'date')
   String get date => throw _privateConstructorUsedError;
   @JsonKey(name: 'sentence')
@@ -44,7 +46,8 @@ abstract class $DaySentencesModelCopyWith<$Res> {
       _$DaySentencesModelCopyWithImpl<$Res, DaySentencesModel>;
   @useResult
   $Res call(
-      {@JsonKey(name: 'date') String date,
+      {@JsonKey(name: 'id') int id,
+      @JsonKey(name: 'date') String date,
       @JsonKey(name: 'sentence') String sentence,
       @JsonKey(name: 'like') bool like,
       @JsonKey(name: 'deleted') bool deleted,
@@ -64,6 +67,7 @@ class _$DaySentencesModelCopyWithImpl<$Res, $Val extends DaySentencesModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? date = null,
     Object? sentence = null,
     Object? like = null,
@@ -71,6 +75,10 @@ class _$DaySentencesModelCopyWithImpl<$Res, $Val extends DaySentencesModel>
     Object? explanation = null,
   }) {
     return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
       date: null == date
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
@@ -104,7 +112,8 @@ abstract class _$$DaySentencesModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: 'date') String date,
+      {@JsonKey(name: 'id') int id,
+      @JsonKey(name: 'date') String date,
       @JsonKey(name: 'sentence') String sentence,
       @JsonKey(name: 'like') bool like,
       @JsonKey(name: 'deleted') bool deleted,
@@ -122,6 +131,7 @@ class __$$DaySentencesModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? date = null,
     Object? sentence = null,
     Object? like = null,
@@ -129,6 +139,10 @@ class __$$DaySentencesModelImplCopyWithImpl<$Res>
     Object? explanation = null,
   }) {
     return _then(_$DaySentencesModelImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
       date: null == date
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
@@ -157,7 +171,8 @@ class __$$DaySentencesModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$DaySentencesModelImpl implements _DaySentencesModel {
   const _$DaySentencesModelImpl(
-      {@JsonKey(name: 'date') required this.date,
+      {@JsonKey(name: 'id') required this.id,
+      @JsonKey(name: 'date') required this.date,
       @JsonKey(name: 'sentence') required this.sentence,
       @JsonKey(name: 'like') required this.like,
       @JsonKey(name: 'deleted') required this.deleted,
@@ -166,6 +181,9 @@ class _$DaySentencesModelImpl implements _DaySentencesModel {
   factory _$DaySentencesModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$DaySentencesModelImplFromJson(json);
 
+  @override
+  @JsonKey(name: 'id')
+  final int id;
   @override
   @JsonKey(name: 'date')
   final String date;
@@ -184,7 +202,7 @@ class _$DaySentencesModelImpl implements _DaySentencesModel {
 
   @override
   String toString() {
-    return 'DaySentencesModel(date: $date, sentence: $sentence, like: $like, deleted: $deleted, explanation: $explanation)';
+    return 'DaySentencesModel(id: $id, date: $date, sentence: $sentence, like: $like, deleted: $deleted, explanation: $explanation)';
   }
 
   @override
@@ -192,6 +210,7 @@ class _$DaySentencesModelImpl implements _DaySentencesModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$DaySentencesModelImpl &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.date, date) || other.date == date) &&
             (identical(other.sentence, sentence) ||
                 other.sentence == sentence) &&
@@ -204,7 +223,7 @@ class _$DaySentencesModelImpl implements _DaySentencesModel {
   @JsonKey(ignore: true)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, date, sentence, like, deleted, explanation);
+      Object.hash(runtimeType, id, date, sentence, like, deleted, explanation);
 
   @JsonKey(ignore: true)
   @override
@@ -223,7 +242,8 @@ class _$DaySentencesModelImpl implements _DaySentencesModel {
 
 abstract class _DaySentencesModel implements DaySentencesModel {
   const factory _DaySentencesModel(
-          {@JsonKey(name: 'date') required final String date,
+          {@JsonKey(name: 'id') required final int id,
+          @JsonKey(name: 'date') required final String date,
           @JsonKey(name: 'sentence') required final String sentence,
           @JsonKey(name: 'like') required final bool like,
           @JsonKey(name: 'deleted') required final bool deleted,
@@ -233,6 +253,9 @@ abstract class _DaySentencesModel implements DaySentencesModel {
   factory _DaySentencesModel.fromJson(Map<String, dynamic> json) =
       _$DaySentencesModelImpl.fromJson;
 
+  @override
+  @JsonKey(name: 'id')
+  int get id;
   @override
   @JsonKey(name: 'date')
   String get date;

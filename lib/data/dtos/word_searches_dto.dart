@@ -1,12 +1,13 @@
 class WordSearchesDto {
+  final int? id;
   final String? word;
   final String? explanation;
   final Map<String, String>? exSentence;
   final bool? deleted;
 
 //<editor-fold desc="Data Methods">
-
   const WordSearchesDto({
+    this.id,
     this.word,
     this.explanation,
     this.exSentence,
@@ -18,6 +19,7 @@ class WordSearchesDto {
       identical(this, other) ||
       (other is WordSearchesDto &&
           runtimeType == other.runtimeType &&
+          id == other.id &&
           word == other.word &&
           explanation == other.explanation &&
           exSentence == other.exSentence &&
@@ -25,6 +27,7 @@ class WordSearchesDto {
 
   @override
   int get hashCode =>
+      id.hashCode ^
       word.hashCode ^
       explanation.hashCode ^
       exSentence.hashCode ^
@@ -32,16 +35,18 @@ class WordSearchesDto {
 
   @override
   String toString() {
-    return 'WordSearchesDto{ word: $word, explanation: $explanation, exSentence: $exSentence, deleted: $deleted,}';
+    return 'WordSearchesDto{ id: $id, word: $word, explanation: $explanation, exSentence: $exSentence, deleted: $deleted,}';
   }
 
   WordSearchesDto copyWith({
+    int? id,
     String? word,
     String? explanation,
     Map<String, String>? exSentence,
     bool? deleted,
   }) {
     return WordSearchesDto(
+      id: id ?? this.id,
       word: word ?? this.word,
       explanation: explanation ?? this.explanation,
       exSentence: exSentence ?? this.exSentence,
@@ -51,6 +56,7 @@ class WordSearchesDto {
 
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'word': word,
       'explanation': explanation,
       'exSentence': exSentence,
@@ -60,6 +66,7 @@ class WordSearchesDto {
 
   factory WordSearchesDto.fromJson(Map<String, dynamic> map) {
     return WordSearchesDto(
+      id: map['id'] ?? 0,
       word: map['word'] as String,
       explanation: map['explanation'] as String,
       exSentence: (map['exSentence'] as Map<String, dynamic>)

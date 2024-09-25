@@ -66,9 +66,9 @@ class _QuizPageState extends State<QuizPage>
           : (state.quizList.isEmpty)
               ? Center(child: AutoSizeText('try_later'.tr()))
               : Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: TabContainer(
-                        color: Colors.grey.shade300,
+                  padding: const EdgeInsets.all(4.0),
+                  child: TabContainer(
+                    color: Colors.grey.shade300,
                     controller: _tabController,
                     borderRadius: BorderRadius.circular(20),
                     tabEdge: TabEdge.top,
@@ -118,7 +118,7 @@ class _QuizPageState extends State<QuizPage>
                               },
                             )),
                   ),
-              ),
+                ),
       floatingActionButton: SizedBox(
         width: 50.0,
         height: 50.0,
@@ -131,20 +131,30 @@ class _QuizPageState extends State<QuizPage>
             ),
             borderRadius: BorderRadius.circular(50.0),
           ),
-          onPressed: (state.isPosted)
-              ? () {}
-              : () async {
-                  final QuizModel item = QuizModel(
-                    question: state.quizList[_tabController.index].question,
-                    options: state.quizList[_tabController.index].options,
-                    correctAnswer:
-                        state.quizList[_tabController.index].correctAnswer,
-                    deleted: false,
-                    explanation:
-                        state.quizList[_tabController.index].explanation,
+          onPressed: (state.checkTapped)
+              ? (state.isPosted)
+                  ? () {}
+                  : () async {
+                      final QuizModel item = QuizModel(
+                        id: state.quizList[_tabController.index].id,
+                        question: state.quizList[_tabController.index].question,
+                        options: state.quizList[_tabController.index].options,
+                        correctAnswer:
+                            state.quizList[_tabController.index].correctAnswer,
+                        deleted: false,
+                        explanation:
+                            state.quizList[_tabController.index].explanation,
+                      );
+                      await viewModel.postMyQuizData(
+                          context, item, widget.resetNavigation);
+                    }
+              : () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Please check the answer to the quiz.'),
+                      duration: Duration(seconds: 2),
+                    ),
                   );
-                  await viewModel.postMyQuizData(
-                      context, item, widget.resetNavigation);
                 },
           child: (state.isPosting)
               ? GifProgressBar()

@@ -8,11 +8,13 @@ class DaySentencesMapper {
         sentence: dto.sentence ?? '',
         like: dto.like ?? false,
         deleted: dto.deleted ?? false,
-        explanation: dto.explanation ?? '');
+        explanation: dto.explanation ?? '',
+        id: dto.id ?? 0);
   }
 
   static DaySentencesDto toDTO(DaySentencesModel model) {
     return DaySentencesDto(
+      id: model.id,
       date: model.date,
       sentence: model.sentence,
       like: model.like,

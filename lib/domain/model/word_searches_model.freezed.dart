@@ -20,6 +20,8 @@ WordSearchesModel _$WordSearchesModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$WordSearchesModel {
+  @JsonKey(name: 'id')
+  int get id => throw _privateConstructorUsedError;
   @JsonKey(name: 'word')
   String get word => throw _privateConstructorUsedError;
   @JsonKey(name: 'explanation')
@@ -42,7 +44,8 @@ abstract class $WordSearchesModelCopyWith<$Res> {
       _$WordSearchesModelCopyWithImpl<$Res, WordSearchesModel>;
   @useResult
   $Res call(
-      {@JsonKey(name: 'word') String word,
+      {@JsonKey(name: 'id') int id,
+      @JsonKey(name: 'word') String word,
       @JsonKey(name: 'explanation') String explanation,
       @JsonKey(name: 'exSentence') Map<String, String> exSentence,
       @JsonKey(name: 'deleted') bool deleted});
@@ -61,12 +64,17 @@ class _$WordSearchesModelCopyWithImpl<$Res, $Val extends WordSearchesModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? word = null,
     Object? explanation = null,
     Object? exSentence = null,
     Object? deleted = null,
   }) {
     return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
       word: null == word
           ? _value.word
           : word // ignore: cast_nullable_to_non_nullable
@@ -96,7 +104,8 @@ abstract class _$$WordSearchesModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: 'word') String word,
+      {@JsonKey(name: 'id') int id,
+      @JsonKey(name: 'word') String word,
       @JsonKey(name: 'explanation') String explanation,
       @JsonKey(name: 'exSentence') Map<String, String> exSentence,
       @JsonKey(name: 'deleted') bool deleted});
@@ -113,12 +122,17 @@ class __$$WordSearchesModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? word = null,
     Object? explanation = null,
     Object? exSentence = null,
     Object? deleted = null,
   }) {
     return _then(_$WordSearchesModelImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
       word: null == word
           ? _value.word
           : word // ignore: cast_nullable_to_non_nullable
@@ -143,7 +157,8 @@ class __$$WordSearchesModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$WordSearchesModelImpl implements _WordSearchesModel {
   const _$WordSearchesModelImpl(
-      {@JsonKey(name: 'word') required this.word,
+      {@JsonKey(name: 'id') required this.id,
+      @JsonKey(name: 'word') required this.word,
       @JsonKey(name: 'explanation') required this.explanation,
       @JsonKey(name: 'exSentence')
       required final Map<String, String> exSentence,
@@ -153,6 +168,9 @@ class _$WordSearchesModelImpl implements _WordSearchesModel {
   factory _$WordSearchesModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$WordSearchesModelImplFromJson(json);
 
+  @override
+  @JsonKey(name: 'id')
+  final int id;
   @override
   @JsonKey(name: 'word')
   final String word;
@@ -174,7 +192,7 @@ class _$WordSearchesModelImpl implements _WordSearchesModel {
 
   @override
   String toString() {
-    return 'WordSearchesModel(word: $word, explanation: $explanation, exSentence: $exSentence, deleted: $deleted)';
+    return 'WordSearchesModel(id: $id, word: $word, explanation: $explanation, exSentence: $exSentence, deleted: $deleted)';
   }
 
   @override
@@ -182,6 +200,7 @@ class _$WordSearchesModelImpl implements _WordSearchesModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$WordSearchesModelImpl &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.word, word) || other.word == word) &&
             (identical(other.explanation, explanation) ||
                 other.explanation == explanation) &&
@@ -192,7 +211,7 @@ class _$WordSearchesModelImpl implements _WordSearchesModel {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, word, explanation,
+  int get hashCode => Object.hash(runtimeType, id, word, explanation,
       const DeepCollectionEquality().hash(_exSentence), deleted);
 
   @JsonKey(ignore: true)
@@ -212,7 +231,8 @@ class _$WordSearchesModelImpl implements _WordSearchesModel {
 
 abstract class _WordSearchesModel implements WordSearchesModel {
   const factory _WordSearchesModel(
-          {@JsonKey(name: 'word') required final String word,
+          {@JsonKey(name: 'id') required final int id,
+          @JsonKey(name: 'word') required final String word,
           @JsonKey(name: 'explanation') required final String explanation,
           @JsonKey(name: 'exSentence')
           required final Map<String, String> exSentence,
@@ -222,6 +242,9 @@ abstract class _WordSearchesModel implements WordSearchesModel {
   factory _WordSearchesModel.fromJson(Map<String, dynamic> json) =
       _$WordSearchesModelImpl.fromJson;
 
+  @override
+  @JsonKey(name: 'id')
+  int get id;
   @override
   @JsonKey(name: 'word')
   String get word;

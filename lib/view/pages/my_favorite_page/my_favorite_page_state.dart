@@ -11,13 +11,16 @@ part 'my_favorite_page_state.g.dart';
 @freezed
 class MyFavoritePageState with _$MyFavoritePageState {
   const factory MyFavoritePageState({
-    @Default(false) bool isLoading,
+    @Default(false) bool isMySentencesLoading,
+    @Default(false) bool isMyQuizLoading,
+    @Default(false) bool isMyWordLoading,
+    @Default(false) bool isDeleting,
     @Default(false) bool mySentencesBadge,
     @Default(false) bool myQuizBadge,
     @Default(false) bool mySearchesBadge,
-    @Default(false) bool mySentencesTapped,
-    @Default(false) bool myQuizTapped,
-    @Default(false) bool mySearchesTapped,
+    @Default(0) int mySentencesCurrentPage,
+    @Default(0) int mySQuizCurrentPage,
+    @Default(0) int myWordSearchesCurrentPage,
     @Default([]) List<DaySentencesModel> mySentencesList,
     @Default([]) List<QuizModel> myQuizList,
     @Default([]) List<WordSearchesModel> mySearchesList,

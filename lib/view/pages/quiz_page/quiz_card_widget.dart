@@ -214,8 +214,15 @@ class QuizCardWidget extends StatelessWidget {
                   child: InkWell(
                     splashColor: const Color(0xff4FB0C6),
                     borderRadius: BorderRadius.circular(20),
-                    onTap: () {
+                    onTap: (state.checkTapped) ? () {
                       viewModel.checkTheAnswer(index);
+                    } : () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Please select an answer.'),
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
                     },
                     child: Material(
                       color: const Color(0xFFEBF4F6),

@@ -130,11 +130,12 @@ class _DaySentencePageState extends State<DaySentencePage> {
               ? () {}
               : () async {
                   final DaySentencesModel item = DaySentencesModel(
+                    id: 0,
                       date: state.date,
                       sentence: state.sentence,
                       like: true,
                       deleted: false,
-                      explanation: state.explanation);
+                      explanation: state.explanation, );
                   await viewModel.postMySentencesData(
                       context, item, widget.resetNavigation);
                 },

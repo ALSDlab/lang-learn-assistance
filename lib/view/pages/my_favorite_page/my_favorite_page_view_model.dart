@@ -44,11 +44,28 @@ class MyFavoritePageViewModel with ChangeNotifier {
 
   MyFavoritePageState get state => _state;
 
+  PageController mySentencesPageController =
+      PageController(viewportFraction: 0.8, keepPage: true);
+  PageController myQuizPageController =
+      PageController(viewportFraction: 0.8, keepPage: true);
+  PageController myWordSearchesPageController =
+      PageController(viewportFraction: 0.8, keepPage: true);
+
+  List<DaySentencesModel> mySentencesItemsTemp = [];
+  List<QuizModel> myQuizItemsTemp = [];
+  List<WordSearchesModel> myWordSearchesItemsTemp = [];
+  List<bool> isAnimatingMySentences = [];
+  List<bool> isAnimatingMyQuiz = [];
+  List<bool> isAnimatingMyWordSearches = [];
+
   bool _disposed = false;
 
   @override
   void dispose() {
     _disposed = true;
+    mySentencesPageController.dispose();
+    myQuizPageController.dispose();
+    myWordSearchesPageController.dispose();
     super.dispose();
   }
 
@@ -59,8 +76,26 @@ class MyFavoritePageViewModel with ChangeNotifier {
     }
   }
 
+  void mySentencesPageChanged(int index) {
+    _state = state.copyWith(mySentencesCurrentPage: index);
+    notifyListeners();
+  }
+
+  void myQuizPageChanged(int index) {
+    _state = state.copyWith(mySQuizCurrentPage: index);
+    notifyListeners();
+  }
+
+  void mySearchPageChanged(int index) {
+    _state = state.copyWith(myWordSearchesCurrentPage: index);
+    notifyListeners();
+  }
+
   Future<void> fetchFirebaseData() async {
-    _state = state.copyWith(isLoading: true);
+    _state = state.copyWith(
+        isMySentencesLoading: true,
+        isMyQuizLoading: true,
+        isMyWordLoading: true);
     notifyListeners();
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -87,7 +122,13 @@ class MyFavoritePageViewModel with ChangeNotifier {
           logger.info(mySentencesResult.message);
           break;
       }
-
+    } catch (error) {
+      logger.info('Error fetching FIREBASE data(mySentence): $error');
+    } finally {
+      _state = state.copyWith(isMySentencesLoading: false);
+      notifyListeners();
+    }
+    try {
       final myQuizResult = await _loadMyQuizUseCase.execute(Globals.docId);
       switch (myQuizResult) {
         case Success<List<QuizModel>>():
@@ -102,7 +143,14 @@ class MyFavoritePageViewModel with ChangeNotifier {
           logger.info(myQuizResult.message);
           break;
       }
+    } catch (error) {
+      logger.info('Error fetching FIREBASE data(myQuiz): $error');
+    } finally {
+      _state = state.copyWith(isMyQuizLoading: false);
+      notifyListeners();
+    }
 
+    try {
       final mySearchesResult =
           await _loadMySearchesUseCase.execute(Globals.docId);
       switch (mySearchesResult) {
@@ -122,21 +170,24 @@ class MyFavoritePageViewModel with ChangeNotifier {
 
       notifyListeners();
     } catch (error) {
-      logger.info('Error fetching FIREBASE data: $error');
+      logger.info('Error fetching FIREBASE data(myWord): $error');
     } finally {
-      _state = state.copyWith(isLoading: false);
+      _state = state.copyWith(isMyWordLoading: false);
       notifyListeners();
     }
   }
 
   Future<void> deleteMySentencesData(
       BuildContext context, DaySentencesModel item) async {
+    _state = state.copyWith(isDeleting: true);
+    notifyListeners();
+
     final result = await _deleteMySentencesUseCase.execute(Globals.docId, item);
     switch (result) {
       case Success<void>():
         List<DaySentencesModel> newList = List.from(_state.mySentencesList)
           ..remove(item);
-        _state = state.copyWith(mySentencesList: newList);
+        _state = state.copyWith(mySentencesList: newList, isDeleting: false);
 
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -157,11 +208,13 @@ class MyFavoritePageViewModel with ChangeNotifier {
   }
 
   Future<void> deleteMyQuizData(BuildContext context, QuizModel item) async {
+    _state = state.copyWith(isDeleting: true);
+    notifyListeners();
     final result = await _deleteMyQuizUseCase.execute(Globals.docId, item);
     switch (result) {
       case Success<void>():
         List<QuizModel> newList = List.from(_state.myQuizList)..remove(item);
-        _state = state.copyWith(myQuizList: newList);
+        _state = state.copyWith(myQuizList: newList, isDeleting: false);
 
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -183,12 +236,15 @@ class MyFavoritePageViewModel with ChangeNotifier {
 
   Future<void> deleteMySearchesData(
       BuildContext context, WordSearchesModel item) async {
+    _state = state.copyWith(isDeleting: true);
+    notifyListeners();
     final result = await _deleteMySearchesUseCase.execute(Globals.docId, item);
     switch (result) {
       case Success<void>():
         List<WordSearchesModel> newList = List.from(_state.mySearchesList)
           ..remove(item);
-        _state = state.copyWith(mySearchesList: newList);
+
+        _state = state.copyWith(mySearchesList: newList, isDeleting: false);
 
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -208,12 +264,9 @@ class MyFavoritePageViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void daySentencesTapped(
-      BuildContext context, Function(bool) resetNavigation) {
-    _state = state.copyWith(mySentencesTapped: true);
-    notifyListeners();
-
-    _state = state.copyWith(mySentencesTapped: false, mySentencesBadge: false);
+  Future<void> daySentencesTapped(
+      BuildContext context, Function(bool) resetNavigation) async {
+    _state = state.copyWith(mySentencesBadge: false);
     notifyListeners();
 
     if (state.mySentencesBadge == false &&
@@ -223,8 +276,120 @@ class MyFavoritePageViewModel with ChangeNotifier {
     }
     notifyListeners();
     if (context.mounted) {
-      context.push('/my_favorite_page/my_sentences_page',
+      final favoriteResult = await context.push(
+          '/my_favorite_page/my_sentences_page',
           extra: {'mySentencesItems': _state.mySentencesList});
+      if (favoriteResult != null) {
+        fetchFirebaseData();
+      }
+
+      notifyListeners();
     }
+  }
+
+  Future<void> quizTapped(
+      BuildContext context, Function(bool) resetNavigation) async {
+    _state = state.copyWith(myQuizBadge: false);
+    notifyListeners();
+
+    if (state.mySentencesBadge == false &&
+        state.myQuizBadge == false &&
+        state.mySearchesBadge == false) {
+      resetNavigation(false);
+    }
+    notifyListeners();
+    if (context.mounted) {
+      final favoriteResult = await context.push(
+          '/my_favorite_page/my_quiz_page',
+          extra: {'myQuizItems': _state.myQuizList});
+      if (favoriteResult != null) {
+        fetchFirebaseData();
+      }
+      notifyListeners();
+    }
+  }
+
+  Future<void> wordSearchesTapped(
+      BuildContext context, Function(bool) resetNavigation) async {
+    _state = state.copyWith(mySearchesBadge: false);
+    notifyListeners();
+
+    if (state.mySentencesBadge == false &&
+        state.myQuizBadge == false &&
+        state.mySearchesBadge == false) {
+      resetNavigation(false);
+    }
+    notifyListeners();
+    if (context.mounted) {
+      final favoriteResult = await context.push(
+          '/my_favorite_page/my_search_page',
+          extra: {'mySearchesItems': _state.mySearchesList});
+      if (favoriteResult != null) {
+        fetchFirebaseData();
+      }
+      notifyListeners();
+    }
+  }
+
+  Future<void> mySentencesTrashTapped(
+      BuildContext context, int index, DaySentencesModel sentenceItem) async {
+    isAnimatingMySentences[index] = true;
+    notifyListeners();
+    await Future.delayed(const Duration(milliseconds: 500));
+    if (context.mounted) {
+      await deleteMySentencesData(context, sentenceItem);
+    }
+    mySentencesItemsTemp.removeAt(index);
+    _state = state.copyWith(mySentencesCurrentPage: index);
+    isAnimatingMySentences =
+        List<bool>.filled(mySentencesItemsTemp.length, false);
+    notifyListeners();
+
+    mySentencesPageController.previousPage(
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+    notifyListeners();
+  }
+
+  Future<void> myQuizTrashTapped(
+      BuildContext context, int index, QuizModel quizItem) async {
+    isAnimatingMyQuiz[index] = true;
+    notifyListeners();
+    await Future.delayed(const Duration(milliseconds: 500));
+    if (context.mounted) {
+      await deleteMyQuizData(context, quizItem);
+    }
+    myQuizItemsTemp.removeAt(index);
+    _state = state.copyWith(mySQuizCurrentPage: index);
+    isAnimatingMyQuiz = List<bool>.filled(myQuizItemsTemp.length, false);
+    notifyListeners();
+
+    myQuizPageController.previousPage(
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+    notifyListeners();
+  }
+
+  Future<void> myWordSearchesTrashTapped(
+      BuildContext context, int index, WordSearchesModel wordSearchItem) async {
+    isAnimatingMyWordSearches[index] = true;
+    notifyListeners();
+    await Future.delayed(const Duration(milliseconds: 500));
+    if (context.mounted) {
+      await deleteMySearchesData(context, wordSearchItem);
+    }
+    myWordSearchesItemsTemp.removeAt(index);
+    _state = state.copyWith(myWordSearchesCurrentPage: index);
+    isAnimatingMyWordSearches =
+        List<bool>.filled(myWordSearchesItemsTemp.length, false);
+    notifyListeners();
+
+    myWordSearchesPageController.previousPage(
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+    notifyListeners();
   }
 }

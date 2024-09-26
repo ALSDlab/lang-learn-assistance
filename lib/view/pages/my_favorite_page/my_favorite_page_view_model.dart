@@ -99,9 +99,9 @@ class MyFavoritePageViewModel with ChangeNotifier {
     notifyListeners();
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    final mySentencesCount = prefs.getInt('my_sentences_list');
-    final myQuizCount = prefs.getInt('my_quiz_list');
-    final mySearchesCount = prefs.getInt('my_searches_list');
+    final mySentencesCount = prefs.getInt('my_sentences_list') ?? 0;
+    final myQuizCount = prefs.getInt('my_quiz_list') ?? 0;
+    final mySearchesCount = prefs.getInt('my_searches_list') ?? 0;
 
     try {
       final mySentencesResult =
@@ -109,8 +109,7 @@ class MyFavoritePageViewModel with ChangeNotifier {
       switch (mySentencesResult) {
         case Success<List<DaySentencesModel>>():
           _state = state.copyWith(mySentencesList: mySentencesResult.data);
-          if (mySentencesCount != null &&
-              mySentencesCount < _state.mySentencesList.length) {
+          if (mySentencesCount < _state.mySentencesList.length) {
             _state = state.copyWith(mySentencesBadge: true);
           } else {
             _state = state.copyWith(mySentencesBadge: false);
@@ -133,7 +132,7 @@ class MyFavoritePageViewModel with ChangeNotifier {
       switch (myQuizResult) {
         case Success<List<QuizModel>>():
           _state = state.copyWith(myQuizList: myQuizResult.data);
-          if (myQuizCount != null && myQuizCount < _state.myQuizList.length) {
+          if (myQuizCount < _state.myQuizList.length) {
             _state = state.copyWith(myQuizBadge: true);
           } else {
             _state = state.copyWith(myQuizBadge: false);
@@ -156,8 +155,7 @@ class MyFavoritePageViewModel with ChangeNotifier {
       switch (mySearchesResult) {
         case Success<List<WordSearchesModel>>():
           _state = state.copyWith(mySearchesList: mySearchesResult.data);
-          if (mySearchesCount != null &&
-              mySearchesCount < _state.mySearchesList.length) {
+          if (mySearchesCount < _state.mySearchesList.length) {
             _state = state.copyWith(mySearchesBadge: true);
           } else {
             _state = state.copyWith(mySearchesBadge: false);

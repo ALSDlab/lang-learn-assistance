@@ -17,6 +17,7 @@ import '../../../data/repository/network_connectivity_observer.dart';
 import '../../data/repository/connectivity_observer.dart';
 import '../../utils/one_answer_dialog.dart';
 import '../../utils/simple_logger.dart';
+import '../pages/setting_page/setting_page_view_model.dart';
 import 'navigation_page_view_model.dart';
 
 class ScaffoldWithNavBar extends StatefulWidget {
@@ -93,9 +94,11 @@ class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
     final quizViewModel = context.watch<QuizPageViewModel>();
     final wordSearchViewModel = context.watch<WordSearchPageViewModel>();
     final favoritesViewModel = context.watch<MyFavoritePageViewModel>();
+    final settingsViewModel = context.watch<SettingPageViewModel>();
     final daySentenceState = daySentenceViewModel.state;
     final quizState = quizViewModel.state;
     final wordSearchState = wordSearchViewModel.state;
+    final settingsState = settingsViewModel.state;
     return Scaffold(
       body: widget.child,
       bottomNavigationBar: StylishBottomBar(
@@ -193,9 +196,10 @@ class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
             if (!daySentenceState.isPosting &&
                 !quizState.isPosting &&
                 !wordSearchState.isPosting) {
-              //TODO: currentPage가 index와 같을 경우(my_favorite_page의 자식 페이지에서 다시 my_favorite_page를 선택할 때 이동을 막음)
               _goOtherTab(context, index, viewModel.resetNavigation,
                   favoritesViewModel.fetchFirebaseData);
+            } else {
+              return;
             }
           }
         },

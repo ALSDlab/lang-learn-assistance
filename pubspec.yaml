@@ -88,6 +88,7 @@ flutter:
   assets:
     - assets/gifs/
     - assets/fonts/
+    - assets/images/
     - assets/translations/
 
   # An image asset can refer to one or more resolution-specific "variants", see

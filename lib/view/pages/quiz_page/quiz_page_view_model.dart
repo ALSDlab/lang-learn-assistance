@@ -49,11 +49,9 @@ class QuizPageViewModel with ChangeNotifier {
 
     final String question =
         '''Create ${Globals.quizCount} multiple-choice quizzes in ${Globals.level} ${Globals.target} with 3 options each. I would like the 3 options to be selected in a way that ensures there is a clear correct answer.
-        You write the options in the explanation in ${Globals.target}, Other than that, you have to provide the explanation only in ${Globals.yourLang}, but  as well. 
-        Never use indicates 1, 2, and 3 in the explanation.
-        I want the result in exact JSON format, including the quiz 'question', 3 'options', the 'correctAnswer' as index of List 'options', and the 'explanation'.
-        Do not create sentences in a way that is not compliant with JSON format.
-        Wrap all string values with double quotes and JSON structure must be always like this
+        Please do not include quizzes that reference pictures or sentences. You write the options in the explanation in ${Globals.target}, Other than that, you have to provide the explanation only in ${Globals.yourLang}. 
+        Never use indicates 1, 2, and 3 in the explanation. I want the result in exact JSON format, including the quiz 'question', 3 'options', the 'correctAnswer' as index of List 'options', and the 'explanation' in ${Globals.yourLang}.
+        Do not create sentences in a way that is not compliant with JSON format. Wrap all string values with double quotes and JSON structure must be always like this
         [
           {
             "question" : "",

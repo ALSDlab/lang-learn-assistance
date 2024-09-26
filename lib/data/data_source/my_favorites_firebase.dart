@@ -106,7 +106,6 @@ class MyFavoritesFirebase {
           })
           .map((e) => e.toJson())
           .toList();
-      print(updatedData);
 
       await _firestore.collection('day_sentences').doc(myDocId).set({
         'my_sentences': updatedData,

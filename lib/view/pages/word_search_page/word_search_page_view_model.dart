@@ -81,24 +81,17 @@ class WordSearchPageViewModel with ChangeNotifier {
       Function(bool) resetNavigation) async {
     _state = state.copyWith(isPosting: true);
     notifyListeners();
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    final mySearchesCount = prefs.getInt('my_searches_list');
 
     final result = await _saveMySearchesUseCase.execute(Globals.docId, item);
     switch (result) {
       case Success<void>():
-        if (mySearchesCount != null) {
-          await prefs.setInt('my_searches_list', mySearchesCount + 1);
-        } else {
-          await prefs.setInt('my_searches_list', 1);
-        }
+
         if (context.mounted) {
           resetNavigation(true);
           _state = state.copyWith(isPosting: false, isPosted: true);
-
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-              content: Text('Day Sentence saved.'),
+              content: Text('The word saved.'),
               duration: Duration(seconds: 2),
             ),
           );

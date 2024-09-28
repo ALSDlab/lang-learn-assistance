@@ -137,6 +137,7 @@ class MyFavoritePageViewModel with ChangeNotifier {
           } else {
             _state = state.copyWith(myQuizBadge: false);
           }
+          await prefs.setInt('my_quiz_list', myQuizResult.data.length);
           break;
         case Error<List<QuizModel>>():
           logger.info(myQuizResult.message);
@@ -160,6 +161,7 @@ class MyFavoritePageViewModel with ChangeNotifier {
           } else {
             _state = state.copyWith(mySearchesBadge: false);
           }
+          await prefs.setInt('my_searches_list', mySearchesResult.data.length);
           break;
         case Error<List<WordSearchesModel>>():
           logger.info(mySearchesResult.message);
@@ -267,9 +269,9 @@ class MyFavoritePageViewModel with ChangeNotifier {
     _state = state.copyWith(mySentencesBadge: false);
     notifyListeners();
 
-    if (state.mySentencesBadge == false &&
-        state.myQuizBadge == false &&
-        state.mySearchesBadge == false) {
+    if (_state.mySentencesBadge == false &&
+        _state.myQuizBadge == false &&
+        _state.mySearchesBadge == false) {
       resetNavigation(false);
     }
     notifyListeners();
@@ -290,9 +292,9 @@ class MyFavoritePageViewModel with ChangeNotifier {
     _state = state.copyWith(myQuizBadge: false);
     notifyListeners();
 
-    if (state.mySentencesBadge == false &&
-        state.myQuizBadge == false &&
-        state.mySearchesBadge == false) {
+    if (_state.mySentencesBadge == false &&
+        _state.myQuizBadge == false &&
+        _state.mySearchesBadge == false) {
       resetNavigation(false);
     }
     notifyListeners();
@@ -312,9 +314,9 @@ class MyFavoritePageViewModel with ChangeNotifier {
     _state = state.copyWith(mySearchesBadge: false);
     notifyListeners();
 
-    if (state.mySentencesBadge == false &&
-        state.myQuizBadge == false &&
-        state.mySearchesBadge == false) {
+    if (_state.mySentencesBadge == false &&
+        _state.myQuizBadge == false &&
+        _state.mySearchesBadge == false) {
       resetNavigation(false);
     }
     notifyListeners();

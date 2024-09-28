@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:lang_learn/domain/use_case/day_sentences/get_day_sentences_use_case.dart';
 import 'package:lang_learn/view/navigation/globals.dart';
 import 'package:lang_learn/view/pages/day_sentence_page/day_sentences_page_state.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../data/core/result.dart';
 import '../../../domain/model/day_sentences_model.dart';
@@ -85,7 +84,6 @@ class DaySentencePageViewModel with ChangeNotifier {
     final result = await _saveMySentencesUseCase.execute(Globals.docId, item);
     switch (result) {
       case Success<void>():
-
         if (context.mounted) {
           resetNavigation(true);
           _state = state.copyWith(isPosting: false, isPosted: true);

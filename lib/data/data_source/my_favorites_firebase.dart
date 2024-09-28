@@ -196,6 +196,7 @@ class MyFavoritesFirebase {
         if (data.containsKey('my_quiz')) {
           originalData = (data['my_quiz'] as List<dynamic>)
               .map((e) => QuizDto.fromJson(e as Map<String, dynamic>))
+              .where((e) => e.deleted == false)
               .toList();
         }
       }
@@ -273,6 +274,7 @@ class MyFavoritesFirebase {
           List<dynamic> searchData = data['my_search'];
           return Result.success(searchData
               .map((e) => WordSearchesDto.fromJson(e as Map<String, dynamic>))
+              .where((e) => e.deleted == false)
               .toList());
         } else {
           return const Result.error('No search data found');
@@ -299,6 +301,7 @@ class MyFavoritesFirebase {
         if (data.containsKey('my_search')) {
           originalData = (data['my_search'] as List<dynamic>)
               .map((e) => WordSearchesDto.fromJson(e as Map<String, dynamic>))
+              .where((e) => e.deleted == false)
               .toList();
         }
       }

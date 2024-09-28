@@ -13,6 +13,7 @@ import 'package:lang_learn/view/pages/quiz_page/quiz_page.dart';
 import 'package:lang_learn/view/pages/quiz_page/quiz_page_view_model.dart';
 import 'package:lang_learn/view/pages/setting_page/setting_page.dart';
 import 'package:lang_learn/view/pages/setting_page/setting_page_view_model.dart';
+import 'package:lang_learn/view/pages/splash_page/splash_page.dart';
 import 'package:lang_learn/view/pages/word_search_page/word_search_page.dart';
 import 'package:lang_learn/view/pages/word_search_page/word_search_page_view_model.dart';
 import 'package:provider/provider.dart';
@@ -25,9 +26,13 @@ final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _shellNavigatorKey = GlobalKey<NavigatorState>();
 
 final router = GoRouter(
-  initialLocation: '/setting_page',
+  initialLocation: '/splash_page',
   navigatorKey: _rootNavigatorKey,
   routes: [
+    GoRoute(
+      path: '/splash_page',
+      builder: (context, state) => const SplashPage(),
+    ),
     ShellRoute(
         navigatorKey: _shellNavigatorKey,
         pageBuilder: (context, state, child) {

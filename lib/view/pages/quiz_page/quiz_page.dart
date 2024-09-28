@@ -131,7 +131,7 @@ class _QuizPageState extends State<QuizPage>
             ),
             borderRadius: BorderRadius.circular(50.0),
           ),
-          onPressed: (state.checkTapped)
+          onPressed: (viewModel.checkTapped[_tabController.index] != null)
               ? (state.isPosted)
                   ? () {}
                   : () async {

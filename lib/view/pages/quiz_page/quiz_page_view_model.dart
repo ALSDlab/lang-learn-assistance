@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:lang_learn/domain/model/quiz_model.dart';
 import 'package:lang_learn/domain/use_case/quiz/get_quiz_use_case.dart';
 import 'package:lang_learn/view/pages/quiz_page/quiz_page_state.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../data/core/result.dart';
 import '../../../domain/use_case/quiz/save_my_quiz_use_case.dart';
@@ -101,17 +100,10 @@ class QuizPageViewModel with ChangeNotifier {
     _state = state.copyWith(isPosting: true);
     notifyListeners();
 
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    final myQuizCount = prefs.getInt('my_quiz_list');
-
     final result = await _saveMyQuizUseCase.execute(Globals.docId, item);
     switch (result) {
       case Success<void>():
-        if (myQuizCount != null) {
-          await prefs.setInt('my_quiz_list', myQuizCount + 1);
-        } else {
-          await prefs.setInt('my_quiz_list', 1);
-        }
+
         if (context.mounted) {
           resetNavigation(true);
           _state = state.copyWith(isPosting: false, isPosted: true);

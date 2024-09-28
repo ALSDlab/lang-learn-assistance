@@ -35,6 +35,7 @@ class _DaySentencePageState extends State<DaySentencePage> {
           : Padding(
               padding: const EdgeInsets.all(16.0),
               child: ListView(
+                physics: const BouncingScrollPhysics(),
                 children: [
                   const SizedBox(
                     height: 20,
@@ -54,8 +55,7 @@ class _DaySentencePageState extends State<DaySentencePage> {
                           child: FittedBox(
                             fit: BoxFit.fitWidth,
                             child: Text(
-                              DateFormat.yMMMMd('en_US').format(
-                                  DateFormat('MMMM d, y').parse(state.date)),
+                                state.date,
                               style: const TextStyle(fontSize: 20),
                             ),
                           ),

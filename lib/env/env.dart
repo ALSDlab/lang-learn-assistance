@@ -5,7 +5,7 @@ part 'env.g.dart';
 @Envied(path: 'lib/env/.env', useConstantCase: true)
 abstract class Env {
 
-  // CHATGPT_API_KEY
+  // GEMINI_API_KEY
   @EnviedField()
   static const String geminiApiKey = _Env.geminiApiKey;
 

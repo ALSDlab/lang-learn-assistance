@@ -7,6 +7,7 @@ import 'package:lang_learn/view/pages/day_sentence_page/day_sentences_page_state
 import '../../../data/core/result.dart';
 import '../../../domain/model/day_sentences_model.dart';
 import '../../../domain/use_case/day_sentences/save_my_sentences_use_case.dart';
+import '../../../env/env.dart';
 import '../../../utils/simple_logger.dart';
 
 class DaySentencePageViewModel with ChangeNotifier {
@@ -48,14 +49,14 @@ class DaySentencePageViewModel with ChangeNotifier {
     final String todayDate = DateFormat.yMMMMd('en_US').format(DateTime.now());
 
     final String question =
-        '''Show me a sentence in ${Globals.level} ${Globals.target} and provide an explanation in ${Globals.yourLang}. 
-        Today is $todayDate. I want the response to be in exact JSON format, including today's 'date' that must be in Full date format, the 'sentence' of the day, and the 'explanation' excluding anything related to pronunciation. 
+        '''Show me a sentence in ${Globals.level} ${Globals.target} and provide an explanation in ${Globals.yourLang}.
+        Today is $todayDate. I want the response to be in exact JSON format, including today's 'date' that must be in Full date format, the 'sentence' of the day, and the 'explanation' excluding anything related to pronunciation.
         Do not create sentences in a way that is not compliant with JSON format.
         Wrap all string values with double quotes and JSON structure must be always like this
         {
           "date" : "$todayDate",
           "sentence" : "",
-          "explanation" : "" 
+          "explanation" : ""
         }''';
 
     try {

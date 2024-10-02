@@ -46,7 +46,7 @@ class WordSearchPageViewModel with ChangeNotifier {
 
     final String question =
         '''Explain in ${Globals.yourLang} about the word '$word'. It's maybe other language. 
-        I want the result in exact JSON format, including the 'word', the 'explanation' and 'exSentence' as an example sentence with their language and 'translation'.
+        I want the result in exact JSON format, including the 'word', the 'explanation' and 'exSentence' as an example 'sentence' in their language and 'translation' in ${Globals.yourLang}.
         Do not create sentences in a way that is not compliant with JSON format.
         Wrap all string values with double quotes and JSON structure must be always like this
         {

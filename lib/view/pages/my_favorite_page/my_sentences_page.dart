@@ -127,12 +127,7 @@ class _MySentencesPageState extends State<MySentencesPage>
                                             child: FittedBox(
                                               fit: BoxFit.fitWidth,
                                               child: Text(
-                                                DateFormat.yMMMMd('en_US')
-                                                    .format(
-                                                        DateFormat('MMMM d, y')
-                                                            .parse(
-                                                  sentenceItem.date,
-                                                )),
+                                                sentenceItem.date,
                                                 style: const TextStyle(
                                                     fontSize: 20),
                                               ),

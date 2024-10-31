@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lang_learn/data/repository/connectivity_wrapper.dart';
 import 'package:lang_learn/router.dart';
 
 import 'di/get_it.dart';
@@ -14,8 +15,8 @@ void main() async {
   );
   await EasyLocalization.ensureInitialized();
   diSetup();
-  runApp(
-    EasyLocalization(
+  runApp(ConnectivityWrapper(
+    child: EasyLocalization(
       supportedLocales: const [
         Locale('en', 'US'),
         Locale('es', 'ES'),
@@ -31,7 +32,7 @@ void main() async {
       fallbackLocale: const Locale('en', 'US'),
       child: const MyApp(),
     ),
-  );
+  ));
 }
 
 class MyApp extends StatelessWidget {

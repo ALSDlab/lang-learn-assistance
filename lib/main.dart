@@ -15,8 +15,10 @@ void main() async {
   );
   await EasyLocalization.ensureInitialized();
   diSetup();
-  runApp(ConnectivityWrapper(
-    child: EasyLocalization(
+  runApp(
+    //   ConnectivityWrapper(
+    // child:
+    EasyLocalization(
       supportedLocales: const [
         Locale('en', 'US'),
         Locale('es', 'ES'),
@@ -32,7 +34,8 @@ void main() async {
       fallbackLocale: const Locale('en', 'US'),
       child: const MyApp(),
     ),
-  ));
+  // )
+  );
 }
 
 class MyApp extends StatelessWidget {

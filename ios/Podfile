@@ -31,10 +31,6 @@ target 'Runner' do
   use_frameworks!
   use_modular_headers!
 
-  # Enable to use Firebase and cloud_firestore properly
-  pod 'Firebase/Core'
-  pod 'Firebase/Firestore'
-
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
   target 'RunnerTests' do
     inherit! :search_paths

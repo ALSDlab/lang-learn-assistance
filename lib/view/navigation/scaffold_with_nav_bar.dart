@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:core';
 
 import 'package:bootstrap_icons/bootstrap_icons.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -32,51 +33,84 @@ class ScaffoldWithNavBar extends StatefulWidget {
 }
 
 class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
-  //네트워크 통신 확인 코드
-  final ConnectivityObserver _connectivityObserver =
-      NetworkConnectivityObserver();
-
-  //기본 접속 상태 설정
-  var _status = Status.available;
-
+  final ConnectivityObserver _connectivityObserver = NetworkConnectivityObserver();
+  Status _status = Status.available;
   StreamSubscription<Status>? _subscription;
+  bool _isDialogShowing = false;
 
   @override
   void initState() {
-    Future.microtask(() async {
-      final NavigationPageViewModel viewModel =
-          context.read<NavigationPageViewModel>();
-      await viewModel.generateDocId();
-      _subscription = _connectivityObserver.observe().listen((status) {
-        setState(() {
-          _status = status;
-          logger.info('Status changed : $_status');
-          //인터넷 연결 확인 체크 코드
-          if (_status == Status.unavailable) {
-            showConnectionErrorDialog();
-          } else {
-            if (Navigator.canPop(context)) {
-              Navigator.pop(context);
-            }
-          }
-        });
-      });
-    });
     super.initState();
+    _initializeConnectivity();
   }
 
-  //인터넷 연결 확인 체크 위젯
+  Future<void> _initializeConnectivity() async {
+    try {
+      // 초기 연결 상태 확인
+      await Future.delayed(const Duration(milliseconds: 500));
+
+      final viewModel = context.read<NavigationPageViewModel>();
+      await viewModel.generateDocId();
+
+      // 초기 상태 확인 및 타입 처리
+      final results = await Connectivity().checkConnectivity();
+      final hasConnection = results.any((result) =>
+      result == ConnectivityResult.wifi ||
+          result == ConnectivityResult.mobile);
+      _status = hasConnection ? Status.available : Status.unavailable;
+
+      if (!mounted) return;
+
+      // 상태 변화 모니터링 시작
+      _subscription = _connectivityObserver.observe().listen(
+            (status) {
+          if (!mounted) return;
+
+          setState(() {
+            if (_status != status) {
+              _status = status;
+              _handleConnectivityChange();
+            }
+          });
+        },
+        onError: (error) {
+          logger.info('Connectivity subscription error: $error');
+        },
+      );
+    } catch (e) {
+      logger.info('Connectivity initialization error: $e');
+    }
+  }
+
+
+  void _handleConnectivityChange() {
+    if (_status == Status.unavailable && !_isDialogShowing) {
+      _isDialogShowing = true;
+      showConnectionErrorDialog();
+    } else if (_status == Status.available && _isDialogShowing) {
+      if (Navigator.canPop(context)) {
+        Navigator.pop(context);
+        _isDialogShowing = false;
+      }
+    }
+  }
+
   void showConnectionErrorDialog() {
+    if (!mounted) return;
+
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (BuildContext context) {
         return OneAnswerDialog(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            title: 'CHECK WIFI',
-            firstButton: 'OK',
-            imagePath: 'assets/gifs/internetLost.gif');
+          onTap: () {
+            _isDialogShowing = false;
+            Navigator.pop(context);
+          },
+          title: 'CHECK WIFI',
+          firstButton: 'OK',
+          imagePath: 'assets/gifs/internetLost.gif',
+        );
       },
     );
   }
@@ -94,11 +128,10 @@ class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
     final quizViewModel = context.watch<QuizPageViewModel>();
     final wordSearchViewModel = context.watch<WordSearchPageViewModel>();
     final favoritesViewModel = context.watch<MyFavoritePageViewModel>();
-    final settingsViewModel = context.watch<SettingPageViewModel>();
+    context.watch<SettingPageViewModel>();
     final daySentenceState = daySentenceViewModel.state;
     final quizState = quizViewModel.state;
     final wordSearchState = wordSearchViewModel.state;
-    final settingsState = settingsViewModel.state;
     return Scaffold(
       body: widget.child,
       bottomNavigationBar: StylishBottomBar(

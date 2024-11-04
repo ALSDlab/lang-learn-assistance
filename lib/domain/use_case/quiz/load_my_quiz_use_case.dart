@@ -15,7 +15,7 @@ class LoadMyQuizUseCase {
 
     return result.when(
       success: (data) => Result.success(data),
-      error: (message) => throw Exception(message),
+      error: (message) => Result.error(message),
     );
   }
 }

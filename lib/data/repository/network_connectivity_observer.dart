@@ -6,20 +6,19 @@ class NetworkConnectivityObserver implements ConnectivityObserver {
 
   @override
   Stream<Status> observe() {
-    return _connectivity.onConnectivityChanged.map((event) {
-      print('Connetivity changed : $event');
-      var connectivityResult = event.first; //첫번째 요소만 가져옴
-
-      switch (connectivityResult) {
-        case ConnectivityResult.wifi:
-          return Status.available;
-        case ConnectivityResult.mobile:
-          return Status.available;
-        case ConnectivityResult.none:
-          return Status.unavailable;
-        default:
-          return Status.available;
-      }
+    return _connectivity.onConnectivityChanged
+        .map((results) {
+      print('Connectivity changed: $results');
+      // 어떤 연결이라도 있는지 확인
+      final hasConnection = results.any((result) =>
+      result == ConnectivityResult.wifi ||
+          result == ConnectivityResult.mobile);
+      return hasConnection ? Status.available : Status.unavailable;
+    })
+        .handleError((error) {
+      print('Connectivity error: $error');
+      return Status.available;
     });
   }
+
 }

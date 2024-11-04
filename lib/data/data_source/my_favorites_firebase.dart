@@ -54,6 +54,10 @@ class MyFavoritesFirebase {
   Future<Result<List<DaySentencesDto>>> getDaySentencesData(
       String myDocId) async {
     try {
+      if (myDocId.isEmpty) {
+        return const Result.error('Invalid document ID');
+      }
+
       DocumentSnapshot docSnapshot =
           await _firestore.collection('day_sentences').doc(myDocId).get();
 
@@ -74,7 +78,7 @@ class MyFavoritesFirebase {
         return const Result.error('Document not exist');
       }
     } catch (e) {
-      logger.info('Firestore Communication GET error => $e');
+      logger.info('Firestore Communication GET1 error => $e');
       return Result.error(e.toString());
     }
   }
@@ -158,6 +162,10 @@ class MyFavoritesFirebase {
 
   Future<Result<List<QuizDto>>> getQuizData(String myDocId) async {
     try {
+      if (myDocId.isEmpty) {
+        return const Result.error('Invalid document ID');
+      }
+
       DocumentSnapshot docSnapshot =
           await _firestore.collection('quiz').doc(myDocId).get();
 
@@ -178,7 +186,7 @@ class MyFavoritesFirebase {
         return const Result.error('Document not exist');
       }
     } catch (e) {
-      logger.info('Firestore Communication GET error => $e');
+      logger.info('Firestore Communication GET2 error => $e');
       return Result.error(e.toString());
     }
   }
@@ -263,6 +271,10 @@ class MyFavoritesFirebase {
   Future<Result<List<WordSearchesDto>>> getWordSearchesData(
       String myDocId) async {
     try {
+      if (myDocId.isEmpty) {
+        return const Result.error('Invalid document ID');
+      }
+
       DocumentSnapshot docSnapshot =
           await _firestore.collection('word_searches').doc(myDocId).get();
 
@@ -283,7 +295,7 @@ class MyFavoritesFirebase {
         return const Result.error('Document not exist');
       }
     } catch (e) {
-      logger.info('Firestore Communication GET error => $e');
+      logger.info('Firestore Communication GET3 error => $e');
       return Result.error(e.toString());
     }
   }

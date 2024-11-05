@@ -66,8 +66,10 @@ class WordSearchPageViewModel with ChangeNotifier {
           isLoading: false,
           isCompleted: true,
           word: result.word,
+          isPosted: false,
           explanation: result.explanation,
           exSentence: result.exSentence);
+      wordController.clear();
       notifyListeners();
     } catch (error) {
       logger.info('Error fetching data: $error');

@@ -58,7 +58,6 @@ class _WordSearchPageState extends State<WordSearchPage> {
                       suffixIcon: IconButton(
                         icon: const Icon(Icons.search),
                         onPressed: () {
-                          FocusScope.of(context).unfocus();
                           if (viewModel.wordController.text.length == 17 &&
                               (viewModel.wordController.text.startsWith('==') ||
                                   viewModel.wordController.text

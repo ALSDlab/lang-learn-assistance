@@ -206,18 +206,18 @@ class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
         currentIndex: widget.location.contains('/day_sentence_page')
             ? 0
             : widget.location.contains('/quiz_page')
-                ? 1
-                : widget.location.contains('/word_search_page')
-                    ? 2
-                    : widget.location.contains('/my_favorite_page')
-                        ? 3
-                        : 4,
+            ? 1
+            : widget.location.contains('/word_search_page')
+            ? 2
+            : widget.location.contains('/my_favorite_page')
+            ? 3
+            : 4,
         onTap: (int index) {
           if (_status == Status.unavailable) {
             showConnectionErrorDialog();
           } else {
             bool isFavoritesTab =
-                (widget.location.contains('/my_favorite_page') && index == 3);
+            (widget.location.contains('/my_favorite_page') && index == 3);
 
             if (isFavoritesTab) {
               return;

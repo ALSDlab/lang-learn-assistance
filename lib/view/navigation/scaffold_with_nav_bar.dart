@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:core';
 
 import 'package:bootstrap_icons/bootstrap_icons.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -32,54 +33,54 @@ class ScaffoldWithNavBar extends StatefulWidget {
 }
 
 class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
-  // final ConnectivityObserver _connectivityObserver = NetworkConnectivityObserver();
+  final ConnectivityObserver _connectivityObserver = NetworkConnectivityObserver();
   Status _status = Status.available;
   StreamSubscription<Status>? _subscription;
   bool _isDialogShowing = false;
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _initializeConnectivity();
-  // }
-  //
-  // Future<void> _initializeConnectivity() async {
-  //   try {
-  //     // 초기 연결 상태 확인
-  //     await Future.delayed(const Duration(milliseconds: 500));
-  //
-  //     final viewModel = context.read<NavigationPageViewModel>();
-  //     await viewModel.generateDocId();
-  //
-  //     // 초기 상태 확인 및 타입 처리
-  //     final results = await Connectivity().checkConnectivity();
-  //     final hasConnection = results.any((result) =>
-  //     result == ConnectivityResult.wifi ||
-  //         result == ConnectivityResult.mobile);
-  //     _status = hasConnection ? Status.available : Status.unavailable;
-  //
-  //     if (!mounted) return;
-  //
-  //     // 상태 변화 모니터링 시작
-  //     _subscription = _connectivityObserver.observe().listen(
-  //           (status) {
-  //         if (!mounted) return;
-  //
-  //         setState(() {
-  //           if (_status != status) {
-  //             _status = status;
-  //             _handleConnectivityChange();
-  //           }
-  //         });
-  //       },
-  //       onError: (error) {
-  //         logger.info('Connectivity subscription error: $error');
-  //       },
-  //     );
-  //   } catch (e) {
-  //     logger.info('Connectivity initialization error: $e');
-  //   }
-  // }
+  @override
+  void initState() {
+    super.initState();
+    _initializeConnectivity();
+  }
+
+  Future<void> _initializeConnectivity() async {
+    try {
+      // 초기 연결 상태 확인
+      await Future.delayed(const Duration(milliseconds: 500));
+
+      final viewModel = context.read<NavigationPageViewModel>();
+      await viewModel.generateDocId();
+
+      // 초기 상태 확인 및 타입 처리
+      final results = await Connectivity().checkConnectivity();
+      final hasConnection = results.any((result) =>
+      result == ConnectivityResult.wifi ||
+          result == ConnectivityResult.mobile);
+      _status = hasConnection ? Status.available : Status.unavailable;
+
+      if (!mounted) return;
+
+      // 상태 변화 모니터링 시작
+      _subscription = _connectivityObserver.observe().listen(
+            (status) {
+          if (!mounted) return;
+
+          setState(() {
+            if (_status != status) {
+              _status = status;
+              _handleConnectivityChange();
+            }
+          });
+        },
+        onError: (error) {
+          logger.info('Connectivity subscription error: $error');
+        },
+      );
+    } catch (e) {
+      logger.info('Connectivity initialization error: $e');
+    }
+  }
 
 
   void _handleConnectivityChange() {
@@ -206,18 +207,18 @@ class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
         currentIndex: widget.location.contains('/day_sentence_page')
             ? 0
             : widget.location.contains('/quiz_page')
-                ? 1
-                : widget.location.contains('/word_search_page')
-                    ? 2
-                    : widget.location.contains('/my_favorite_page')
-                        ? 3
-                        : 4,
+            ? 1
+            : widget.location.contains('/word_search_page')
+            ? 2
+            : widget.location.contains('/my_favorite_page')
+            ? 3
+            : 4,
         onTap: (int index) {
           if (_status == Status.unavailable) {
             showConnectionErrorDialog();
           } else {
             bool isFavoritesTab =
-                (widget.location.contains('/my_favorite_page') && index == 3);
+            (widget.location.contains('/my_favorite_page') && index == 3);
 
             if (isFavoritesTab) {
               return;
